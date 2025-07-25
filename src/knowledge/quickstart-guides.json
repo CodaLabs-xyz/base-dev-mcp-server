@@ -1,0 +1,283 @@
+{
+  "title": "Base Quickstart Guides",
+  "description": "Comprehensive quickstart documentation for Base development",
+  "lastUpdated": "2025-07-25",
+  "guides": {
+    "buildApp": {
+      "title": "Build App Quickstart",
+      "url": "https://docs.base.org/get-started/build-app",
+      "description": "Build a next.js onchain app on Base using OnchainKit",
+      "targetAudience": "Developers of all skill levels",
+      "achievements": [
+        "Configure development environment",
+        "Deploy smart contracts to Base Sepolia",
+        "Create frontend that interacts with onchain contracts"
+      ],
+      "prerequisites": [
+        "Node.js",
+        "Basic understanding of React",
+        "Basic blockchain concepts"
+      ],
+      "keySteps": [
+        {
+          "step": 1,
+          "title": "Bootstrap with OnchainKit",
+          "command": "npm create onchain@latest"
+        },
+        {
+          "step": 2,
+          "title": "Install and Initialize Foundry",
+          "commands": [
+            "curl -L https://foundry.paradigm.xyz | bash",
+            "foundryup",
+            "forge init --no-git"
+          ]
+        },
+        {
+          "step": 3,
+          "title": "Configure Foundry for Base",
+          "tasks": [
+            "Create .env file with RPC URLs",
+            "Secure private key for contract deployment"
+          ]
+        },
+        {
+          "step": 4,
+          "title": "Deploy Smart Contract",
+          "tasks": [
+            "Compile contract",
+            "Deploy to Base Sepolia testnet",
+            "Verify contract address",
+            "Interact with deployed contract"
+          ]
+        },
+        {
+          "step": 5,
+          "title": "Frontend Integration",
+          "tasks": [
+            "Use Transaction component from OnchainKit",
+            "Define contract calls in calls.ts",
+            "Configure interaction with deployed contract"
+          ]
+        }
+      ],
+      "technologies": [
+        "Next.js",
+        "OnchainKit",
+        "Foundry",
+        "Base Sepolia Testnet"
+      ],
+      "improvements": [
+        "Implement gasless transactions",
+        "Enhance wallet connection flow",
+        "Add onchain identity features"
+      ]
+    },
+    "launchToken": {
+      "title": "Launch Token Quickstart",
+      "url": "https://docs.base.org/get-started/launch-token",
+      "description": "Comprehensive guide for launching tokens on Base",
+      "launchApproaches": {
+        "platformBased": {
+          "title": "Platform-Based Launch (Recommended)",
+          "benefits": [
+            "Quick deployment without coding",
+            "Built-in community features",
+            "Automated liquidity management",
+            "Social integration capabilities"
+          ]
+        },
+        "customDevelopment": {
+          "title": "Custom Development (For Developers)",
+          "benefits": [
+            "Full control over contract behavior",
+            "Custom tokenomics",
+            "Integration with existing systems",
+            "Advanced security requirements"
+          ]
+        }
+      },
+      "platforms": {
+        "zora": {
+          "name": "Zora",
+          "bestFor": "Content creators and social tokens",
+          "features": [
+            "Transform posts into tradeable ERC-20 tokens",
+            "Automatic Uniswap integration",
+            "1 billion token supply per post",
+            "Creators receive 10 million tokens",
+            "1% trading fee revenue sharing"
+          ]
+        },
+        "clanker": {
+          "name": "Clanker",
+          "bestFor": "Memecoin launches via social media",
+          "features": [
+            "AI-powered token deployment",
+            "Farcaster integration",
+            "Instant deployment",
+            "Community-driven discovery"
+          ]
+        },
+        "flaunch": {
+          "name": "Flaunch",
+          "bestFor": "Advanced memecoin projects",
+          "features": [
+            "Uniswap V4 integration",
+            "Programmable revenue splits",
+            "Automated buyback mechanisms",
+            "Progressive Bid Wall technology"
+          ]
+        }
+      },
+      "technicalImplementation": {
+        "prerequisites": [
+          "Install Foundry",
+          "Obtain Base Sepolia test ETH",
+          "Configure development environment"
+        ],
+        "keySteps": [
+          "Initialize Foundry project",
+          "Install OpenZeppelin contracts",
+          "Develop smart contract",
+          "Create deployment script",
+          "Configure environment",
+          "Implement testing",
+          "Deploy and verify contract"
+        ],
+        "contractFeatures": [
+          "ERC-20 token with minting capabilities",
+          "Maximum supply cap",
+          "Owner-controlled minting",
+          "Burn functionality"
+        ]
+      },
+      "postLaunchConsiderations": [
+        "Token distribution strategy",
+        "Community engagement",
+        "Liquidity management",
+        "Continued development",
+        "Security audits"
+      ]
+    },
+    "deployChain": {
+      "title": "Deploy Chain (Appchains)",
+      "url": "https://docs.base.org/get-started/deploy-chain",
+      "description": "App-specific Layer 3 rollups built on Base",
+      "definition": "Base Appchains are app-specific Layer 3 rollups built on Base that provide dedicated blockspace for individual applications",
+      "keyFeatures": [
+        "1-second block times",
+        "Sub-cent transactions",
+        "Enterprise-grade infrastructure",
+        "Dedicated blockchain for high-traffic applications"
+      ],
+      "technicalArchitecture": {
+        "framework": "OP Enclave framework",
+        "dataStorage": "Amazon S3",
+        "verification": "AWS Nitro Enclave",
+        "bridging": "Near-instant bridging between Appchain and Base Mainnet"
+      },
+      "idealUseCases": [
+        "High transaction volumes",
+        "Significant gas sponsorship needs",
+        "Performance-critical operations",
+        "Custom blockchain requirements"
+      ],
+      "gettingStarted": [
+        "Join Beta Waitlist",
+        "Technical Consultation",
+        "Development & Testing",
+        "Mainnet Launch"
+      ],
+      "uniqueBenefits": [
+        "Predictable performance",
+        "Fixed monthly pricing",
+        "Seamless Base ecosystem integration",
+        "Instant state proving",
+        "Custom permissions and gas tokens"
+      ],
+      "status": "Currently in beta with limited early access",
+      "targetProjects": "Mature projects with significant transaction volumes"
+    },
+    "deploySmartContracts": {
+      "title": "Deploy Smart Contracts",
+      "url": "https://docs.base.org/get-started/deploy-smart-contracts",
+      "description": "Deploy smart contracts on Base, an Ethereum Layer 2 network",
+      "targetAudience": "Developers building blockchain applications",
+      "prerequisites": [
+        "Development environment setup",
+        "Foundry framework installed",
+        "Base Sepolia testnet access",
+        "Funded private key for contract deployment"
+      ],
+      "keySteps": [
+        {
+          "step": 1,
+          "title": "Development Environment Setup",
+          "commands": [
+            "mkdir my-base-project && cd my-base-project",
+            "curl -L https://foundry.paradigm.xyz | bash",
+            "foundryup",
+            "forge init"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "Configure Base Network Connection",
+          "description": "Create .env file with RPC URLs",
+          "envVariables": {
+            "BASE_RPC_URL": "https://mainnet.base.org",
+            "BASE_SEPOLIA_RPC_URL": "https://sepolia.base.org"
+          }
+        },
+        {
+          "step": 3,
+          "title": "Secure Private Key",
+          "command": "cast wallet import deployer --interactive",
+          "description": "Use Foundry's keystore for secure key management"
+        },
+        {
+          "step": 4,
+          "title": "Deploy Smart Contract",
+          "command": "forge create ./src/Counter.sol:Counter --rpc-url $BASE_SEPOLIA_RPC_URL --account deployer"
+        },
+        {
+          "step": 5,
+          "title": "Verify Deployment",
+          "tasks": [
+            "Check transaction on Sepolia Basescan",
+            "Interact with contract using cast command"
+          ]
+        }
+      ],
+      "tools": [
+        "Foundry",
+        "Base Sepolia testnet",
+        "OnchainKit",
+        "Basescan explorer"
+      ],
+      "nextSteps": [
+        "Use OnchainKit to connect frontend",
+        "Explore Foundry tutorials for advanced contract interactions"
+      ],
+      "keyConsiderations": [
+        "Use Base Sepolia for testing",
+        "Secure private key management",
+        "Understand contract deployment process"
+      ]
+    }
+  },
+  "commonTools": [
+    "Foundry",
+    "OnchainKit",
+    "Base Sepolia Testnet",
+    "Basescan Explorer",
+    "OpenZeppelin Contracts"
+  ],
+  "commonPrerequisites": [
+    "Node.js",
+    "Basic blockchain knowledge",
+    "Development environment setup",
+    "Test ETH for Base Sepolia"
+  ]
+}

@@ -1,0 +1,458 @@
+{
+  "title": "Base Cookbook Documentation",
+  "description": "Comprehensive cookbook recipes for building applications on Base - practical guides and implementation strategies",
+  "lastUpdated": "2025-07-25",
+  "recipes": {
+    "onboardAnyUser": {
+      "title": "Onboard Any User",
+      "url": "https://docs.base.org/cookbook/onboard-any-user",
+      "description": "Seamless user onboarding strategies and wallet integration for Base applications",
+      "keyStrategies": [
+        "Integrate WalletModal component from OnchainKit",
+        "Provide seamless wallet connection experience",
+        "Support both new and existing wallet users"
+      ],
+      "implementationSteps": [
+        {
+          "step": 1,
+          "title": "Create OnchainKit App",
+          "description": "Set up base application with OnchainKit framework"
+        },
+        {
+          "step": 2,
+          "title": "Configure OnchainKitProvider",
+          "description": "Set up provider with modal settings and configuration"
+        },
+        {
+          "step": 3,
+          "title": "Add Wallet Components",
+          "description": "Integrate wallet components into application UI"
+        },
+        {
+          "step": 4,
+          "title": "Wrap with Modal Context",
+          "description": "Wrap key UI components with Wallet Modal Context"
+        }
+      ],
+      "smartWalletBenefits": [
+        "Streamlined onboarding experience through account creation with Passkeys",
+        "Secure wallet creation without leaving the app",
+        "Advanced features like sponsored transactions"
+      ],
+      "userExperienceFeatures": [
+        "Quick connection for existing wallets",
+        "Guided Smart Wallet creation for new users",
+        "Consistent handling of connection states",
+        "Mobile and desktop responsive design",
+        "Customizable theme and appearance"
+      ],
+      "configurationExample": {
+        "description": "Key configuration for OnchainKitProvider",
+        "code": "OnchainKitProvider with appearance, wallet display, terms, and privacy settings"
+      },
+      "goal": "Create a frictionless onboarding process that makes wallet creation and connection as simple as possible for users"
+    },
+    "acceptCryptoPayments": {
+      "title": "Accept Crypto Payments",
+      "url": "https://docs.base.org/cookbook/accept-crypto-payments",
+      "description": "Complete guide for integrating crypto payments using Coinbase Commerce and OnchainKit",
+      "keyBenefits": [
+        "Eliminate traditional credit card fees",
+        "Accept payments globally",
+        "Instant blockchain settlement",
+        "Enhanced security through smart wallet integration"
+      ],
+      "implementationSteps": [
+        {
+          "step": 1,
+          "title": "Create Coinbase Commerce Account",
+          "tasks": [
+            "Sign up on Coinbase Commerce platform",
+            "Create product with clear details",
+            "Copy product UUID for configuration"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "Set Up Development Environment",
+          "tasks": [
+            "Clone OnchainKit app template",
+            "Configure environment variables",
+            "Set up Wagmi for smart wallet integration"
+          ]
+        },
+        {
+          "step": 3,
+          "title": "Payment Interface Components",
+          "tasks": [
+            "Implement wallet connection",
+            "Add checkout button",
+            "Display real-time payment status"
+          ]
+        }
+      ],
+      "technicalRequirements": [
+        "Coinbase Commerce account",
+        "Coinbase Developer Platform API key",
+        "Reown (WalletConnect) Project ID",
+        "Next.js or compatible framework"
+      ],
+      "keyConfigurationElements": [
+        "Environment variables for product ID",
+        "OnchainKit provider setup",
+        "Wallet connection logic",
+        "Checkout component integration"
+      ],
+      "testing": [
+        "Local development testing",
+        "Verify wallet connections",
+        "Test transactions with small amounts",
+        "Confirm payment status updates"
+      ],
+      "potentialEnhancements": [
+        "Add multiple product support",
+        "Implement payment webhooks",
+        "Create analytics dashboard",
+        "Expand to multi-chain support"
+      ],
+      "approach": "Comprehensive, step-by-step approach to integrating crypto payments using Base and OnchainKit technologies"
+    },
+    "launchAiAgents": {
+      "title": "Launch AI Agents",
+      "url": "https://docs.base.org/cookbook/launch-ai-agents",
+      "description": "Guide for developing and deploying autonomous AI agents on Base blockchain",
+      "keyHighlights": [
+        "AI agents can execute autonomous transactions on Base blockchain",
+        "Agents can interact with DeFi protocols, manage digital assets, and respond to market conditions",
+        "Supports multiple development frameworks like LangChain and Eliza"
+      ],
+      "developmentPrerequisites": {
+        "environment": [
+          "Node.js 18+ or Python 3.10+",
+          "Git",
+          "Code editor (VS Code recommended)"
+        ],
+        "apiKeys": [
+          "Coinbase Developer Platform (CDP) API Key",
+          "OpenAI API Key",
+          "Base Network access (initially on Sepolia testnet)"
+        ]
+      },
+      "agentCapabilities": [
+        "Execute onchain transactions",
+        "Interact with DEX and lending protocols",
+        "Manage tokens and NFTs",
+        "Perform market analysis and automated trading"
+      ],
+      "developmentFrameworks": {
+        "langChain": {
+          "description": "Comprehensive framework with extensive integrations",
+          "benefits": "Full-featured development environment"
+        },
+        "eliza": {
+          "description": "Lightweight framework for rapid deployment",
+          "benefits": "Quick setup and deployment"
+        }
+      },
+      "deploymentConsiderations": [
+        "Thoroughly test on Base Sepolia testnet",
+        "Implement security measures",
+        "Set up monitoring and alerts",
+        "Configure transaction and performance metrics"
+      ],
+      "advancedFeatures": [
+        "Custom tools and actions",
+        "Memory and persistence",
+        "Multi-agent coordination",
+        "Cross-chain capabilities"
+      ],
+      "focus": "Building sophisticated, autonomous agents that can operate intelligently within the Base blockchain ecosystem"
+    },
+    "launchTokens": {
+      "title": "Launch Tokens",
+      "url": "https://docs.base.org/cookbook/launch-tokens",
+      "description": "Comprehensive guide for creating and launching tokens on Base network",
+      "launchApproaches": {
+        "platformBased": {
+          "title": "Platform-Based Launch (Recommended for Most Users)",
+          "benefits": [
+            "Quick deployment without coding",
+            "Built-in community features",
+            "Automated liquidity management"
+          ]
+        },
+        "customDevelopment": {
+          "title": "Custom Development (For Developers)",
+          "benefits": [
+            "Full control over contract behavior",
+            "Custom tokenomics",
+            "Advanced security requirements"
+          ]
+        }
+      },
+      "tokenLaunchPlatforms": {
+        "zora": {
+          "description": "Best for content creators and social tokens",
+          "features": [
+            "Transforms posts into tradeable ERC-20 tokens",
+            "Automatic Uniswap integration",
+            "Creators receive 10 million tokens and 1% trading fees"
+          ]
+        },
+        "clanker": {
+          "description": "AI-driven token deployment via Farcaster",
+          "features": [
+            "Instant deployment through social media",
+            "Community-driven discovery"
+          ]
+        },
+        "flaunch": {
+          "description": "Advanced memecoin projects with sophisticated tokenomics",
+          "features": [
+            "Uniswap V4 integration",
+            "Programmable revenue sharing",
+            "Automated buyback mechanisms"
+          ]
+        }
+      },
+      "technicalImplementation": [
+        "Use OpenZeppelin's audited ERC-20 contracts",
+        "Implement security best practices",
+        "Conduct comprehensive testing",
+        "Verify contracts on BaseScan",
+        "Consider token distribution and economics carefully"
+      ],
+      "postLaunchConsiderations": [
+        "Establish community presence",
+        "Add liquidity to decentralized exchanges",
+        "Develop ongoing project roadmap",
+        "Prioritize security and transparency"
+      ],
+      "recommendedResources": [
+        "Base Documentation",
+        "Foundry Documentation",
+        "OpenZeppelin Contracts",
+        "BaseScan Explorer"
+      ]
+    },
+    "deployAChain": {
+      "title": "Deploy a Chain (Appchains)",
+      "url": "https://docs.base.org/cookbook/deploy-a-chain",
+      "description": "Guide for deploying dedicated Layer 3 Appchains on Base infrastructure",
+      "keyCharacteristics": [
+        "App-specific Layer 3 rollups built on Base",
+        "Provide dedicated blockchain infrastructure for individual applications",
+        "Offer 1-second block times and sub-10 second withdrawals",
+        "Roll up to Base (Layer 2), which settles on Ethereum"
+      ],
+      "technicalArchitecture": {
+        "framework": "Built on the OP Enclave framework",
+        "dataStorage": "Uses Amazon S3 for data storage",
+        "bridging": "Enables near-instant bridging between Appchain and Base Mainnet",
+        "customization": "Supports custom permissions and gas tokens"
+      },
+      "idealUseCases": [
+        "Applications with high transaction volumes",
+        "Projects requiring consistent performance",
+        "Mature applications needing predictable costs",
+        "Performance-critical operations"
+      ],
+      "keyBenefits": [
+        "Dedicated blockspace with consistent performance",
+        "Fixed monthly pricing",
+        "Sub-cent transaction costs",
+        "Enterprise-grade infrastructure",
+        "Seamless Base ecosystem integration"
+      ],
+      "onboardingProcess": [
+        {
+          "step": 1,
+          "title": "Join Beta Waitlist",
+          "description": "Apply for early access to Appchains"
+        },
+        {
+          "step": 2,
+          "title": "Technical Consultation",
+          "description": "Work with Base team on requirements"
+        },
+        {
+          "step": 3,
+          "title": "Development and Testing",
+          "description": "Build and test on testnet environment"
+        },
+        {
+          "step": 4,
+          "title": "Mainnet Launch",
+          "description": "Deploy to production with ongoing support"
+        }
+      ],
+      "recommendation": "For projects that have outgrown shared blockspace limitations and need scalable, high-performance blockchain infrastructure"
+    },
+    "onchainSocial": {
+      "title": "Onchain Social",
+      "url": "https://docs.base.org/cookbook/onchain-social",
+      "description": "Building social applications with user-owned identity and embedded experiences",
+      "keyConcepts": [
+        "Shifts from platform-owned to user-owned digital identity",
+        "Enables embedded experiences within social feeds",
+        "Provides developers direct access to the social graph"
+      ],
+      "miniAppsFeatures": [
+        "Lightweight web applications that run directly in social feeds",
+        "Instantly launch without separate installation",
+        "Respond to user's onchain identity",
+        "Support interactive experiences"
+      ],
+      "interactiveExperiences": [
+        "Polls",
+        "Social games",
+        "E-commerce interfaces",
+        "DeFi tools",
+        "NFT showcases"
+      ],
+      "developmentApproach": [
+        {
+          "step": 1,
+          "title": "Use MiniKit for rapid development",
+          "description": "Leverage MiniKit framework for quick setup"
+        },
+        {
+          "step": 2,
+          "title": "Leverage social context APIs",
+          "description": "Access user's social graph and identity"
+        },
+        {
+          "step": 3,
+          "title": "Create context-aware applications",
+          "description": "Build apps that respond to social context"
+        },
+        {
+          "step": 4,
+          "title": "Enable onchain transactions",
+          "description": "Integrate blockchain functionality"
+        },
+        {
+          "step": 5,
+          "title": "Integrate Farcaster identity",
+          "description": "Connect with Farcaster protocol"
+        }
+      ],
+      "keyTechnologies": [
+        "Next.js",
+        "OnchainKit",
+        "Farcaster protocol",
+        "Base blockchain"
+      ],
+      "goal": "Create seamless, interactive social experiences that give users more control and developers more flexibility"
+    },
+    "defiYourApp": {
+      "title": "DeFi Your App",
+      "url": "https://docs.base.org/cookbook/defi-your-app",
+      "description": "Adding decentralized finance features to applications using OnchainKit components",
+      "keyDefiComponents": {
+        "swapComponent": {
+          "name": "<Swap/>",
+          "description": "Enables token exchanges directly within an app",
+          "features": [
+            "Fetches live quotes and builds transactions",
+            "Uses Uniswap V3 by default, with option to use 0x Aggregator"
+          ]
+        },
+        "earnComponent": {
+          "name": "<Earn/>",
+          "description": "Allows users to deposit assets into yield-generating vaults",
+          "features": [
+            "Currently supports Morpho vaults on Base",
+            "Highly customizable with context access and deposit buttons"
+          ]
+        },
+        "fundComponent": {
+          "name": "<FundCard/>",
+          "description": "Provides fiat onramp experience",
+          "features": [
+            "Supports payment methods like Coinbase, Apple Pay, Debit Card",
+            "Handles exchange rate updates and payment method restrictions"
+          ]
+        },
+        "buyComponent": {
+          "name": "<Buy/>",
+          "description": "Enables token purchases within the app",
+          "features": [
+            "Supports swaps from USDC and ETH",
+            "Allows purchasing tokens via Coinbase, Apple Pay, or debit card"
+          ]
+        }
+      },
+      "additionalFeatures": [
+        "Gasless transactions possible by setting isSponsored prop to true",
+        "Components are React-based and highly customizable",
+        "Requires configuration of OnchainKit provider with appropriate API keys"
+      ],
+      "recommendedNextSteps": [
+        "Install OnchainKit",
+        "Configure components with specific tokens and settings",
+        "Integrate components into your application's workflow"
+      ]
+    },
+    "goGasless": {
+      "title": "Go Gasless",
+      "url": "https://docs.base.org/cookbook/go-gasless",
+      "description": "Implementing gasless transactions using Paymaster and account abstraction",
+      "keyObjectives": [
+        "Improve user experience by removing gas fee barriers",
+        "Enable transaction sponsorship with custom policies",
+        "Simplify onboarding for blockchain applications"
+      ],
+      "mainComponents": [
+        "Coinbase Cloud Developer Platform Paymaster",
+        "Smart Accounts using ERC 4337",
+        "Configurable transaction sponsorship limits"
+      ],
+      "implementationSteps": [
+        "Set up a Paymaster in the Coinbase Developer Platform",
+        "Allowlist specific contracts and functions",
+        "Configure global and per-user transaction limits",
+        "Use libraries like permissionless and viem for implementation"
+      ],
+      "benefits": [
+        "Sponsor up to $15k monthly on mainnet",
+        "Batch multi-step transactions",
+        "Create custom gasless experiences"
+      ],
+      "technicalRequirements": [
+        "Foundry for key pair generation",
+        "Understanding of Smart Accounts",
+        "Environment variable management",
+        "Proper RPC endpoint configuration"
+      ],
+      "bestPractices": [
+        "Use a proxy service for endpoint security",
+        "Experiment with transaction bundling",
+        "Carefully manage sponsorship policies"
+      ],
+      "limitations": [
+        "Testnet offers unlimited sponsorship",
+        "Policies can restrict transaction frequency and total spend"
+      ]
+    }
+  },
+  "keyFeatures": [
+    "Practical implementation guides for Base ecosystem development",
+    "User onboarding and wallet integration strategies",
+    "Payment and DeFi integration solutions",
+    "AI agent development and deployment",
+    "Token launch and distribution mechanisms",
+    "Dedicated chain deployment with Appchains",
+    "Social application development with user-owned identity",
+    "Gasless transaction implementation with account abstraction"
+  ],
+  "targetAudience": [
+    "Application developers building on Base",
+    "Product managers planning Web3 integrations",
+    "Entrepreneurs launching blockchain projects",
+    "DeFi protocol developers",
+    "Social application builders",
+    "AI and agent developers",
+    "Teams implementing user-friendly blockchain experiences"
+  ]
+}

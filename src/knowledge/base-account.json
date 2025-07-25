@@ -1,0 +1,1265 @@
+{
+  "title": "Base Account Documentation",
+  "description": "Comprehensive documentation for Base Account - ERC-4337 Smart Wallet with universal identity and account layer",
+  "lastUpdated": "2025-07-25",
+  "sections": {
+    "overview": {
+      "title": "What is Base Account",
+      "url": "https://docs.base.org/base-account/overview/what-is-base-account",
+      "definition": "ERC-4337 Smart Wallet that provides a universal identity and account layer",
+      "keyFeatures": {
+        "universalSignOn": {
+          "description": "One passkey works across all Base-enabled apps",
+          "benefits": ["Multi-chain support", "Nine EVM networks"]
+        },
+        "paymentCapabilities": {
+          "description": "One-tap USDC payments",
+          "benefits": ["Low-friction payment infrastructure"]
+        },
+        "profileManagement": {
+          "description": "Private profile vault",
+          "benefits": ["Opt-in sharing of personal information", "Email, phone, shipping address"]
+        }
+      },
+      "technicalDetails": {
+        "standard": "ERC-4337 Smart Wallet",
+        "compatibility": "Any EVM-compatible chain",
+        "supportedNetworks": {
+          "mainnet": [
+            "Base", "Arbitrum", "Optimism", "Zora", "Polygon",
+            "BNB", "Avalanche", "Lordchain", "Ethereum Mainnet"
+          ],
+          "testnet": ["Sepolia", "Base Sepolia"]
+        }
+      },
+      "developerBenefits": [
+        "Higher user conversion rates",
+        "Fewer checkout drop-offs",
+        "Cross-app identity management",
+        "Self-custodial architecture",
+        "Users retain control of keys and funds"
+      ]
+    },
+    "quickstart": {
+      "web": {
+        "title": "Web Integration",
+        "url": "https://docs.base.org/base-account/quickstart/web",
+        "setupSteps": [
+          {
+            "step": 1,
+            "title": "Create React App",
+            "command": "npx create-react-app base-account-quickstart && cd base-account-quickstart"
+          },
+          {
+            "step": 2,
+            "title": "Install SDK",
+            "command": "npm install @base-org/account @base-org/account-ui"
+          },
+          {
+            "step": 3,
+            "title": "Configuration",
+            "description": "Import required modules and initialize SDK"
+          }
+        ],
+        "coreImplementation": {
+          "imports": [
+            "@base-org/account: createBaseAccountSDK, pay, getPaymentStatus",
+            "@base-org/account-ui/react: SignInWithBaseButton, BasePayButton"
+          ],
+          "sdkInit": {
+            "appName": "Base Account Quick-start",
+            "appLogo": "https://base.org/logo.png"
+          }
+        },
+        "keyFeatures": [
+          "One-tap USDC payments",
+          "Optional user sign-in",
+          "Payment status tracking",
+          "Theme customization",
+          "Testnet/Mainnet support"
+        ],
+        "compatibility": ["React applications", "Base Sepolia testnet", "Light/dark themes"]
+      },
+      "mobile": {
+        "title": "Mobile (React Native) Integration",
+        "url": "https://docs.base.org/base-account/quickstart/mobile-integration",
+        "description": "Mobile integration using Mobile Wallet Protocol Client",
+        "setupSteps": [
+          {
+            "step": 1,
+            "title": "Install Mobile Wallet Protocol Client",
+            "command": "npm i @mobile-wallet-protocol/client@latest"
+          },
+          {
+            "step": 2,
+            "title": "Install Peer Dependencies",
+            "command": "npm i expo expo-web-browser @react-native-async-storage/async-storage"
+          },
+          {
+            "step": 3,
+            "title": "Add Polyfills",
+            "command": "npm i expo-crypto expo-standard-web-crypto react-native-url-polyfill"
+          }
+        ],
+        "polyfillConfiguration": {
+          "imports": [
+            "react-native-url-polyfill/auto",
+            "expo-standard-web-crypto: polyfillWebCrypto",
+            "expo-crypto: randomUUID"
+          ],
+          "setup": ["polyfillWebCrypto()", "crypto.randomUUID = randomUUID"]
+        },
+        "integrationOptions": {
+          "eip1193Provider": {
+            "metadata": {
+              "name": "My App Name",
+              "customScheme": "myapp://",
+              "chainIds": [8453],
+              "logoUrl": "https://example.com/logo.png"
+            }
+          },
+          "wagmiConnector": {
+            "description": "Alternative integration using Wagmi configuration"
+          }
+        },
+        "breakingChanges": [
+          "Removed Universal Links and App Links",
+          "Only custom schemes supported",
+          "Removed app prefix in SDK config params"
+        ]
+      }
+    },
+    "guides": {
+      "authentication": {
+        "title": "Authenticate Users",
+        "url": "https://docs.base.org/base-account/guides/authenticate-users",
+        "method": "Wallet Signatures",
+        "standard": "Sign in with Ethereum (SIWE) EIP-4361",
+        "keyPrinciples": [
+          "Uses wallet-controlled keys instead of passwords",
+          "Domain-bound, one-time signatures",
+          "Nothing to steal or reuse",
+          "Wallet-agnostic compatibility"
+        ],
+        "authenticationFlow": [
+          "Generate a unique nonce",
+          "Request user signature via wallet",
+          "Verify signature on backend",
+          "Create user session"
+        ],
+        "securityConsiderations": [
+          "Supports undeployed smart wallets via ERC-6492 wrapper",
+          "Nonce must be unique and verified server-side",
+          "Signature is domain and chain-specific"
+        ],
+        "implementation": {
+          "browserExample": {
+            "nonceGeneration": "window.crypto.randomUUID().replace(/-/g, '')",
+            "walletConnect": "wallet_connect method with SIWE capabilities",
+            "chainId": "0x2105 (Base Mainnet)"
+          },
+          "backendVerification": [
+            "Check nonce validity",
+            "Verify signature with Viem",
+            "Create session/JWT after successful verification"
+          ]
+        }
+      },
+      "payments": {
+        "title": "Accept Payments",
+        "url": "https://docs.base.org/base-account/guides/accept-payments",
+        "description": "Accept USDC payments on Base with one-tap experience",
+        "keyFeatures": [
+          "Fully-backed digital dollar settlements",
+          "Low gas fees",
+          "No chargebacks",
+          "Works with every Base Account"
+        ],
+        "implementation": {
+          "clientSideIntegration": {
+            "basicPayment": {
+              "method": "pay",
+              "parameters": ["amount", "to", "testnet (optional)"]
+            },
+            "paymentTracking": {
+              "method": "getPaymentStatus",
+              "parameter": "transaction id"
+            }
+          },
+          "userInformationCollection": {
+            "optional": ["email", "phone", "name", "physical address"],
+            "validation": "Server-side validation supported"
+          },
+          "preBuiltComponents": {
+            "component": "BasePayButton",
+            "features": ["Theme support", "onClick handler"]
+          }
+        },
+        "testing": [
+          "Use Circle Faucet for test USDC",
+          "Test on Base Sepolia testnet",
+          "Most payments confirm in <2 seconds"
+        ],
+        "benefits": [
+          "No extra fees",
+          "Full amount received by merchant",
+          "Automatic gas sponsorship"
+        ]
+      }
+    },
+    "improveUx": {
+      "sponsorGas": {
+        "paymasters": {
+          "title": "Paymasters",
+          "url": "https://docs.base.org/base-account/improve-ux/sponsor-gas/paymasters",
+          "description": "Enable app developers to sponsor user transactions",
+          "standard": "ERC-7677 standardized Paymaster service communication",
+          "benefits": ["Gasless transactions", "Improved user experience"],
+          "implementationSteps": [
+            {
+              "step": 1,
+              "title": "Paymaster Service Setup",
+              "tasks": [
+                "Obtain Paymaster service URL",
+                "Configure contracts allowlist",
+                "Optional: Create custom policies with willSponsor function"
+              ]
+            },
+            {
+              "step": 2,
+              "title": "SDK Configuration",
+              "example": "createBaseAccountSDK with app details"
+            },
+            {
+              "step": 3,
+              "title": "Send Sponsored Transactions",
+              "method": "wallet_sendCalls RPC",
+              "capability": "paymasterService with URL"
+            }
+          ],
+          "codeExample": {
+            "method": "wallet_sendCalls",
+            "capabilities": {
+              "paymasterService": {
+                "url": "paymasterServiceUrl"
+              }
+            }
+          },
+          "recommendedPractices": [
+            "Use proxy to protect Paymaster service URL",
+            "Validate transaction eligibility",
+            "Implement proper error handling"
+          ]
+        },
+        "erc20Paymasters": {
+          "title": "ERC20 Paymasters",
+          "url": "https://docs.base.org/base-account/improve-ux/sponsor-gas/erc20-paymasters",
+          "description": "Pay for gas using ERC20 tokens",
+          "keyComponents": {
+            "paymasterServiceProvider": "Coinbase Developer Platform (recommended)",
+            "gasCredits": "Up to $15k through Base Gasless Campaign"
+          },
+          "appSetupRequirements": [
+            "Obtain compatible paymaster service URL",
+            "Include token approvals for paymaster",
+            "Periodically top up token allowances"
+          ],
+          "technicalSpecs": {
+            "jsonRpcRequests": [
+              "pm_getPaymasterStubData",
+              "pm_getPaymasterData",
+              "pm_getAcceptedPaymentTokens"
+            ],
+            "returnFields": [
+              "Token address",
+              "Maximum fee",
+              "Token decimals",
+              "Token name"
+            ]
+          },
+          "bestPractices": [
+            "Simulate transactions to ensure accuracy",
+            "Maintain sufficient token allowances",
+            "Choose paymaster supporting specific token requirements"
+          ]
+        }
+      },
+      "subAccounts": {
+        "title": "Sub-Accounts",
+        "url": "https://docs.base.org/base-account/improve-ux/sub-accounts",
+        "description": "Hierarchical wallet accounts with developer control to reduce signing friction",
+        "keyBenefits": [
+          "Seamless User Experience",
+          "Developer Control over Account Creation",
+          "Secure Onchain Relationships",
+          "Flexible Spend Permissions",
+          "Easy Integration with Web3 Libraries"
+        ],
+        "technicalImplementation": {
+          "sdkInitialization": "createBaseAccountSDK with app configuration",
+          "creation": {
+            "method": "wallet_addSubAccount",
+            "type": "create"
+          },
+          "transactions": "Standard RPC methods with sub-account address as from parameter"
+        },
+        "useCases": [
+          "Reducing user signing friction",
+          "Provisioning app-specific wallet accounts",
+          "Controlling wallet interactions programmatically",
+          "Implementing granular spend permissions"
+        ],
+        "considerations": [
+          "Requires user authentication before creation",
+          "Currently supports Coinbase Smart Wallet contracts",
+          "Integrates with ERC-7895 wallet RPC standard"
+        ],
+        "recommendedPairing": "Combine with Spend Permissions for enhanced control"
+      },
+      "spendPermissions": {
+        "title": "Spend Permissions",
+        "url": "https://docs.base.org/base-account/improve-ux/spend-permissions",
+        "description": "Allow trusted spender to move assets within predefined limits",
+        "useCases": [
+          "Subscription renewals",
+          "Algorithmic trading",
+          "Automated payouts"
+        ],
+        "keyComponents": {
+          "permissionFields": [
+            "account: Smart account owner",
+            "spender: Authorized entity",
+            "token: Token address (ERC-7528 or ERC-20)",
+            "allowance: Maximum spendable amount",
+            "period: Time duration for allowance reset",
+            "start: Permission validity start",
+            "end: Permission validity end",
+            "salt: Unique identifier",
+            "extraData: Additional metadata"
+          ]
+        },
+        "implementationProcess": {
+          "requestPermission": [
+            "Create EIP-712 payload describing permission",
+            "User signs the permission",
+            "Store signature with permission data"
+          ],
+          "usePermission": [
+            "Register permission via approveWithSignature",
+            "Spend tokens via spend function"
+          ]
+        },
+        "securityConsiderations": [
+          "Permissions have configurable time and amount limits",
+          "Requires explicit user signature",
+          "Can be batched into single transaction"
+        ],
+        "supportedChains": ["Base (primary)", "Other EVM-compatible networks"]
+      },
+      "batchTransactions": {
+        "title": "Batch Transactions",
+        "url": "https://docs.base.org/base-account/improve-ux/batch-transactions",
+        "description": "Send multiple onchain calls in a single transaction",
+        "purpose": "Improve user experience by reducing multi-step interactions to single click",
+        "technicalDetails": {
+          "method": "wallet_sendCalls RPC (EIP-5792)",
+          "support": ["Atomic transactions", "Non-atomic transactions"],
+          "operationTypes": ["Transfers", "Contract interactions", "Token approvals"]
+        },
+        "implementationStrategies": {
+          "simpleMultipleTransfers": {
+            "description": "Multiple ETH transfers in single transaction",
+            "structure": "Array of calls with to, value, data fields"
+          },
+          "erc20ApproveAndTransfer": {
+            "description": "Combine token approval and transfer",
+            "uses": "encodeFunctionData for contract interactions"
+          }
+        },
+        "advancedFeatures": [
+          "Check wallet capabilities before batching",
+          "Support non-atomic batching",
+          "Comprehensive error handling"
+        ],
+        "bestPractices": [
+          "Verify wallet supports atomic batching",
+          "Handle potential transaction failures",
+          "Use atomicRequired parameter for control"
+        ]
+      },
+      "magicSpend": {
+        "title": "MagicSpend",
+        "url": "https://docs.base.org/base-account/improve-ux/magic-spend",
+        "description": "Use Coinbase balances directly onchain",
+        "keyConcepts": [
+          "Enables transactions with zero onchain wallet balance",
+          "Seamless onboarding experience",
+          "Improved user experience"
+        ],
+        "technicalImplementation": {
+          "rpcMethod": "wallet_getCapabilities",
+          "indicator": "auxiliaryFunds capability",
+          "requirement": "Design interfaces to accommodate additional funds"
+        },
+        "userExperiencePrinciples": [
+          "Never disable transaction buttons based solely on onchain balance",
+          "Always check for auxiliaryFunds capability",
+          "Provide clear UI feedback about funding options"
+        ],
+        "implementationRecommendations": [
+          "Handle loading and error states",
+          "Combine MagicSpend check with onchain balance logic",
+          "Create fallback flows for different funding scenarios"
+        ],
+        "coreBenefit": "Makes onboarding smoother by letting users pay gas or send funds even when their onchain wallet balance is zero"
+      }
+    }
+  },
+  "frameworkIntegrations": {
+    "nextjsWithWagmi": {
+      "title": "Next.js with Wagmi Integration",
+      "url": "https://docs.base.org/base-account/framework-integrations/nextjs-with-wagmi",
+      "description": "Seamless integration with Wagmi for React hooks-based EVM development",
+      "installation": "npm install wagmi viem @base-org/account",
+      "configuration": {
+        "wagmiConfig": {
+          "file": "config/wagmi.ts",
+          "imports": ["http, createConfig from wagmi", "base from wagmi/chains", "baseAccount from wagmi/connectors"],
+          "setup": {
+            "chains": ["base"],
+            "connectors": ["baseAccount({ appName: 'Base App' })"],
+            "transports": "http()"
+          }
+        },
+        "appWrapper": {
+          "file": "app/layout.tsx or pages/_app.tsx",
+          "providers": ["WagmiProvider", "QueryClientProvider"],
+          "queryClient": "new QueryClient()"
+        }
+      },
+      "basicUsage": {
+        "connectionComponent": {
+          "hooks": ["useAccount", "useConnect", "useDisconnect"],
+          "functionality": "Connection/disconnection UI"
+        },
+        "contractInteraction": {
+          "hooks": ["useReadContract", "useWriteContract"],
+          "purpose": "Contract interactions"
+        }
+      }
+    },
+    "nextjsWithDynamic": {
+      "title": "Next.js with Dynamic Integration",
+      "url": "https://docs.base.org/base-account/framework-integrations/nextjs-with-dynamic",
+      "status": "In Development",
+      "currentStatus": "Base is working with Dynamic to integrate Base Account with their SDK",
+      "temporaryApproach": {
+        "recommendation": "Use Dynamic+Wagmi connector",
+        "reference": "Wagmi guide for interim implementation"
+      },
+      "availability": "Full guide and complete example coming soon"
+    },
+    "nextjsWithPrivy": {
+      "title": "Next.js with Privy Integration", 
+      "url": "https://docs.base.org/base-account/framework-integrations/nextjs-with-privy",
+      "status": "In Development",
+      "currentStatus": "Base is working with Privy to integrate Base Account with their SDK",
+      "temporaryWorkaround": {
+        "method": "Use Wagmi connector from Wagmi guide",
+        "reference": "Privy+Wagmi connector documentation"
+      },
+      "availability": "Full guide and example will be available soon"
+    }
+  },
+  "apiReference": {
+    "basePay": {
+      "pay": {
+        "title": "pay Function",
+        "url": "https://docs.base.org/base-account/reference/base-pay/pay",
+        "description": "Enables sending USDC on Base network with no fees",
+        "signature": "declare function pay(options: PayOptions): Promise<PayResult>",
+        "parameters": {
+          "amount": {
+            "type": "string",
+            "description": "USDC amount (e.g., '10.50')",
+            "required": true
+          },
+          "to": {
+            "type": "string",
+            "description": "Ethereum address starting with '0x'",
+            "required": true
+          },
+          "testnet": {
+            "type": "boolean",
+            "description": "Use Base Sepolia testnet",
+            "required": false
+          },
+          "payerInfo": {
+            "type": "object",
+            "description": "Optional configuration for data callbacks",
+            "required": false,
+            "properties": {
+              "requests": "Information requests (email, address, phone, name)",
+              "callbackURL": "Server-side validation endpoint"
+            }
+          }
+        },
+        "returnValue": {
+          "success": {
+            "success": "true",
+            "id": "Transaction hash",
+            "amount": "Amount sent",
+            "to": "Recipient address",
+            "payerInfoResponses": "Optional payer information"
+          },
+          "error": {
+            "success": "false",
+            "error": "Error message",
+            "amount": "Amount attempted",
+            "to": "Recipient address"
+          }
+        },
+        "errorHandling": [
+          "Validate amount format",
+          "Validate Ethereum address",
+          "Handle network connection issues",
+          "Manage user payment rejections"
+        ]
+      },
+      "getPaymentStatus": {
+        "title": "getPaymentStatus Function",
+        "url": "https://docs.base.org/base-account/reference/base-pay/getPaymentStatus",
+        "description": "Check the status of a payment transaction after submission",
+        "signature": "declare function getPaymentStatus(options: GetPaymentStatusOptions): Promise<PaymentStatus>",
+        "parameters": {
+          "id": {
+            "type": "string",
+            "description": "Transaction hash from pay result",
+            "required": true
+          },
+          "testnet": {
+            "type": "boolean",
+            "description": "Match testnet setting used in pay",
+            "required": false
+          }
+        },
+        "returnValue": {
+          "status": "Payment status (completed | pending | failed | not_found)",
+          "id": "Original transaction hash",
+          "message": "Human-readable status message",
+          "sender": "Sender address (for pending/completed/failed)",
+          "amount": "Amount sent (for completed)",
+          "recipient": "Payment recipient (for completed)",
+          "error": "Error details (for failed)"
+        },
+        "statusTypes": {
+          "completed": "Payment successfully processed and blockchain-confirmed",
+          "pending": "Payment still processing",
+          "failed": "Payment processing failed, no funds transferred",
+          "not_found": "Invalid or unrecognized transaction ID"
+        },
+        "pollingRecommendation": "Implement periodic status checks with maximum attempts and intervals"
+      }
+    },
+    "core": {
+      "getProvider": {
+        "title": "getProvider Function",
+        "url": "https://docs.base.org/base-account/reference/core/getProvider",
+        "description": "Returns EIP-1193 compliant Ethereum provider",
+        "usage": "const provider = sdk.getProvider()",
+        "returns": "EIP-1193 compliant Ethereum provider",
+        "supportedMethods": {
+          "standard": [
+            "eth_requestAccounts",
+            "eth_sendTransaction", 
+            "eth_accounts",
+            "personal_sign",
+            "eth_signTypedData_v4"
+          ],
+          "baseAccount": [
+            "wallet_sendCalls",
+            "wallet_connect",
+            "wallet_addSubAccount"
+          ]
+        },
+        "integrationExamples": {
+          "viem": "createWalletClient with custom transport",
+          "directProvider": "Direct provider.request() calls"
+        },
+        "eventHandling": [
+          "accountsChanged",
+          "chainChanged", 
+          "connect",
+          "disconnect"
+        ],
+        "typeScriptSupport": "Fully typed with EIP1193Provider type"
+      },
+      "sdkUtilities": {
+        "title": "SDK Utilities",
+        "url": "https://docs.base.org/base-account/reference/core/sdk-utilities",
+        "functions": {
+          "generateKeyPair": {
+            "purpose": "Generate new P256 key pair",
+            "returns": "Promise<P256KeyPair>",
+            "properties": ["publicKey", "privateKey"]
+          },
+          "getKeypair": {
+            "purpose": "Retrieve existing P256 key pair",
+            "returns": "Promise<P256KeyPair | null>",
+            "behavior": "Returns stored pair or null if none exists"
+          },
+          "getCryptoKeyAccount": {
+            "purpose": "Retrieve current crypto account",
+            "returns": "Promise<{ account: OneOf<WebAuthnAccount | LocalAccount> | null }>",
+            "accountTypes": ["WebAuthnAccount (passkeys)", "LocalAccount (local development)"]
+          }
+        },
+        "bestPractices": [
+          "Check for existing accounts before creating new ones",
+          "Handle potential null returns",
+          "Implement secure key management",
+          "Use error handling for authentication issues"
+        ]
+      }
+    },
+    "providerRpcMethods": {
+      "overview": {
+        "title": "Provider RPC Methods Overview",
+        "url": "https://docs.base.org/base-account/reference/core/provider-rpc-methods/request-overview",
+        "specification": {
+          "interface": "RequestArguments { method: string; params?: readonly unknown[] | object }",
+          "errorInterface": "ProviderRpcError extends Error { code: number; data?: unknown }",
+          "provider": "CoinbaseWalletProvider { request: (args: RequestArguments) => Promise<unknown> }"
+        },
+        "requestHandling": {
+          "sentToWallet": [
+            "eth_ecRecover", "personal_sign", "personal_ecRecover",
+            "eth_signTransaction", "eth_sendTransaction", "eth_signTypedData",
+            "wallet_addEthereumChain", "wallet_watchAsset", "wallet_sendCalls", "wallet_showCallsStatus"
+          ],
+          "handledLocally": [
+            "eth_requestAccounts", "eth_accounts", "eth_coinbase",
+            "net_version", "eth_chainId", "wallet_getCapabilities", "wallet_switchEthereumChain"
+          ]
+        }
+      },
+      "walletSendCalls": {
+        "title": "wallet_sendCalls",
+        "url": "https://docs.base.org/base-account/reference/core/provider-rpc-methods/wallet_sendCalls",
+        "description": "Submit batch of calls to wallet for execution (EIP-5792)",
+        "parameters": {
+          "version": "API format version (must be '2.0.0')",
+          "id": "Batch ID for tracking (optional)",
+          "from": "Sender's Ethereum address",
+          "chainId": "EIP-155 chain ID",
+          "atomicRequired": "Whether calls must execute atomically",
+          "calls": "Array of call objects"
+        },
+        "callObject": {
+          "to": "Recipient address",
+          "value": "Value to send (wei, hex format)", 
+          "data": "Call data (hex format, optional)"
+        },
+        "returns": {
+          "batchId": "Unique identifier for the batch",
+          "status": "Current status (e.g., 'pending')"
+        },
+        "errorCodes": ["-32602: Invalid request", "4001: User rejected"]
+      },
+      "walletConnect": {
+        "title": "wallet_connect",
+        "url": "https://docs.base.org/base-account/reference/core/provider-rpc-methods/wallet_connect",
+        "description": "Coinbase-specific method for establishing wallet connection",
+        "parameters": {
+          "options": "Configuration object (optional)"
+        },
+        "returns": {
+          "accounts": "Array of connected account addresses",
+          "chainId": "Current chain ID as hex string",
+          "isConnected": "Boolean connection status"
+        },
+        "errorCodes": ["4001: User rejected", "4100: Method not supported", "4200: Wallet not available"],
+        "notes": ["Coinbase Wallet-specific method", "May not be available in other wallets", "Emits connection events"]
+      },
+      "walletAddSubAccount": {
+        "title": "wallet_addSubAccount",
+        "url": "https://docs.base.org/base-account/reference/core/provider-rpc-methods/wallet_addSubAccount",
+        "description": "Experimental method for creating sub accounts",
+        "parameters": {
+          "account": {
+            "type": "Account configuration object",
+            "properties": {
+              "type": "create or deployed",
+              "keys": "Array of key objects (required for create type)"
+            }
+          }
+        },
+        "keyTypes": ["address", "p256", "webcrypto-p256", "webauthn-p256"],
+        "returns": {
+          "address": "Address of created sub account",
+          "chainId": "Chain ID of deployment",
+          "factory": "Factory contract address (optional)",
+          "factoryData": "Factory deployment data (optional)"
+        },
+        "errorCodes": ["4001: User rejection", "4100: Unsupported method", "-32602: Invalid parameters"],
+        "status": "Experimental - API may change"
+      },
+      "walletGetSubAccounts": {
+        "title": "wallet_getSubAccounts",
+        "url": "https://docs.base.org/base-account/reference/core/provider-rpc-methods/wallet_getSubAccounts",
+        "description": "Experimental method for fetching sub accounts",
+        "parameters": {
+          "account": "Address of main wallet account",
+          "domain": "Fully qualified domain name of associated app"
+        },
+        "returns": {
+          "subAccounts": {
+            "type": "Array of sub account information",
+            "properties": {
+              "address": "Sub account address",
+              "factory": "Factory contract address",
+              "factoryData": "Factory deployment data"
+            }
+          }
+        },
+        "errorCodes": ["4100: Method not supported", "-32602: Invalid account configuration"],
+        "status": "Experimental - API may change"
+      },
+      "coinbaseFetchPermissions": {
+        "title": "coinbase_fetchPermissions",
+        "url": "https://docs.base.org/base-account/reference/core/provider-rpc-methods/coinbase_fetchPermissions",
+        "description": "Coinbase-specific method to retrieve active spend permissions",
+        "parameters": {
+          "account": "Address of account whose permissions are queried",
+          "chainId": "Blockchain ID in hexadecimal format",
+          "spender": "Entity granted permission to spend funds",
+          "pageOptions": {
+            "pageSize": "Number of permissions to fetch (default: 50)",
+            "cursor": "Unique identifier for pagination"
+          }
+        },
+        "returns": {
+          "permissions": {
+            "type": "Array of permission objects",
+            "properties": {
+              "createdAt": "Timestamp",
+              "permissionHash": "Permission hash",
+              "signature": "Permission signature",
+              "spendPermission": "Full spend permission object"
+            }
+          },
+          "pageDescription": {
+            "pageSize": "Number of results",
+            "nextCursor": "Pagination cursor"
+          }
+        },
+        "errorCodes": ["4001: User rejected", "4100: Method not supported", "-32602: Invalid parameters"]
+      },
+      "standardRpcMethods": {
+        "title": "Standard RPC Methods",
+        "url": "https://docs.base.org/base-account/reference/core/provider-rpc-methods/standard-rpc-methods",
+        "description": "Standard Ethereum RPC methods supported by Base Account",
+        "accountMethods": {
+          "eth_accounts": "Returns list of addresses owned by client",
+          "eth_requestAccounts": "Requests user to provide Ethereum address"
+        },
+        "chainInformation": {
+          "eth_chainId": "Returns chain ID of current network",
+          "eth_blockNumber": "Returns most recent block number"
+        },
+        "balanceAndTransactions": {
+          "eth_getBalance": "Returns account balance (with address and block parameters)"
+        },
+        "errorCodes": [
+          "-32700: Parse error",
+          "-32600: Invalid request", 
+          "-32601: Method not found",
+          "-32602: Invalid params",
+          "-32603: Internal error",
+          "-32000: Server error"
+        ],
+        "bestPractices": [
+          "Always handle errors",
+          "Use appropriate block parameters",
+          "Validate addresses"
+        ]
+      }
+    }
+  },
+  "capabilities": {
+    "dataCallback": {
+      "title": "Data Callback Capabilities",
+      "url": "https://docs.base.org/base-account/reference/core/capabilities/datacallback",
+      "description": "Collect personal user information during transactions",
+      "supportedDataTypes": [
+        "email: Email address",
+        "phoneNumber: Phone number with country code", 
+        "physicalAddress: Physical address for shipping",
+        "name: User's full name",
+        "onchainAddress: On-chain wallet address"
+      ],
+      "dataStructures": {
+        "name": {
+          "firstName": "string",
+          "lastName": "string"
+        },
+        "physicalAddress": {
+          "address1": "string",
+          "address2": "string (optional)",
+          "city": "string",
+          "state": "string", 
+          "postalCode": "string",
+          "country": "string"
+        },
+        "phoneNumber": {
+          "number": "string",
+          "countryCode": "string"
+        }
+      },
+      "requestConfiguration": {
+        "method": "wallet_sendCalls",
+        "capabilities": {
+          "dataCallback": {
+            "requests": "Array of request objects with type and optional fields",
+            "callbackURL": "HTTPS endpoint for validation"
+          }
+        }
+      },
+      "callbackHandling": {
+        "successResponse": {
+          "calls": "Original or modified transaction calls",
+          "chainId": "string",
+          "version": "string",
+          "capabilities": "Original or updated capabilities"
+        },
+        "errorResponse": {
+          "errors": "Validation errors for each field type"
+        }
+      },
+      "requirements": ["HTTPS required for callback URLs"]
+    }
+  },
+  "uiElements": {
+    "basePayButton": {
+      "title": "BasePayButton Component",
+      "url": "https://docs.base.org/base-account/reference/ui-elements/base-pay-button",
+      "description": "Pre-built React component for accepting payments",
+      "installation": "npm install @base-org/account-ui",
+      "requiredProps": {
+        "paymentOptions": {
+          "amount": "Payment amount in USDC (string)",
+          "to": "Recipient wallet address or ENS name (string)",
+          "testnet": "Boolean to use testnet (optional, default: false)"
+        }
+      },
+      "stylingProps": {
+        "colorScheme": "light | dark | system (default: system)",
+        "size": "small | medium | large (default: medium)",
+        "variant": "solid | outline (default: solid)",
+        "disabled": "Boolean (default: false)"
+      },
+      "eventHandlers": {
+        "onPaymentResult": "Callback for payment completion",
+        "onClick": "Custom click handler before payment processing"
+      },
+      "advancedFeatures": {
+        "userInfoCollection": "Support for payerInfo requests",
+        "validation": "Built-in payment validation",
+        "statusTracking": "Payment status monitoring"
+      }
+    },
+    "signInWithBaseButton": {
+      "title": "SignInWithBaseButton Component",
+      "url": "https://docs.base.org/base-account/reference/ui-elements/sign-in-with-base-button",
+      "description": "Pre-built React component for user authentication",
+      "installation": "npm install @base-org/account-ui",
+      "stylingProps": {
+        "align": "left | center | right (default: left)",
+        "variant": "solid | transparent (default: solid)",
+        "colorScheme": "light | dark | system (default: system)",
+        "size": "small | medium | large (default: medium)",
+        "disabled": "boolean (default: false)"
+      },
+      "eventHandlers": {
+        "onClick": "Callback when button is clicked",
+        "onSignInResult": "Callback for authentication completion"
+      },
+      "features": ["Multiple alignment options", "Theme support", "Size variants"]
+    },
+    "brandGuidelines": {
+      "title": "Brand Guidelines",
+      "url": "https://docs.base.org/base-account/reference/ui-elements/brand-guidelines",
+      "signInWithBase": {
+        "logo": {
+          "color": "#0000FF on light backgrounds",
+          "whiteVersion": "#FFFFFF on dark backgrounds",
+          "padding": "8pt between logo and text"
+        },
+        "text": "Sign in with Base",
+        "typography": "Prefer Base Sans font",
+        "doNots": [
+          "Use gradients for logo",
+          "Change logo corner radius", 
+          "Alter Base Square color",
+          "Use Base Blue on dark backgrounds"
+        ]
+      },
+      "basePay": {
+        "logo": "Always use combination mark",
+        "text": "Never write 'Base Pay' using text/typography",
+        "whiteVersion": "Use on dark backgrounds",
+        "padding": "At least 1X button height"
+      },
+      "mediaAssets": "Available in Base Brand Assets Figma File",
+      "bestPractices": [
+        "Clearly communicate sign-in/payment value",
+        "Place buttons prominently",
+        "Maintain consistent placement",
+        "Ensure easy discoverability"
+      ]
+    }
+  },
+  "onchainContracts": {
+    "spendPermissions": {
+      "title": "Spend Permissions Contract",
+      "url": "https://docs.base.org/base-account/reference/onchain-contracts/spend-permissions",
+      "structs": {
+        "SpendPermission": {
+          "account": "Smart account for the permission",
+          "spender": "Entity allowed to spend tokens",
+          "token": "Token address",
+          "allowance": "Maximum spend value per period",
+          "period": "Time duration for resetting allowance",
+          "start": "Permission start timestamp",
+          "end": "Permission end timestamp",
+          "salt": "Unique identifier",
+          "extraData": "Additional arbitrary data"
+        },
+        "PeriodSpend": {
+          "start": "Period start time",
+          "end": "Period end time", 
+          "spend": "Accumulated spend amount"
+        }
+      },
+      "keyFunctions": {
+        "approve": "Direct approval by account owner",
+        "approveWithSignature": "Approval via signature",
+        "spend": "Transfer tokens using permission",
+        "revoke": "Disable permission by account owner",
+        "revokeAsSpender": "Disable permission by spender"
+      },
+      "viewFunctions": {
+        "getHash": "Generate EIP-712 compatible hash",
+        "isApproved": "Check permission approval status",
+        "isRevoked": "Check if permission is revoked",
+        "isValid": "Check overall permission validity",
+        "getLastUpdatedPeriod": "Retrieve last period details",
+        "getCurrentPeriod": "Get current period information"
+      },
+      "status": "Open-source, available on GitHub"
+    },
+    "smartWallet": {
+      "title": "Smart Wallet Contract",
+      "url": "https://docs.base.org/base-account/reference/onchain-contracts/smart-wallet",
+      "description": "ERC-4337 compliant smart contract wallet",
+      "repository": "https://github.com/coinbase/smart-wallet",
+      "features": [
+        "Base Account infrastructure foundation",
+        "ERC-4337 account abstraction standards",
+        "Enhanced wallet functionality"
+      ],
+      "note": "Detailed technical specifications available in GitHub repository"
+    },
+    "basenames": {
+      "title": "Basenames Contract",
+      "url": "https://docs.base.org/base-account/reference/onchain-contracts/basenames",
+      "description": "Decentralized naming system for human-readable names on Base",
+      "repository": "https://github.com/base/basenames",
+      "functionality": "Allows users to register names like 'alice.base.eth'",
+      "relatedDocumentation": [
+        "Basenames FAQ",
+        "Basename Transfer Guide", 
+        "Basenames + OnchainKit Tutorial",
+        "Basenames + Wagmi Tutorial"
+      ],
+      "note": "Comprehensive contract details available in GitHub repository"
+    }
+  },
+  "troubleshooting": {
+    "popups": {
+      "title": "Popup Issues",
+      "url": "https://docs.base.org/base-account/more/troubleshooting/usage-details/popups",
+      "overview": "Base Account uses popup at keys.coinbase.com for wallet interactions",
+      "keyIssues": {
+        "browserBlocking": {
+          "problem": "Most browsers block popups by default",
+          "solution": "Ensure direct user click triggers popup"
+        },
+        "crossOriginPolicy": {
+          "allowed": ["unsafe-none (default)", "same-origin-allow-popups"],
+          "breaks": ["same-origin"]
+        },
+        "popupLinger": {
+          "behavior": "Popup remains open for 200ms after initial request",
+          "purpose": "Handle subsequent requests in same window"
+        }
+      },
+      "bestPractices": [
+        "Ensure no additional logic between click and popup request",
+        "Minimize intermediate steps",
+        "Test across different browsers",
+        "Verify Cross-Origin-Opener-Policy settings"
+      ]
+    },
+    "gasUsage": {
+      "title": "Gas Usage",
+      "url": "https://docs.base.org/base-account/more/troubleshooting/usage-details/gas-usage",
+      "overview": "Base Accounts use more gas than traditional accounts but cost difference is minimal on L2",
+      "gasEstimates": {
+        "nativeTokenTransfer": {
+          "traditional": "~21,000 gas",
+          "baseAccount": "~100,000 gas"
+        },
+        "erc20TokenTransfer": {
+          "traditional": "~65,000 gas", 
+          "baseAccount": "~150,000 gas"
+        },
+        "firstDeployment": {
+          "traditional": "N/A",
+          "baseAccount": "~300,000+ gas"
+        }
+      },
+      "reasonsForHigherUsage": [
+        "ERC-4337 Bundling",
+        "Smart Contract Operations",
+        "Signature Verification"
+      ],
+      "note": "Cost difference minimal on Layer 2 networks"
+    },
+    "unsupportedCalls": {
+      "title": "Unsupported Calls",
+      "url": "https://docs.base.org/base-account/more/troubleshooting/usage-details/unsupported-calls",
+      "limitations": {
+        "selfCalls": {
+          "restriction": "Cannot make calls to user's own Base Account address",
+          "reason": "Security - prevents unauthorized account changes"
+        },
+        "createOpcode": {
+          "restriction": "CREATE opcode not supported",
+          "workarounds": ["Use factory contract", "Use CREATE2 opcode"]
+        },
+        "solidityTransfer": {
+          "restriction": "Cannot receive ETH using built-in transfer function",
+          "reason": "Only forwards 2300 gas, insufficient for smart contracts",
+          "affectedContracts": ["WETH9"],
+          "solution": "Use call instead of transfer"
+        }
+      }
+    },
+    "simulations": {
+      "title": "Transaction Simulations",
+      "url": "https://docs.base.org/base-account/more/troubleshooting/usage-details/simulations",
+      "hiddenFeature": {
+        "access": "Click specific area five times to copy simulation data",
+        "purpose": "Debug transaction simulation requests and responses"
+      }
+    }
+  },
+  "additionalFeatures": {
+    "baseGaslessCampaign": {
+      "title": "Base Gasless Campaign",
+      "url": "https://docs.base.org/base-account/more/base-gasless-campaign",
+      "description": "Gas credits for developers integrating Base Account paymaster features",
+      "tiers": {
+        "partnerTier1": {
+          "amount": "$15k",
+          "requirements": [
+            "Support Coinbase Base Account",
+            "Onboard to Coinbase Paymaster",
+            "Preferred UI placement",
+            "Bump Coinbase SDK",
+            "Sign up for Coinbase Developer Platform"
+          ]
+        },
+        "partnerTier2": {
+          "amount": "$10k",
+          "requirements": "Similar to Tier 1 with less stringent UI placement"
+        },
+        "bonusTier": {
+          "amount": "$1k",
+          "requirements": [
+            "Create Base Account integration demo",
+            "Share on social media (Farcaster or X)",
+            "Tag Coinbase Wallet and/or Base"
+          ]
+        }
+      },
+      "processing": "Credits processed within one week"
+    },
+    "telemetry": {
+      "title": "Telemetry System",
+      "url": "https://docs.base.org/base-account/more/telemetry",
+      "purpose": [
+        "Monitor wallet operation success",
+        "Generate insights for improvements",
+        "Proactively detect SDK issues"
+      ],
+      "dataCollected": [
+        "Anonymous request success metrics",
+        "Generic error events",
+        "UI component usage functionality"
+      ],
+      "privacyCommitments": [
+        "No sensitive data collected",
+        "No private keys, transaction contents, or addresses",
+        "Completely anonymous telemetry"
+      ],
+      "optOut": "Set telemetry: false in SDK configuration",
+      "exampleEvent": {
+        "event_type": "scw_signer.request.started",
+        "properties": ["method", "correlationId", "sdkVersion", "appName", "appOrigin"]
+      }
+    }
+  },
+  "guides": {
+    "migrationGuide": {
+      "title": "Migration Guide",
+      "url": "https://docs.base.org/base-account/guides/migration-guide",
+      "description": "Migrate from Coinbase Wallet SDK to Base Account SDK",
+      "keyConsiderations": [
+        "Do not immediately replace existing Coinbase Wallet buttons",
+        "Add Sign in with Base button alongside existing buttons",
+        "Gradually transition users to Base Accounts"
+      ],
+      "migrationSteps": [
+        "Replace Coinbase Wallet SDK with Base Account SDK",
+        "Import createBaseAccountSDK from @base-org/account",
+        "Configure SDK with app details"
+      ],
+      "userExperienceChanges": [
+        "Users without extension see popup with connection options",
+        "Logged out experience educates about Sign in with Base"
+      ],
+      "timeline": {
+        "today": "Existing connection methods remain",
+        "future": "Gradual migration to Base Accounts (~Fall 2025)"
+      },
+      "recommendedApproach": [
+        "Provide Base button as additional connection option",
+        "Maintain existing Coinbase Wallet button for compatibility"
+      ]
+    }
+  },
+  "basenames": {
+    "faq": {
+      "title": "Basenames FAQ",
+      "url": "https://docs.base.org/base-account/basenames/basenames-faq",
+      "description": "Fully onchain human-readable names for wallet addresses",
+      "registrationFees": {
+        "3letter": "0.1 ETH/year",
+        "4letter": "0.01 ETH/year", 
+        "5to9letter": "0.001 ETH/year",
+        "10plusletter": "0.0001 ETH/year"
+      },
+      "freeEligibility": [
+        "Coinbase Verification",
+        "Coinbase One Verification", 
+        "Summer Pass Level 3 NFT",
+        "Buildathon participant NFT",
+        "base.eth NFT",
+        "cb.id username",
+        "BNS name owner"
+      ],
+      "keyFeatures": [
+        "Gasless registration with Base Account",
+        "Minimum 1-year registration",
+        "Works across Base ecosystem apps",
+        "Fully onchain profile information",
+        "90-day grace period for renewals"
+      ],
+      "launchDetails": {
+        "dutchAuction": "Premium starts at 100 ETH, decays over 36 hours"
+      },
+      "compatibility": "Works on any ENSIP-10 compliant chain"
+    },
+    "transfer": {
+      "title": "Basename Transfer",
+      "url": "https://docs.base.org/base-account/basenames/basename-transfer",
+      "process": [
+        "Navigate to base.org/names",
+        "Sign in with current wallet", 
+        "Select My Basenames",
+        "Click transfer option",
+        "Enter new wallet address",
+        "Complete four transactions: token ownership, management rights, address resolution, NFT transfer"
+      ],
+      "afterTransfer": [
+        "Activate Basename on new wallet",
+        "Go to base.org/manage-names",
+        "Sign in with new wallet",
+        "Set transferred Basename as primary"
+      ],
+      "requirements": [
+        "Must use Basenames UI for proper transfer",
+        "New wallet address must be ready",
+        "Cannot use platforms like OpenSea"
+      ]
+    },
+    "onchainKitTutorial": {
+      "title": "Basenames OnchainKit Tutorial",
+      "url": "https://docs.base.org/base-account/basenames/basenames-onchainkit-tutorial",
+      "description": "Use OnchainKit Identity component to resolve Basenames",
+      "setup": [
+        "Create wagmi project: bun create wagmi",
+        "Install OnchainKit: bun add @coinbase/onchainkit",
+        "Configure wagmi with Base chains"
+      ],
+      "keyConfiguration": {
+        "chains": ["base", "baseSepolia"],
+        "connectors": ["injected()", "coinbaseWallet with smartWalletOnly preference"],
+        "transports": "Configure for Base networks"
+      },
+      "objectives": [
+        "Understand onchain identity on Base",
+        "Enable user identity using OnchainKit",
+        "Simplify wallet interactions"
+      ]
+    },
+    "wagmiTutorial": {
+      "title": "Basenames Wagmi Tutorial", 
+      "url": "https://docs.base.org/base-account/basenames/basenames-wagmi-tutorial",
+      "objectives": [
+        "Understand onchain identity on Base network",
+        "Enable users to use onchain identity",
+        "Pull metadata from Basename profiles"
+      ],
+      "implementation": [
+        "Create ABI directory and L2ResolverAbi.ts file",
+        "Configure Wagmi for Base network",
+        "Create Basename resolution functions"
+      ],
+      "keyFunction": {
+        "getBasename": "Uses convertReverseNodeToBytes and L2ResolverAbi to resolve addresses to Basenames"
+      },
+      "purpose": "Provide human-readable identity layer for blockchain addresses"
+    }
+  },
+  "commonPatterns": {
+    "sdkInitialization": {
+      "package": "@base-org/account",
+      "method": "createBaseAccountSDK",
+      "requiredParams": ["appName", "appLogoUrl"],
+      "optionalParams": ["appChainIds"]
+    },
+    "errorHandling": [
+      "Check wallet capabilities before operations",
+      "Implement fallback flows",
+      "Provide clear user feedback"
+    ],
+    "securityBestPractices": [
+      "Use server-side nonce verification",
+      "Implement proper signature validation",
+      "Configure time and amount limits for permissions"
+    ]
+  }
+}

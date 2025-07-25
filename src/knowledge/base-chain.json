@@ -1,0 +1,987 @@
+{
+  "title": "Base Chain Documentation",
+  "description": "Comprehensive documentation for Base Chain - Ethereum Layer 2 network built on OP Stack",
+  "lastUpdated": "2025-07-25",
+  "sections": {
+    "quickstart": {
+      "whyBase": {
+        "title": "Why Base",
+        "url": "https://docs.base.org/base-chain/quickstart/why-base",
+        "description": "Key advantages and reasons to choose Base for blockchain development",
+        "technicalPerformance": {
+          "speed": "1-second transaction speeds",
+          "cost": "Transactions costing less than a cent",
+          "availability": "Globally available ultra-fast platform"
+        },
+        "developerEcosystem": {
+          "tools": [
+            "Smart Wallets",
+            "Coinbase Developer Platform", 
+            "OnchainKit React component library",
+            "Basenames",
+            "Verifications"
+          ],
+          "deployment": "Rapid app deployment (hours, not weeks)",
+          "openSource": "Extensive suite of open-source developer tools"
+        },
+        "financialOpportunities": {
+          "grants": "Distributed over 1,000 builder grants",
+          "earningPathways": [
+            "Builder Grants (up to 2 ETH)",
+            "Weekly Farcaster builder grants",
+            "Optimism Retroactive Public Goods Funding",
+            "Community collaboration opportunities"
+          ]
+        },
+        "innovativeUseCases": [
+          "Media and entertainment applications",
+          "Social applications",
+          "AI applications",
+          "Global financial access",
+          "Decentralized application development"
+        ],
+        "uniqueBenefits": [
+          "Permissionless platform",
+          "Higher revenue retention for developers",
+          "Global user accessibility",
+          "Active community support"
+        ],
+        "mission": "Revive the spirit of innovation where two builders in a garage can create a massively successful business"
+      },
+      "deployOnBase": {
+        "title": "Deploy on Base",
+        "url": "https://docs.base.org/base-chain/quickstart/deploy-on-base",
+        "description": "Guide for deploying applications and smart contracts on Base",
+        "setupSteps": [
+          {
+            "step": 1,
+            "title": "Set Up Development Environment",
+            "tasks": [
+              "Install Foundry framework",
+              "Initialize a Solidity project",
+              "Create .env file with Base network RPC URLs"
+            ]
+          },
+          {
+            "step": 2,
+            "title": "Configure Node Connection",
+            "tasks": [
+              "Use Base Sepolia RPC URL for testing",
+              "Secure private key in Foundry's keystore"
+            ]
+          },
+          {
+            "step": 3,
+            "title": "Deploy Contracts",
+            "tasks": [
+              "Compile contract using forge create",
+              "Deploy to Base Sepolia testnet",
+              "Verify deployment on Basescan"
+            ]
+          }
+        ],
+        "recommendedTools": [
+          "Foundry for smart contract development",
+          "OnchainKit for frontend integration",
+          "Basescan for transaction verification"
+        ],
+        "bestPractices": [
+          "Use Base Sepolia for testing",
+          "Secure private keys properly",
+          "Verify contracts after deployment",
+          "Leverage OnchainKit for seamless frontend connections"
+        ],
+        "highlights": [
+          "Ethereum L2 built to bring the next billion users onchain",
+          "Fast, low-cost contract deployment",
+          "Comprehensive development workflow support"
+        ]
+      },
+      "connectingToBase": {
+        "title": "Connecting to Base",
+        "url": "https://docs.base.org/base-chain/quickstart/connecting-to-base",
+        "description": "Network configuration and connection methods for Base",
+        "networks": {
+          "mainnet": {
+            "networkName": "Base Mainnet",
+            "chainId": 8453,
+            "currencySymbol": "ETH",
+            "rpcEndpoint": "https://mainnet.base.org",
+            "blockExplorer": "https://base.blockscout.com/"
+          },
+          "testnet": {
+            "networkName": "Base Sepolia",
+            "chainId": 84532,
+            "currencySymbol": "ETH", 
+            "rpcEndpoint": "https://sepolia.base.org",
+            "blockExplorer": "https://sepolia-explorer.base.org"
+          }
+        },
+        "walletConfiguration": {
+          "coinbaseWallet": {
+            "setup": "Default Base network support",
+            "process": "Select Base from network dropdown menu"
+          },
+          "metamask": {
+            "setup": "Manual custom network addition",
+            "process": "Enter network details like RPC endpoint, chain ID, etc."
+          }
+        },
+        "recommendations": [
+          "For production systems, use node partners or run your own Base node",
+          "Rate-limited RPC endpoints are not recommended for production",
+          "Follow step-by-step wallet configuration instructions"
+        ]
+      },
+      "bridgeToken": {
+        "title": "Bridge Token",
+        "url": "https://docs.base.org/base-chain/quickstart/bridge-token",
+        "description": "Process for bridging tokens to and from Base network",
+        "keySteps": [
+          "Deploy your ERC-20 token on Base",
+          "Use standard bridge contracts (OptimismMintableERC20Factory)",
+          "Submit token details to Superchain token list"
+        ],
+        "bridgeFramework": "Base recommends using their 'standard bridge' framework",
+        "requirements": [
+          "Token contract must be compatible with standard bridge interface",
+          "Tokens need configuration for 'base-sepolia' and/or 'base'",
+          "Follow Github repository submission instructions"
+        ],
+        "approvalProcess": {
+          "review": "Token submissions are reviewed by the Base team",
+          "responseTime": "Typical response time is 24-72 hours",
+          "checks": "Base conducts preliminary checks but does not fully endorse listed tokens"
+        },
+        "disclaimer": "Base has conducted only preliminary checks and does not fully endorse tokens on the list"
+      }
+    },
+    "networkInformation": {
+      "baseContracts": {
+        "title": "Base Contracts",
+        "url": "https://docs.base.org/base-chain/network-information/base-contracts",
+        "description": "Core contract addresses for Base network",
+        "mainnetL2Contracts": {
+          "WETH9": "0x4200000000000000000000000000000000000006",
+          "L2CrossDomainMessenger": "0x4200000000000000000000000000000000000007",
+          "L2StandardBridge": "0x4200000000000000000000000000000000000010",
+          "SequencerFeeVault": "0x4200000000000000000000000000000000000011",
+          "GasPriceOracle": "0x420000000000000000000000000000000000000F"
+        },
+        "mainnetL1Contracts": {
+          "L1CrossDomainMessenger": "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa",
+          "OptimismPortal": "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
+          "SystemConfig": "0x73a79Fab69143498Ed3712e519A88a918e1f4072"
+        },
+        "adminAddresses": {
+          "batchSender": "0x5050f69a9786f081509234f1a7f4684b5e5b76c9",
+          "outputProposer": "0x642229f238fb9de03374be34b0ed8d9de80752c5",
+          "proxyAdminOwner": "0x7bB41C3008B3f03FE483B28b8DB90e19Cf07595c"
+        },
+        "note": "Most L2 contract addresses remain consistent between mainnet and testnet"
+      },
+      "networkFees": {
+        "title": "Network Fees",
+        "url": "https://docs.base.org/base-chain/network-information/network-fees",
+        "description": "Fee structure and cost optimization for Base transactions",
+        "feeComponents": {
+          "l2ExecutionFee": {
+            "description": "Cost to execute a transaction on Layer 2",
+            "characteristics": [
+              "Varies based on transaction volume",
+              "Adjusts dynamically similar to Ethereum's fee mechanism"
+            ]
+          },
+          "l1SecurityFee": {
+            "description": "Cost to publish the transaction on Layer 1",
+            "characteristics": [
+              "Typically higher than the L2 execution fee",
+              "Fluctuates depending on L1 transaction volume"
+            ]
+          }
+        },
+        "optimizationStrategies": [
+          "Submit transactions during periods of lower gas prices (e.g., weekends)",
+          "Monitor L1 and L2 transaction volumes",
+          "Refer to op-stack developer documentation for detailed fee calculations"
+        ],
+        "keyNote": "Every Base transaction consists of two costs: an L2 (execution) fee and an L1 (security) fee"
+      },
+      "ecosystemContracts": {
+        "title": "Ecosystem Contracts",
+        "url": "https://docs.base.org/base-chain/network-information/ecosystem-contracts",
+        "description": "DeFi and ecosystem contract addresses on Base",
+        "mainnetContracts": {
+          "multicall3": "0xcA11bde05977b3631167028862bE2a173976CA11",
+          "uniswapV3": {
+            "permit2": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+            "universalRouter": "0x198EF79F1F515F02dFE9e3115eD9fC07183f02fC",
+            "v3CoreFactory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD"
+          },
+          "uniswapV2": {
+            "factory": "0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6",
+            "router": "0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24"
+          }
+        },
+        "testnetSupport": "Similar structure to mainnet with different addresses",
+        "communityProjects": ["BaseX", "DapDap provide testnet interfaces"],
+        "coverage": "Core infrastructure like multicall, routing, and token management for DEXs"
+      },
+      "blockBuilding": {
+        "title": "Block Building",
+        "url": "https://docs.base.org/base-chain/network-information/block-building",
+        "description": "Block production and sequencing mechanisms on Base",
+        "flashblocks": {
+          "description": "Currently uses Flashblocks on Base Mainnet and Base Sepolia",
+          "implementation": "Blocks built using op-rbuilder",
+          "frequency": "Priority fee auctions occur every 200 milliseconds",
+          "characteristics": [
+            "Once a Flashblock is built and broadcast, transaction ordering is locked",
+            "Later arriving transactions with higher fees cannot replace earlier transactions"
+          ]
+        },
+        "gasLimitConsiderations": {
+          "largeTransactions": "Transactions over 1/10 of block gas limit face additional constraints",
+          "progressiveAllocation": [
+            "Flashblock 1: Up to 1/10 of total gas",
+            "Flashblock 2: Up to 2/10 of total gas",
+            "Subsequent blocks: Continue increasing gas allocation"
+          ]
+        },
+        "alternateConfiguration": {
+          "description": "Vanilla blocks built every 2 seconds using op-geth",
+          "ordering": "Transactions ordered by priority fee"
+        },
+        "changelog": [
+          "July 7th: Enabled Flashblocks on Base Mainnet",
+          "February 25th: Enabled Flashblocks on Base Sepolia"
+        ]
+      },
+      "diffsEthereumBase": {
+        "title": "Differences: Ethereum vs Base",
+        "url": "https://docs.base.org/base-chain/network-information/diffs-ethereum-base",
+        "description": "Technical differences between Ethereum and Base networks",
+        "architecture": "Built on Bedrock release of the OP Stack",
+        "designGoal": "Designed to be as close to Ethereum as possible",
+        "minorDifferences": [
+          "Flashblocks",
+          "Opcodes",
+          "Block characteristics", 
+          "Network specifications",
+          "Transaction cost structures"
+        ],
+        "compatibility": "Maintains very close compatibility to Ethereum",
+        "developerExperience": "Nearly identical development experience compared to Ethereum",
+        "reference": "Check OP Stack Bedrock differences documentation for detailed technical specifics"
+      }
+    },
+    "flashblocks": {
+      "apps": {
+        "title": "Flashblocks for Apps",
+        "url": "https://docs.base.org/base-chain/flashblocks/apps",
+        "description": "Ultra-fast blockchain confirmations for real-time applications",
+        "keyFeatures": [
+          "Transactions confirmed in approximately 200 milliseconds",
+          "Designed for real-time applications, games, and interactive experiences",
+          "Supports integration through RPC and WebSocket APIs"
+        ],
+        "integrationMethods": {
+          "rpcEndpoints": {
+            "mainnet": "https://mainnet-preconf.base.org",
+            "sepolia": "https://sepolia-preconf.base.org"
+          },
+          "supportedLibraries": ["Wagmi", "Viem", "Ethers"]
+        },
+        "technicalCapabilities": [
+          "eth_getBlockByNumber",
+          "eth_getTransactionReceipt", 
+          "eth_getBalance",
+          "eth_getTransactionCount",
+          "eth_getTransactionByHash"
+        ],
+        "purpose": "Seamless, ultrafast and snappy user experiences without compromising security",
+        "support": "Base Discord's #developer-chat channel"
+      },
+      "nodeProviders": {
+        "title": "Flashblocks Node Providers",
+        "url": "https://docs.base.org/base-chain/flashblocks/node-providers",
+        "description": "Specialized RPC node functionality for Base Flashblocks",
+        "requirements": ["Docker", "Docker Compose"],
+        "setup": {
+          "command": "NODE_TYPE=base CLIENT=reth RETH_FB_WEBSOCKET_URL=\"wss://mainnet.flashblocks.base.org/ws\" docker-compose up",
+          "websocketEndpoints": {
+            "mainnet": "wss://mainnet.flashblocks.base.org/ws",
+            "sepolia": "wss://sepolia.flashblocks.base.org/ws"
+          }
+        },
+        "verification": [
+          "Test node functionality by querying a pending block",
+          "Supports standard Ethereum JSON-RPC methods with additional Flashblocks endpoints"
+        ],
+        "uniqueFeature": "Websocket API streams 'Flashblock' data with minimal block diff data to reduce transmission overhead",
+        "implementation": "Each Flashblock contains initial block properties or subsequent transaction/state changes",
+        "documentation": "Detailed technical implementation in Reth node README"
+      }
+    },
+    "nodeOperators": {
+      "runBaseNode": {
+        "title": "Run a Base Node",
+        "url": "https://docs.base.org/base-chain/node-operators/run-a-base-node",
+        "description": "Guide for operating Base blockchain nodes",
+        "prerequisites": {
+          "warning": "Running a node is time consuming, resource expensive, and potentially costly",
+          "hardwareRequirements": {
+            "cpu": "8-Core CPU",
+            "ram": "16+ GB RAM",
+            "storage": "NVMe SSD drive",
+            "additionalStorage": "Sufficient storage for chain data and snapshots"
+          }
+        },
+        "setupSteps": [
+          "Clone the Base node repository",
+          "Obtain an Ethereum L1 full node RPC",
+          "Configure .env files for mainnet or testnet",
+          "Use Docker to run the node"
+        ],
+        "snapshotOptions": {
+          "availability": "Snapshots available for Geth (Full) and Reth (Archive)",
+          "updateFrequency": "Updated weekly",
+          "networkSupport": "Both mainnet and testnet"
+        },
+        "importantConsiderations": [
+          "Syncing can take days",
+          "Monitor request quota usage",
+          "Free RPC endpoints are rate-limited",
+          "Recommended to use node provider partners for production"
+        ],
+        "monitoring": [
+          "Use CLI commands to check sync status",
+          "Verify node connectivity by testing RPC endpoints"
+        ],
+        "recommendation": "For users with specific infrastructure needs who understand resource requirements and technical complexity"
+      },
+      "snapshots": {
+        "title": "Snapshots",
+        "url": "https://docs.base.org/base-chain/node-operators/snapshots",
+        "description": "Node snapshot restoration and backup strategies",
+        "benefits": "Snapshots significantly reduce initial node sync time",
+        "availability": {
+          "networks": ["Mainnet", "Testnet"],
+          "clients": ["Geth (Full)", "Reth (Archive)"]
+        },
+        "restorationProcess": [
+          "Prepare data directory matching Docker configuration",
+          "Download appropriate snapshot for network and client",
+          "Extract snapshot archive", 
+          "Move extracted data to correct directory",
+          "Start node and verify sync progress"
+        ],
+        "importantNotes": [
+          "Geth Archive Nodes are no longer supported via snapshots due to performance limitations",
+          "Ensure sufficient disk space for download and extraction",
+          "Snapshots are regularly updated"
+        ],
+        "downloadCommands": {
+          "testnetGethFull": "wget https://sepolia-full-snapshots.base.org/$(curl https://sepolia-full-snapshots.base.org/latest)",
+          "mainnetRethArchive": "wget https://mainnet-reth-archive-snapshots.base.org/$(curl https://mainnet-reth-archive-snapshots.base.org/latest)"
+        },
+        "postRestorationSteps": [
+          "Monitor node logs",
+          "Verify sync from snapshot's block height",
+          "Delete downloaded snapshot archive to free disk space"
+        ]
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting",
+        "url": "https://docs.base.org/base-chain/node-operators/troubleshooting",
+        "description": "Common node issues and debugging solutions",
+        "troubleshootingSteps": [
+          {
+            "step": 1,
+            "title": "Check Container Logs",
+            "method": "Use docker compose logs -f <service_name> to view real-time logs",
+            "focus": "Check logs for L2 Client (Geth/Reth) and Rollup Node"
+          },
+          {
+            "step": 2,
+            "title": "Verify Container Status", 
+            "method": "Run docker compose ps to confirm containers are running",
+            "focus": "Look for frequent restarts or exited containers"
+          },
+          {
+            "step": 3,
+            "title": "Monitor System Resources",
+            "method": "Check CPU, RAM, disk I/O, and network usage",
+            "tools": ["htop", "iostat", "iftop"]
+          }
+        ],
+        "commonIssues": {
+          "setupConfiguration": [
+            "Verify .env file configuration",
+            "Check L1 endpoint settings",
+            "Ensure correct JWT secret and authentication",
+            "Resolve permission issues with data volumes"
+          ],
+          "syncingProblems": [
+            "Investigate connection errors in logs",
+            "Verify L1 node health and sync status",
+            "Check system time synchronization",
+            "Assess hardware specifications"
+          ],
+          "performanceIssues": [
+            "Review hardware against recommended specs",
+            "Tune Geth cache settings",
+            "Consider using Reth for better performance"
+          ],
+          "networkingConnectivity": [
+            "Check RPC/WS connection",
+            "Verify port accessibility",
+            "Configure NAT settings if needed"
+          ]
+        },
+        "supportResources": [
+          "Base Discord: #node-operators channel",
+          "GitHub: Base Node repository issues"
+        ]
+      }
+    },
+    "tools": {
+      "baseProducts": {
+        "title": "Base Products",
+        "url": "https://docs.base.org/base-chain/tools/base-products",
+        "description": "Official Base tools and developer products",
+        "products": {
+          "onchainKit": {
+            "description": "Ready-to-use, full-stack components to make building onchain faster and easier",
+            "features": "Components for identity, transactions, wallet interactions, and more"
+          },
+          "miniKit": {
+            "description": "Build mini apps to increase your distribution and find traction",
+            "purpose": "App distribution and user acquisition"
+          },
+          "agentKit": {
+            "description": "A toolkit for building onchain AI agents",
+            "focus": "AI integration with blockchain"
+          },
+          "smartWallet": {
+            "description": "A single sign-on for the open internet. No app or extension required",
+            "benefit": "Simplified wallet management"
+          },
+          "appchains": {
+            "description": "Scale your app with a dedicated chain on Base",
+            "useCase": "High-performance dedicated blockchain infrastructure"
+          },
+          "paymaster": {
+            "description": "Account Abstraction endpoints to send transactions and sponsor gas",
+            "capability": "Gasless transaction sponsorship"
+          }
+        },
+        "designGoal": "Simplify blockchain development, reduce complexity, and help developers build more efficiently on the Base ecosystem"
+      },
+      "onchainRegistryApi": {
+        "title": "Onchain Registry API",
+        "url": "https://docs.base.org/base-chain/tools/onchain-registry-api",
+        "description": "API for accessing Base's onchain registry of projects and applications",
+        "baseUrl": "https://base.org/api/registry/",
+        "endpoints": {
+          "getEntries": {
+            "method": "GET",
+            "path": "/entries",
+            "description": "Retrieves Onchain Registry entries",
+            "queryParameters": [
+              "page (default: 1)",
+              "limit (default: 10)",
+              "category (Games, Social, Creators, Finance, Media)",
+              "curation (Featured, Curated, Community)"
+            ]
+          },
+          "getFeatured": {
+            "method": "GET",
+            "path": "/featured",
+            "description": "Returns a single actively featured entry"
+          }
+        },
+        "entrySchema": {
+          "fields": [
+            "id - Unique entry identifier",
+            "category - Project category",
+            "title - Entry title",
+            "short_description - Brief project description (max 30 chars)",
+            "full_description - Detailed project description (max 200 chars)",
+            "target_url - Link for user action",
+            "contract_address - Associated contract address",
+            "creator_name - Project creator",
+            "curation - Entry's curation level"
+          ]
+        },
+        "usageGuidelines": [
+          "Append referral codes to target_url",
+          "Filter entries using target_url and creator_name"
+        ],
+        "licensing": "Provided under Coinbase Developer Platform Terms of Service"
+      },
+      "nodeProviders": {
+        "title": "Node Providers",
+        "url": "https://docs.base.org/base-chain/tools/node-providers",
+        "description": "Third-party node infrastructure services for Base",
+        "overview": {
+          "totalProviders": 21,
+          "networkSupport": "Most support Base Mainnet and Base Sepolia Testnet"
+        },
+        "providerCategories": {
+          "freeTier": [
+            "Coinbase Developer Platform (CDP)",
+            "Alchemy",
+            "Ankr", 
+            "BlockPI",
+            "QuickNode"
+          ],
+          "specializedFeatures": [
+            "1RPC: Privacy-preserving RPC",
+            "Tenderly: Developer tooling included",
+            "Stackup: Account abstraction infrastructure",
+            "Validation Cloud: Low-latency nodes"
+          ]
+        },
+        "pricingModels": [
+          "Free public endpoints",
+          "Pay-as-you-go plans",
+          "Tiered pricing with increased request limits"
+        ],
+        "commonCapabilities": [
+          "JSON-RPC API access",
+          "Mainnet and testnet support", 
+          "Hosted node infrastructure",
+          "Enhanced developer tools",
+          "Scalable API endpoints"
+        ],
+        "selectionGuidance": "Evaluate providers based on specific project requirements, rate limits, performance, and additional features"
+      },
+      "blockExplorers": {
+        "title": "Block Explorers",
+        "url": "https://docs.base.org/base-chain/tools/block-explorers",
+        "description": "Blockchain data exploration and analysis tools for Base",
+        "explorers": {
+          "arkham": {
+            "description": "Crypto intelligence platform",
+            "features": [
+              "Analyzes blockchain transactions",
+              "Shows people and companies behind blockchain activity"
+            ]
+          },
+          "blockscout": {
+            "networks": ["Base", "Base Sepolia"],
+            "features": [
+              "View and verify smart contract source code",
+              "Detailed transaction information"
+            ]
+          },
+          "etherscan": {
+            "networks": ["Base", "Base Sepolia"],
+            "features": [
+              "Search by address, transaction hash, batch, or token",
+              "View and verify smart contract source code",
+              "View L1-to-L2 and L2-to-L1 transactions"
+            ]
+          },
+          "dexGuru": {
+            "features": [
+              "Transaction, block, and account balance data",
+              "Interactive transaction traces and logs"
+            ]
+          },
+          "l2scan": {
+            "description": "Analyzes Base and other layer 2 networks",
+            "features": ["User-friendly interface for transaction history"]
+          },
+          "okLink": {
+            "description": "Multi-chain explorer",
+            "features": [
+              "Address labels and real-time on-chain data"
+            ]
+          },
+          "routescan": {
+            "description": "Superchain explorer",
+            "features": [
+              "Searches transactions, addresses, tokens across Superchain blockchains"
+            ]
+          },
+          "tenderly": {
+            "description": "Developer-focused explorer",
+            "features": [
+              "Visibility into smart contract code",
+              "Supports Base mainnet and Base Sepolia"
+            ]
+          }
+        }
+      },
+      "networkFaucets": {
+        "title": "Network Faucets",
+        "url": "https://docs.base.org/base-chain/tools/network-faucets",
+        "description": "Testnet token distribution services for Base development",
+        "faucets": {
+          "coinbaseDeveloperPlatform": {
+            "description": "Provides free Base Sepolia testnet ETH",
+            "limitation": "Requests limited to one claim per 24 hours"
+          },
+          "thirdweb": {
+            "description": "Offers free Base Sepolia testnet ETH",
+            "feature": "Allows developers to connect wallet through EOA or social logins"
+          },
+          "superchain": {
+            "description": "Provides testnet ETH for OP Chains including Base",
+            "benefit": "Offers more tokens for developers with onchain identity"
+          },
+          "alchemy": {
+            "description": "Fast and reliable network faucet",
+            "limitation": "Requests limited to one claim per 24 hours"
+          },
+          "additional": [
+            "Bware Labs Faucet",
+            "QuickNode Faucet", 
+            "LearnWeb3 Faucet",
+            "Ethereum Ecosystem Faucet"
+          ]
+        },
+        "commonRestrictions": [
+          "One claim per 24 hours",
+          "Limited token amounts per request",
+          "Require wallet connection"
+        ],
+        "purpose": "Obtain testnet ETH for developing and testing on Base network"
+      },
+      "oracles": {
+        "title": "Oracles",
+        "url": "https://docs.base.org/base-chain/tools/oracles",
+        "description": "Data oracle providers and price feed services for Base",
+        "providers": {
+          "api3": {
+            "offerings": ["200+ price feeds on Base Mainnet and Testnet", "First-party oracles with signed data", "Quantum Random Number Generation (QRNG)"]
+          },
+          "chainlink": {
+            "offerings": ["Multiple price feeds", "Requires LINK token for some services"]
+          },
+          "chronicle": {
+            "networks": ["Base Mainnet", "Base Testnet"]
+          },
+          "dia": {
+            "offerings": ["2000+ price feeds"],
+            "networks": ["Base Mainnet", "Base Testnet"]
+          },
+          "gelato": {
+            "offerings": ["Verifiable Random Function (VRF)"]
+          },
+          "ora": {
+            "offerings": ["Onchain AI Oracle"],
+            "networks": ["Base Mainnet only"]
+          },
+          "orochiNetwork": {
+            "offerings": ["Decentralized data access"],
+            "networks": ["Base Mainnet", "Base Testnet"]
+          },
+          "pythNetwork": {
+            "offerings": ["Real-time data with 400ms latency", "Price feeds for crypto, stocks, FX, and metals", "Pyth Entropy for random number generation"]
+          },
+          "redStone": {
+            "offerings": ["1200+ price feeds"],
+            "networks": ["Base Mainnet"]
+          },
+          "supra": {
+            "offerings": ["VRF and decentralized oracle price feeds"],
+            "networks": ["Base Mainnet", "Base Testnet"]
+          }
+        },
+        "features": [
+          "Most providers support both Base Mainnet and Base Sepolia Testnet",
+          "Services include price feeds, random number generation, and data integration",
+          "Varying levels of decentralization and data sourcing"
+        ]
+      },
+      "onboarding": {
+        "title": "Onboarding",
+        "url": "https://docs.base.org/base-chain/tools/onboarding",
+        "description": "User onboarding solutions and wallet integration tools",
+        "solutions": {
+          "crossmint": {
+            "features": [
+              "Web3 development with email wallets",
+              "Credit card payments",
+              "Abstracts away core blockchain complexities"
+            ]
+          },
+          "dynamic": {
+            "features": [
+              "Login flows for crypto-native and non-native users",
+              "Non-custodial embedded wallets",
+              "Compatible with EVM chains like Base"
+            ]
+          },
+          "openfort": {
+            "focus": "Game and gamified experiences",
+            "features": [
+              "Non-custodial smart account integration",
+              "Multiple authentication methods"
+            ]
+          },
+          "privy": {
+            "features": [
+              "Authentication via email, phone, social profiles",
+              "Embedded wallets",
+              "Progressive user onboarding"
+            ]
+          },
+          "particleNetwork": {
+            "features": [
+              "MPC-TSS for key management",
+              "Onboarding through web2 accounts",
+              "Smart Wallet-as-a-Service"
+            ]
+          },
+          "sequence": {
+            "description": "Full web3 development platform",
+            "features": [
+              "Non-custodial Embedded Wallets",
+              "Multiple platforms and SDKs"
+            ]
+          },
+          "thirdweb": {
+            "features": [
+              "Open source web3 solution",
+              "EOA and social logins",
+              "Cross-platform development"
+            ]
+          },
+          "walletKit": {
+            "features": [
+              "Pre-built onboarding components",
+              "Email and social logins",
+              "Integrated ERC 4337 support with paymaster"
+            ]
+          }
+        }
+      },
+      "dataIndexers": {
+        "title": "Data Indexers",
+        "url": "https://docs.base.org/base-chain/tools/data-indexers",
+        "description": "Blockchain data indexing and querying solutions",
+        "indexers": {
+          "allium": {
+            "description": "Enterprise data platform",
+            "features": [
+              "Near real-time Base data for infrastructure needs",
+              "Supports multiple destinations like Snowflake and BigQuery"
+            ]
+          },
+          "covalent": {
+            "description": "Hosted blockchain data solution",
+            "features": [
+              "Full archival copy of blockchain data",
+              "Unified API and Increment analytics platform"
+            ]
+          },
+          "envio": {
+            "description": "Full-featured indexing solution",
+            "features": [
+              "HyperSync for rapid historical data syncing",
+              "Custom GraphQL queries"
+            ]
+          },
+          "theGraph": {
+            "description": "Decentralized indexing protocol",
+            "features": [
+              "Indexing blockchain data through multiple indexers",
+              "Powerful GraphQL interface"
+            ]
+          }
+        },
+        "networkSupport": ["Base Mainnet", "Base Sepolia (Testnet)"],
+        "capabilities": [
+          "Custom data transformation",
+          "Real-time and historical data access", 
+          "Multi-chain data aggregation",
+          "GraphQL and REST API support"
+        ]
+      },
+      "crossChain": {
+        "title": "Cross-Chain",
+        "url": "https://docs.base.org/base-chain/tools/cross-chain",
+        "description": "Interoperability and cross-chain bridging solutions",
+        "solutions": {
+          "axelar": {
+            "capabilities": [
+              "Connects 49+ blockchains",
+              "Universal web3 transactions"
+            ],
+            "networks": ["Base Mainnet", "Base Testnet"],
+            "resources": "Code examples on GitHub"
+          },
+          "chainlinkCCIP": {
+            "description": "Cross-Chain Interoperability Protocol",
+            "capabilities": [
+              "Secure message and token transfers across blockchains"
+            ],
+            "networks": ["Base Mainnet", "Base Sepolia Testnet"]
+          },
+          "layerZero": {
+            "capabilities": [
+              "Cross-chain messaging",
+              "Connects to 35+ supported blockchains"
+            ],
+            "networks": ["Base Mainnet", "Base Sepolia Testnet"]
+          },
+          "wormhole": {
+            "capabilities": [
+              "Secure communication between blockchains",
+              "Access to users and liquidity on 30+ chains"
+            ],
+            "networks": ["Base Mainnet", "Base Sepolia Testnet"]
+          },
+          "crossmint": {
+            "capabilities": [
+              "Cross-chain NFT collections and payments",
+              "Purchase NFTs using tokens from different chains"
+            ],
+            "networks": ["Base Mainnet", "Base Sepolia Testnet"]
+          }
+        },
+        "documentation": "Comprehensive documentation and GitHub examples available for each tool"
+      },
+      "accountAbstraction": {
+        "title": "Account Abstraction",
+        "url": "https://docs.base.org/base-chain/tools/account-abstraction",
+        "description": "Smart wallet and gasless transaction solutions",
+        "keyProviders": {
+          "alchemyAccountKit": {
+            "description": "Complete solution for account abstraction",
+            "features": [
+              "Creates smart contract wallets",
+              "Gas Manager and Bundler APIs"
+            ]
+          },
+          "biconomy": {
+            "description": "Simplest UX for dapp or wallet",
+            "features": [
+              "Modular smart accounts",
+              "Paymasters and bundlers"
+            ]
+          },
+          "coinbaseAAKit": {
+            "features": [
+              "Paymaster and bundler",
+              "Gas fee sponsorship",
+              "Transaction bundling"
+            ]
+          }
+        },
+        "additionalProviders": [
+          "Openfort (game/gamified experiences)",
+          "Pimlico (smart account infrastructure)",
+          "Reown (wallet connections and Web3 functionalities)",
+          "Safe (modular smart account infrastructure)", 
+          "Stackup (smart account tooling)",
+          "thirdweb (complete AA toolkit)",
+          "WalletKit (smart, gasless wallets)",
+          "ZeroDev (embedded wallet with AA)"
+        ],
+        "benefits": "Create more user-friendly blockchain experiences, simplify wallet interactions, sponsor gas, and streamline transactions"
+      },
+      "onramps": {
+        "title": "Onramps",
+        "url": "https://docs.base.org/base-chain/tools/onramps",
+        "description": "Fiat-to-crypto conversion and payment integration solutions",
+        "providers": {
+          "coinbaseOnramp": {
+            "features": [
+              "Supports 60+ fiat currencies",
+              "Covers 100+ cryptocurrencies, including ETH on Base",
+              "Regulatory compliance and licensing"
+            ]
+          },
+          "moonPay": {
+            "features": [
+              "Global coverage",
+              "Supports 30+ fiat currencies",
+              "Covers 110+ cryptocurrencies",
+              "Seamless revenue sharing"
+            ]
+          },
+          "onramp": {
+            "features": [
+              "Payment gateway for fiat to crypto conversion",
+              "Supports 300+ cryptocurrencies",
+              "Covers 20+ blockchain networks"
+            ]
+          },
+          "ramp": {
+            "features": [
+              "Onramp and offramp solution",
+              "Supports 40+ fiat currencies",
+              "Covers 90+ crypto assets"
+            ]
+          },
+          "transak": {
+            "features": [
+              "Developer integration toolkit",
+              "170 cryptocurrencies",
+              "75+ blockchains"
+            ]
+          },
+          "alchemyPay": {
+            "description": "Payment solutions provider connecting fiat and crypto economies"
+          }
+        }
+      },
+      "tokensInWallet": {
+        "title": "Tokens in Wallet",
+        "url": "https://docs.base.org/base-chain/tools/tokens-in-wallet",
+        "description": "Token management and display in Coinbase Wallet",
+        "tokenIssuerSteps": [
+          "Deploy ERC-20 token on Base Mainnet",
+          "Prepare high-resolution logo and metadata",
+          "List cryptocurrency on aggregators like CoinGecko or CoinMarketCap"
+        ],
+        "displayFeatures": [
+          "Tokens instantly available for swapping after contract deployment",
+          "Metadata updates can take 24-48 hours",
+          "Newly launched tokens with under $1M market cap appear in 'Newer tokens' section"
+        ],
+        "metadataUpdateProcess": [
+          "Navigate to wallet.coinbase.com",
+          "Search for token",
+          "Click 'Update here'",
+          "Select logo/description",
+          "Submit with deployed contract address"
+        ],
+        "additionalFeatures": [
+          "Custom trading links",
+          "Send via text feature for easy crypto sharing",
+          "Trending Swaps section showcasing top traded tokens"
+        ],
+        "bestPractices": [
+          "Use official social media to document logo/description changes",
+          "Submit updates with original contract deployment address",
+          "Communicate potential trading risks to community"
+        ]
+      }
+    }
+  },
+  "keyFeatures": [
+    "Ethereum Layer 2 built on OP Stack",
+    "Ultra-fast transaction speeds (1 second, 200ms with Flashblocks)",
+    "Low-cost transactions (less than a cent)",
+    "Comprehensive developer ecosystem and tooling",
+    "EVM compatibility with minimal differences from Ethereum",
+    "Extensive oracle and infrastructure provider support",
+    "Advanced account abstraction and smart wallet capabilities",
+    "Cross-chain interoperability solutions",
+    "Robust node infrastructure and block exploration tools"
+  ],
+  "targetAudience": [
+    "Blockchain developers building on Ethereum Layer 2",
+    "DeFi protocol developers",
+    "Node operators and infrastructure providers",
+    "Cross-chain application developers",
+    "Game and real-time application developers",
+    "Wallet and onboarding solution providers"
+  ]
+}

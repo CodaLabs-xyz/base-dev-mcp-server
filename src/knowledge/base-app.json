@@ -1,0 +1,489 @@
+{
+  "title": "Base App Documentation",
+  "description": "Comprehensive documentation for Base App - the everything app for creating, earning, trading, discovering apps, and chatting",
+  "lastUpdated": "2025-07-25",
+  "sections": {
+    "introduction": {
+      "gettingStarted": {
+        "title": "Getting Started with Base App",
+        "url": "https://docs.base.org/base-app/introduction/getting-started",
+        "overview": "Mini Apps are lightweight web applications that run natively within clients like Base App",
+        "keyBenefits": [
+          "Users can access apps instantly without downloads",
+          "Seamless wallet interactions and social feed discovery",
+          "Works with existing web apps with minimal changes"
+        ],
+        "coreFeatures": {
+          "existingWebAppCompatibility": {
+            "description": "Works with current web apps",
+            "benefits": [
+              "Minimal architectural changes required",
+              "Supports various web frameworks (React, Vue, Angular, Svelte)"
+            ]
+          },
+          "simpleIntegration": {
+            "description": "Easy integration process",
+            "steps": [
+              "Wrap existing application in MiniKitProvider",
+              "Deploy to standard hosting platforms",
+              "No blockchain expertise needed"
+            ]
+          }
+        },
+        "implementationRequirements": {
+          "manifestFile": {
+            "location": "/.well-known/farcaster.json",
+            "configuration": [
+              "App name",
+              "Description",
+              "Icon URLs",
+              "Primary category",
+              "Screenshots"
+            ]
+          }
+        },
+        "deploymentProcess": [
+          "Build application",
+          "Add configuration file",
+          "Deploy to hosting platform",
+          "Test in browser",
+          "Validate with Farcaster tools"
+        ],
+        "primaryAppCategories": [
+          "Games",
+          "Social",
+          "Finance",
+          "Utility",
+          "Productivity",
+          "Developer Tools",
+          "Art & Creativity"
+        ],
+        "technicalBenefits": [
+          "Minimal performance impact (SDK ~50KB)",
+          "Cross-platform compatibility",
+          "Maintains existing data and privacy practices"
+        ]
+      },
+      "miniApps": {
+        "title": "Mini Apps Introduction",
+        "url": "https://docs.base.org/base-app/introduction/mini-apps",
+        "definition": "Small, integrated applications within the Base App ecosystem that provide focused functionality and seamless user experiences",
+        "keyCapabilities": {
+          "authenticationMethods": [
+            "Sign In with Farcaster (SIWF)",
+            "Wallet Authentication",
+            "Context Data Authentication"
+          ],
+          "walletInteractions": [
+            "Uses EIP-1193 Ethereum Provider",
+            "Supports OnchainKit Wallet Component",
+            "Compatible with Wagmi library"
+          ],
+          "sdkFeatures": [
+            "Official SDK actions for deeplinks",
+            "Supports profile/cast interactions",
+            "Cross-client compatibility"
+          ]
+        },
+        "technicalRequirements": [
+          "Recommended: Use MiniKit for development",
+          "Must follow Base App SDK specifications",
+          "Implement official SDK functions for actions"
+        ],
+        "unsupportedFeatures": [
+          "Environment detection",
+          "Haptic feedback",
+          "Direct third-party website links",
+          "Location context",
+          "Token swap/send actions"
+        ],
+        "developmentBestPractices": [
+          "Use sdk.actions.openUrl() for external navigation",
+          "Implement sdk.actions.composeCast() for cast interactions",
+          "Provide visual feedback alternatives",
+          "Check context.client.clientFid for client detection"
+        ],
+        "supportedChains": [
+          "Base",
+          "Mainnet",
+          "Optimism",
+          "Arbitrum",
+          "Polygon",
+          "Zora",
+          "BNB",
+          "Avalanche C-Chain"
+        ],
+        "metadataRecommendations": [
+          "Include icon, name, subtitle",
+          "Provide screenshots",
+          "Define primary category",
+          "Add descriptive tags"
+        ]
+      },
+      "betaFaq": {
+        "title": "Beta FAQ",
+        "url": "https://docs.base.org/base-app/introduction/beta-faq",
+        "overview": {
+          "description": "Base is the new name for Coinbase Wallet",
+          "status": "Currently in limited beta testing",
+          "goal": "Create an everything app for creating, earning, trading, discovering apps, and chatting"
+        },
+        "betaAccess": {
+          "availability": "Currently open to a limited group of testers",
+          "joinProcess": "Join waitlist at base.app",
+          "invites": "One-time use invites"
+        },
+        "keyFeatures": {
+          "smartWallet": {
+            "description": "Passkey-secured, self-custodial wallet embedded in app",
+            "benefits": [
+              "Designed for easy onboarding",
+              "No browser extensions or app switching required"
+            ]
+          },
+          "farcasterIntegration": {
+            "description": "Connect Farcaster account by engaging with posts",
+            "process": [
+              "If no Farcaster account, prompted to create during signup",
+              "Basename will only be visible to Base beta users"
+            ]
+          }
+        },
+        "walletLimitations": {
+          "currentSupport": "Currently only supports smart wallets",
+          "previousWallet": "Previous Externally Owned Account (EOA) wallet accessible in classic mode",
+          "toggleOption": "Can toggle between beta and classic modes"
+        },
+        "walletTypeIdentification": {
+          "smartWallet": "Uses passkey to sign transactions",
+          "eoa": "Has 12-word recovery phrase"
+        },
+        "betaManagement": {
+          "toggleOff": "Navigate to Social tab, tap profile photo, toggle 'beta mode' off",
+          "rejoin": "Navigate to Assets tab, select settings icon, toggle 'Beta mode'"
+        },
+        "importantNotes": [
+          "Funds remain safe during transition",
+          "Official app launch date to be announced",
+          "Recommended to create new wallet if uncertain",
+          "One-time invite means reinstalling app may lose beta access",
+          "Basenames can be transferred between wallets"
+        ]
+      }
+    },
+    "buildWithMinikit": {
+      "overview": {
+        "title": "MiniKit Overview",
+        "url": "https://docs.base.org/base-app/build-with-minikit/overview",
+        "corePurpose": "Comprehensive toolkit for building Mini Apps on Base, designed to simplify blockchain application development with minimal SDK complexity",
+        "keyFeatures": {
+          "simplifiedDevelopment": [
+            "Enables app creation with minimal Frames SDK knowledge",
+            "Provides Coinbase Wallet-specific hooks",
+            "Seamlessly integrates with OnchainKit components"
+          ],
+          "developmentApproach": [
+            "Uses CLI for quick project scaffolding",
+            "Supports automatic webhook and notification configuration",
+            "Enables both frame and standalone application development"
+          ]
+        },
+        "technicalArchitecture": [
+          "Provides a MiniKitProvider for global SDK context management",
+          "Offers multiple utility hooks for different functionalities",
+          "Automatically configures wagmi and react-query providers"
+        ],
+        "primaryHooks": {
+          "useMiniKit": "Handles app initialization and SDK context",
+          "useAddFrame": "Adds frames and returns notification details",
+          "useNotification": "Sends notifications to frame users",
+          "useOpenUrl": "Opens URLs in frame or standalone contexts"
+        },
+        "useCases": [
+          "Gaming mini apps",
+          "Social mini apps",
+          "Payment mini apps"
+        ],
+        "quickStart": "npx create-onchain --mini",
+        "deploymentRecommendation": "Recommended to use Vercel with upstash/redis backend for optimal integration",
+        "developmentPhilosophy": "MiniKit streamlines mini-app development by providing a comprehensive toolkit that makes complex Frames SDK interactions intuitive"
+      },
+      "quickstart": {
+        "title": "MiniKit Quickstart",
+        "url": "https://docs.base.org/base-app/build-with-minikit/quickstart",
+        "prerequisites": [
+          "Farcaster Account",
+          "Optional: Coinbase Developer Platform Account"
+        ],
+        "definition": "A mini app is a lightweight web app that runs directly inside Farcaster Frames, without needing to open a browser or download anything",
+        "initialSetup": {
+          "createProject": "npx create-onchain --mini",
+          "configurationSteps": [
+            "Enter CDP Client API key when prompted",
+            "Skip initial Frames Account Manifest setup",
+            "Install dependencies: cd your-project-name && npm install && npm run dev"
+          ]
+        },
+        "deploymentOptions": {
+          "ngrok": {
+            "note": "Paid version recommended",
+            "steps": [
+              "Start local development server",
+              "Create tunnel to local server",
+              "Copy HTTPS URL",
+              "Submit URL in Farcaster Manifest Tool"
+            ]
+          },
+          "vercel": {
+            "steps": [
+              "Install Vercel CLI: npm install -g vercel",
+              "Deploy project: vercel",
+              "Set environment variables: NEXT_PUBLIC_CDP_CLIENT_API_KEY, NEXT_PUBLIC_URL, optional image and background variables"
+            ]
+          }
+        },
+        "keyComponents": {
+          "MiniKitProvider": "Handles initialization and events",
+          "useMiniKit": "Manages frame readiness",
+          "Manifest": "Required for user interactions"
+        },
+        "additionalFeatures": {
+          "useAddFrame": "Add mini app to user's list",
+          "useOpenUrl": "Open external URLs",
+          "useClose": "Close frame",
+          "usePrimaryButton": "Manage global state button",
+          "useViewProfile": "View user profiles",
+          "useNotification": "Send notifications to users"
+        },
+        "recommendation": "Reference llms.txt in your code editor for optimized development"
+      },
+      "existingAppIntegration": {
+        "title": "Existing App Integration",
+        "url": "https://docs.base.org/base-app/build-with-minikit/existing-app-integration",
+        "prerequisites": [
+          "Next.js project using App Router",
+          "Publicly accessible HTTPS deployment",
+          "Active Farcaster account",
+          "Coinbase Developer Platform account"
+        ],
+        "integrationProcess": {
+          "step1": {
+            "title": "Install Dependencies",
+            "command": "npm install @coinbase/onchainkit"
+          },
+          "step2": {
+            "title": "Add MiniKitProvider",
+            "file": "providers/MiniKitProvider.tsx",
+            "description": "Create MiniKitProvider with apiKey and chain configuration"
+          },
+          "step3": {
+            "title": "Update App Layout",
+            "description": "Wrap application in MiniKitProvider in app/layout.tsx"
+          },
+          "step4": {
+            "title": "Initialize MiniKit in Main Page",
+            "description": "Use useMiniKit hook to manage frame readiness"
+          },
+          "step5": {
+            "title": "Configure Environment Variables",
+            "requiredVariables": [
+              "NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME",
+              "NEXT_PUBLIC_URL",
+              "NEXT_PUBLIC_ONCHAINKIT_API_KEY",
+              "FARCASTER_HEADER",
+              "FARCASTER_PAYLOAD",
+              "FARCASTER_SIGNATURE"
+            ]
+          },
+          "step6": {
+            "title": "Generate Manifest",
+            "command": "npx create-onchain --manifest"
+          },
+          "step7": {
+            "title": "Create Farcaster Metadata Route",
+            "description": "Add .well-known/farcaster.json/route.ts to define app metadata"
+          }
+        }
+      },
+      "debugging": {
+        "title": "MiniKit Debugging",
+        "url": "https://docs.base.org/base-app/build-with-minikit/debugging",
+        "prerequisites": {
+          "fileStructure": {
+            "required": [
+              "/.well-known/farcaster.json (Required manifest file)",
+              "/your-app/index.html (App entry point)"
+            ]
+          },
+          "environmentSetup": [
+            "Ensure domain is HTTPS-accessible",
+            "Verify manifest file exists at /.well-known/farcaster.json",
+            "Confirm all image URLs are publicly accessible"
+          ]
+        },
+        "commonDebuggingWorkflows": {
+          "appDiscoveryIndexing": {
+            "potentialProblems": [
+              "App not appearing in search results",
+              "Incomplete manifest configuration"
+            ],
+            "solutions": [
+              "Verify manifest includes all required fields",
+              "Ensure primaryCategory is specified",
+              "Share Mini App URL in a cast to trigger indexing"
+            ]
+          },
+          "manifestConfiguration": {
+            "imageDisplayDebugging": [
+              "Test image accessibility in incognito mode",
+              "Verify image format (PNG, JPG, WebP supported)",
+              "Check image dimensions (minimum 200x200px)",
+              "Confirm HTTPS URLs only"
+            ]
+          },
+          "embedRendering": {
+            "metadataConfiguration": "Use proper fc:frame meta tags"
+          }
+        },
+        "debuggingTools": {
+          "mobileTesting": {
+            "tool": "Eruda",
+            "setup": "Include Eruda script for mobile debugging in development environments"
+          },
+          "walletConnection": {
+            "recommendedApproach": "Use MiniKitProvider from OnchainKit with proper apiKey and chain configuration"
+          }
+        }
+      }
+    },
+    "guides": {
+      "thinkingSocial": {
+        "title": "Thinking Social",
+        "url": "https://docs.base.org/base-app/guides/thinking-social",
+        "corePrinciples": {
+          "socialDesignPhilosophy": "The mini apps that thrive aren't the most complex — they're the ones that understand how people connect",
+          "keyObjectives": [
+            "Design social features that reflect genuine human behavior",
+            "Create feeds that are meaningful, not just content-filled",
+            "Focus on emotional reward and user engagement"
+          ]
+        },
+        "socialPatternFrameworks": {
+          "identityPlaygrounds": {
+            "purpose": "Enable self-expression and personalization",
+            "mechanics": [
+              "Allow users to customize their profile/experience",
+              "Create ways for users to signal their identity",
+              "Encourage repeat interactions through personalization"
+            ]
+          },
+          "coCreationLoops": {
+            "purpose": "Design collaborative interactions",
+            "mechanics": [
+              "Enable users to build on each other's contributions",
+              "Create momentum through interconnected content",
+              "Develop participation-driven experiences"
+            ]
+          },
+          "longTermRituals": {
+            "purpose": "Establish predictable, engaging patterns",
+            "mechanics": [
+              "Introduce regular, shared behaviors",
+              "Create anticipation through scheduled activities",
+              "Foster a sense of community and belonging"
+            ]
+          }
+        },
+        "validationApproach": {
+          "ideaPressureTestQuestions": [
+            "Why would someone post more than once?",
+            "Would the experience improve with others involved?",
+            "What content might naturally emerge over time?",
+            "What emotional reward might users experience?"
+          ],
+          "dimensionValidation": [
+            "Repeat-posting potential",
+            "Social lift",
+            "Content momentum",
+            "Emotional payoff"
+          ]
+        },
+        "implementationStrategy": {
+          "recommendedProcess": [
+            "Identify strongest social dimensions",
+            "Prototype focused social features",
+            "Measure and iterate",
+            "Expand complexity gradually"
+          ],
+          "guidingQuestions": [
+            "Why would someone want to come back?",
+            "Why would they share this with a friend?"
+          ]
+        },
+        "keyInsights": [
+          "Social features work best when they reflect authentic human interaction",
+          "A feed is more than content—it's a shared ritual",
+          "Meaningful engagement matters more than feature complexity"
+        ]
+      },
+      "chatAgents": {
+        "title": "Chat Agents",
+        "url": "https://docs.base.org/base-app/guides/chat-agents",
+        "overview": "Chat agents in Base App are messaging interfaces powered by XMTP (Extensible Messaging and Presence Protocol) that enable programmable, secure communication with unique onchain capabilities",
+        "keyFeatures": [
+          "Secure, decentralized messaging",
+          "Programmable interactions",
+          "Ability to execute financial and social actions directly in chat",
+          "Support for multiple content types"
+        ],
+        "developmentPrerequisites": [
+          "Node.js (v20+)",
+          "Git",
+          "Basic JavaScript/TypeScript knowledge"
+        ],
+        "implementationSteps": {
+          "agentSetup": [
+            "Clone XMTP Agent Examples Repository",
+            "Install dependencies",
+            "Generate wallet keys",
+            "Create agent logic to handle messaging"
+          ]
+        },
+        "contentTypesSupported": {
+          "xmtpStandard": [
+            "Text messages",
+            "Attachments",
+            "Reactions",
+            "Read receipts",
+            "Group management messages"
+          ],
+          "baseAppCustom": [
+            "Quick Actions",
+            "Intents",
+            "Transaction references"
+          ]
+        },
+        "bestPractices": [
+          "Validate content structures",
+          "Provide fallback mechanisms",
+          "Test across client versions",
+          "Limit message and metadata size",
+          "Respond to both direct and group messages",
+          "Use emoji reactions to acknowledge message receipt"
+        ],
+        "exampleUseCases": [
+          "Smart Payment Assistant",
+          "AI Trading Companion",
+          "Travel Planning Agent",
+          "Automated Financial Services"
+        ],
+        "gettingFeatured": "Developers can submit their agents for review through a dedicated form, with potential inclusion in Base App after evaluation",
+        "keyDevelopmentResources": [
+          "XMTP Documentation: https://docs.xmtp.org/",
+          "Agent Examples Repository: https://github.com/ephemeraHQ/xmtp-agent-examples",
+          "Base App Developer Community"
+        ]
+      }
+    }
+  }
+}

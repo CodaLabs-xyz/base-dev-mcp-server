@@ -1,0 +1,2280 @@
+{
+  "title": "Base OnchainKit Documentation",
+  "description": "Comprehensive documentation for OnchainKit - React components and TypeScript utilities for onchain apps",
+  "lastUpdated": "2025-07-25",
+  "sections": {
+    "gettingStarted": {
+      "title": "Getting Started with OnchainKit",
+      "url": "https://docs.base.org/onchainkit/getting-started",
+      "overview": "OnchainKit is an SDK for building onchain applications with ergonomic design for complex onchain interactions",
+      "keyFeatures": [
+        "Ergonomic design for complex onchain interactions",
+        "Battle-tested development patterns",
+        "Pre-built components for common workflows",
+        "Framework agnostic (works with any React framework)",
+        "Deep integration with Base protocol"
+      ],
+      "installation": {
+        "automatic": "npm create onchain@latest",
+        "manual": "Supports Next.js, Vite, Remix, and Astro with framework-specific guides"
+      },
+      "components": [
+        "Identity (Basenames, avatars, badges)",
+        "Wallet connections",
+        "Transactions",
+        "Checkout flows",
+        "Funding",
+        "Token management",
+        "Swaps",
+        "NFT minting"
+      ],
+      "templates": [
+        "Onchain Commerce App",
+        "NFT Minting App",
+        "Funding Flow",
+        "Social Profile"
+      ],
+      "valueProposition": "Anyone can build an onchain app in 15 minutes with OnchainKit"
+    },
+    "guides": {
+      "telemetry": {
+        "title": "Telemetry Guide",
+        "url": "https://docs.base.org/onchainkit/guides/telemetry",
+        "description": "Anonymous telemetry system to understand library usage",
+        "purpose": [
+          "Gauge component usage",
+          "Generate data-driven improvement insights",
+          "Proactively monitor for issues with new releases"
+        ],
+        "dataCollected": [
+          "Command/component event details",
+          "OnchainKit version",
+          "App name and origin URL",
+          "Usage metrics like unique wallet interactions",
+          "Generic error events"
+        ],
+        "optOut": {
+          "method": "Configuration in OnchainKitProvider",
+          "example": "analytics: false"
+        },
+        "principles": [
+          "No sensitive data collected",
+          "Completely anonymous",
+          "Aims to improve developer experience"
+        ]
+      },
+      "troubleshooting": {
+        "title": "Troubleshooting Guide",
+        "url": "https://docs.base.org/onchainkit/guides/troubleshooting",
+        "commonIssues": {
+          "environmentSetup": [
+            "Missing API Key: Set NEXT_PUBLIC_CDP_API_KEY",
+            "Verify correct environment variable names for different frameworks",
+            "Ensure contracts are available by properly configuring API keys"
+          ],
+          "dependencies": [
+            "Maintain compatible versions of OnchainKit, viem, @wagmi/core"
+          ],
+          "providerConfiguration": [
+            "Always wrap app with OnchainKitProvider",
+            "Configure with API key and chain"
+          ],
+          "walletConnection": [
+            "Check wallet extension installation",
+            "Verify network selection",
+            "Ensure RPC endpoints are accessible"
+          ],
+          "transactions": [
+            "Verify sufficient balance for gas",
+            "Check transaction parameter validity"
+          ],
+          "themeConfiguration": [
+            "Configure Tailwind for dark mode support",
+            "Use darkMode: ['class'] in configuration"
+          ],
+          "reactNative": [
+            "Limited component support",
+            "Use utility functions directly",
+            "Import specific modules"
+          ],
+          "moduleResolution": [
+            "Use Node 18+",
+            "Set moduleResolution: NodeNext",
+            "Only ES Modules supported"
+          ]
+        },
+        "resources": [
+          "Discord Community",
+          "GitHub Issues",
+          "X/Twitter Support"
+        ],
+        "debugMode": "LOG_LEVEL=debug node dist/index.js"
+      },
+      "lifecycleStatus": {
+        "title": "Lifecycle Status Guide",
+        "url": "https://docs.base.org/onchainkit/guides/lifecycle-status",
+        "description": "TypeScript object that provides state management for APIs and onchain transactions",
+        "commonStates": {
+          "init": {
+            "description": "Component is initialized and ready",
+            "data": null
+          },
+          "success": {
+            "description": "Component has completed its main action",
+            "includes": "data returned from the operation"
+          },
+          "error": {
+            "description": "Component encountered an issue",
+            "includes": "error code, developer details, and user-facing message"
+          }
+        },
+        "swapStates": [
+          "amountChange: Input fields updated",
+          "transactionPending: Transaction submitted but not confirmed",
+          "transactionApproved: Transaction validated and included in a block",
+          "success: Transaction finalized"
+        ],
+        "transactionStates": [
+          "transactionIdle: Waiting for user action",
+          "transactionPending: Transaction submitted",
+          "success: Transaction added to blockchain"
+        ],
+        "implementation": "Use useCallback with LifecycleStatus parameter for state management"
+      },
+      "tailwind": {
+        "title": "Tailwind CSS Integration",
+        "url": "https://docs.base.org/onchainkit/guides/tailwind",
+        "integration": {
+          "defaultStyles": "import '@coinbase/onchainkit/styles.css';",
+          "configuration": {
+            "safelist": ["dark"],
+            "darkMode": ["class"],
+            "colorModeToggling": "Adding/removing dark class on root HTML tag"
+          },
+          "customization": {
+            "method": "Override default CSS variables using base layer",
+            "variables": [
+              "font family",
+              "border radius",
+              "text colors",
+              "background colors",
+              "icon colors"
+            ]
+          }
+        }
+      },
+      "themes": {
+        "title": "Themes Guide",
+        "url": "https://docs.base.org/onchainkit/guides/themes",
+        "builtInThemes": [
+          "default: Includes light and dark modes",
+          "base: Single mode",
+          "cyberpunk: Single mode",
+          "hacker: Single mode",
+          "custom: Single mode"
+        ],
+        "modeOptions": [
+          "auto: Switches between light/dark based on system preference",
+          "light: Forces light mode",
+          "dark: Forces dark mode"
+        ],
+        "customization": {
+          "cssOverrides": "Fine-tuning specific theme aspects",
+          "customThemes": "Create complete theme by defining CSS variables"
+        }
+      },
+      "basename": {
+        "title": "Use Basename in Onchain App",
+        "url": "https://docs.base.org/onchainkit/guides/use-basename-in-onchain-app",
+        "description": "Basenames are onchain identities for wallet addresses on Base, similar to ENS names",
+        "integrationMethods": {
+          "reactComponents": {
+            "components": ["Avatar", "Name"],
+            "usage": "Display avatar and name with address and chain props"
+          },
+          "reactHooks": {
+            "hooks": ["useAvatar", "useName"],
+            "usage": "Fetch avatar and name data with ensName/address and chain"
+          },
+          "typescriptUtilities": {
+            "utilities": ["getAvatar", "getName"],
+            "usage": "Async functions to get avatar and name data"
+          }
+        },
+        "recommendation": "chain prop is optional but recommended for Base-specific functionality"
+      },
+      "aiPoweredIDEs": {
+        "title": "Using AI-powered IDEs",
+        "url": "https://docs.base.org/onchainkit/guides/using-ai-powered-ides",
+        "tools": {
+          "replit": {
+            "description": "Cloud-based coding platform",
+            "features": [
+              "Collaborative environment",
+              "AI Agent assistance",
+              "Multi-file support"
+            ]
+          },
+          "cursor": {
+            "description": "AI-powered code editor forked from VS Code",
+            "features": [
+              "AI code completion",
+              "Natural language editing",
+              "Codebase understanding"
+            ],
+            "pricing": "Cursor Pro free for first two weeks"
+          }
+        },
+        "workflow": [
+          "Download context from GitHub",
+          "Import .cursorrules file in project root",
+          "Leverage AI assistance for code generation"
+        ]
+      },
+      "aiPrompting": {
+        "title": "AI Prompting Guide",
+        "url": "https://docs.base.org/onchainkit/guides/ai-prompting-guide",
+        "strategies": {
+          "contextWindows": "AI assistants have limited working memory of tokens",
+          "techniques": [
+            "Be specific and direct",
+            "Provide clear context",
+            "Break complex tasks into iterations"
+          ],
+          "bestPractices": [
+            "Start with clear, specific commands",
+            "Share relevant code and documentation",
+            "Use step-by-step reasoning",
+            "Request explanations for generated code",
+            "Always review and validate AI-generated solutions"
+          ],
+          "promptStructure": {
+            "example": "I'm working on [project type] using [frameworks/libraries]",
+            "components": [
+              "Problem: [specific issue]",
+              "Current approach: [what you've tried]",
+              "Constraints: [technical limitations]",
+              "Expected outcome: [success criteria]"
+            ]
+          },
+          "advancedTechniques": [
+            "Specify response format",
+            "Provide length guidance",
+            "Ask for systematic analysis",
+            "Clarify ambiguities"
+          ]
+        }
+      }
+    },
+    "installation": {
+      "nextjs": {
+        "title": "Next.js Installation",
+        "url": "https://docs.base.org/onchainkit/installation/nextjs",
+        "steps": [
+          {
+            "step": 1,
+            "title": "Create Next.js Project",
+            "command": "npx create-next-app@14",
+            "options": "Enable TypeScript, ESLint, and Tailwind CSS"
+          },
+          {
+            "step": 2,
+            "title": "Install OnchainKit",
+            "command": "npm install @coinbase/onchainkit"
+          },
+          {
+            "step": 3,
+            "title": "Get Client API Key",
+            "source": "Coinbase Developer Platform",
+            "envVariable": "NEXT_PUBLIC_ONCHAINKIT_API_KEY"
+          },
+          {
+            "step": 4,
+            "title": "Add Providers",
+            "description": "Create providers.tsx with OnchainKitProvider configuration"
+          },
+          {
+            "step": 5,
+            "title": "Wrap App with Providers",
+            "description": "Modify app layout to include Providers component and import OnchainKit styles"
+          }
+        ],
+        "keyConfiguration": "OnchainKitProvider with API key and Base chain",
+        "features": [
+          "Tailwind CSS integration",
+          "Built-in themes",
+          "Identity, Wallet, Transaction components"
+        ]
+      },
+      "vite": {
+        "title": "Vite Installation",
+        "url": "https://docs.base.org/onchainkit/installation/vite",
+        "steps": [
+          {
+            "step": 1,
+            "title": "Create Vite Project",
+            "command": "npm create vite@latest",
+            "options": "Select React and TypeScript"
+          },
+          {
+            "step": 2,
+            "title": "Install OnchainKit",
+            "command": "npm install @coinbase/onchainkit"
+          },
+          {
+            "step": 3,
+            "title": "Get Client API Key",
+            "envVariable": "VITE_PUBLIC_ONCHAINKIT_API_KEY"
+          },
+          {
+            "step": 4,
+            "title": "Configure Providers",
+            "description": "Create providers.tsx with OnchainKitProvider"
+          },
+          {
+            "step": 5,
+            "title": "Wrap App with Providers",
+            "description": "Create app.tsx and wrap with AppProviders"
+          },
+          {
+            "step": 6,
+            "title": "Import Styles",
+            "import": "import '@coinbase/onchainkit/styles.css'"
+          }
+        ],
+        "apiKeyAccess": "import.meta.env.VITE_PUBLIC_ONCHAINKIT_API_KEY"
+      },
+      "remix": {
+        "title": "Remix Installation",
+        "url": "https://docs.base.org/onchainkit/installation/remix",
+        "steps": [
+          {
+            "step": 1,
+            "title": "Create Remix Project",
+            "command": "npx create-remix@latest"
+          },
+          {
+            "step": 2,
+            "title": "Install OnchainKit",
+            "command": "npm install @coinbase/onchainkit"
+          },
+          {
+            "step": 3,
+            "title": "Get Client API Key",
+            "envVariable": "PUBLIC_ONCHAINKIT_API_KEY"
+          },
+          {
+            "step": 4,
+            "title": "Configure Providers",
+            "description": "Create providers.tsx with OnchainKitProvider for Base or BaseSepolia"
+          },
+          {
+            "step": 5,
+            "title": "Wrap App",
+            "description": "Use AppProviders wrapper"
+          },
+          {
+            "step": 6,
+            "title": "Import Styles",
+            "import": "import '@coinbase/onchainkit/styles.css'"
+          }
+        ],
+        "apiKeyAccess": "window.ENV for API key access"
+      },
+      "astro": {
+        "title": "Astro Installation",
+        "url": "https://docs.base.org/onchainkit/installation/astro",
+        "steps": [
+          {
+            "step": 1,
+            "title": "Create Astro Project",
+            "command": "npm create astro@latest"
+          },
+          {
+            "step": 2,
+            "title": "Install React",
+            "command": "npx astro add react"
+          },
+          {
+            "step": 3,
+            "title": "Install OnchainKit",
+            "command": "npm install @coinbase/onchainkit"
+          },
+          {
+            "step": 4,
+            "title": "Get Client API Key",
+            "envVariable": "PUBLIC_ONCHAINKIT_API_KEY"
+          },
+          {
+            "step": 5,
+            "title": "Add Providers",
+            "description": "Create providers.tsx with OnchainKitProvider"
+          },
+          {
+            "step": 6,
+            "title": "Wrap Components",
+            "options": [
+              "Create ReactIsland component",
+              "Wrap individual OnchainKit components"
+            ]
+          },
+          {
+            "step": 7,
+            "title": "Add Components",
+            "directive": "client:only=\"react\"",
+            "description": "Use in .astro files"
+          },
+          {
+            "step": 8,
+            "title": "Import Styles",
+            "import": "import '@coinbase/onchainkit/styles.css'"
+          }
+        ],
+        "apiKeyAccess": "import.meta.env.PUBLIC_ONCHAINKIT_API_KEY"
+      }
+    },
+    "configuration": {
+      "onchainKitProvider": {
+        "title": "OnchainKitProvider Configuration",
+        "url": "https://docs.base.org/onchainkit/config/onchainkit-provider",
+        "purpose": "Provides React Context for OnchainKit components",
+        "requiredProps": ["chain"],
+        "optionalProps": ["apiKey", "rpcUrl", "projectId", "config"],
+        "configurationOptions": {
+          "chain": {
+            "description": "Specifies the blockchain network",
+            "recommendation": "Import from viem"
+          },
+          "apiKey": {
+            "description": "Required for components like Checkout, NFT Cards, Swap",
+            "source": "Coinbase Developer Platform"
+          },
+          "rpcUrl": {
+            "description": "Used for onchain requests",
+            "options": "Custom or provided via API key"
+          },
+          "config": {
+            "appearance": "Customize name, logo, mode, theme",
+            "paymaster": "Gas sponsorship URL",
+            "wallet": "Connection experience settings"
+          }
+        },
+        "deprecatedProps": ["address", "schemaId"],
+        "bestPractices": [
+          "Use viem for chain configuration",
+          "Obtain necessary API keys",
+          "Customize appearance for consistent branding",
+          "Choose appropriate wallet connection mode"
+        ]
+      },
+      "supplementalProviders": {
+        "title": "Supplemental Providers",
+        "url": "https://docs.base.org/onchainkit/config/supplemental-providers",
+        "description": "Customize Wagmi and QueryClient providers with custom configuration",
+        "features": [
+          "Customization of Wagmi and QueryClient providers",
+          "Configuration of chains, connectors, storage, and transports",
+          "Type declaration to extend Wagmi's configuration"
+        ],
+        "configuration": {
+          "chains": ["base"],
+          "connectors": ["coinbaseWallet with smartWalletOnly preference"],
+          "storage": "cookieStorage",
+          "ssr": true,
+          "transports": "http()"
+        }
+      }
+    },
+    "components": {
+      "appchain": {
+        "bridge": {
+          "title": "AppchainBridge Component",
+          "url": "https://docs.base.org/onchainkit/appchain/bridge",
+          "description": "Provides simple interface for bridging tokens to appchains",
+          "features": [
+            "Custom bridgeable tokens support",
+            "Gas tokens configuration",
+            "Price fetching customization"
+          ],
+          "prerequisites": [
+            "Install OnchainKit",
+            "Wrap app with OnchainKitProvider"
+          ],
+          "subcomponents": [
+            "AppchainBridgeProvider",
+            "AppchainBridgeInput",
+            "AppchainBridgeNetwork",
+            "AppchainBridgeTransactionButton"
+          ],
+          "status": "Alpha release software - use at your own risk"
+        }
+      },
+      "buy": {
+        "title": "Buy Component",
+        "url": "https://docs.base.org/onchainkit/buy/buy",
+        "description": "Comprehensive interface for purchasing tokens",
+        "features": [
+          "Token swaps from USDC and ETH by default",
+          "Coinbase account, Apple Pay, or debit card purchases",
+          "Optional gas sponsorship via Paymaster"
+        ],
+        "requirements": "projectId set in OnchainKitProvider from Coinbase Developer Platform",
+        "gasSponsorship": {
+          "toggle": "isSponsored prop",
+          "paymaster": "Coinbase Developer Platform Paymaster by default",
+          "security": "Recommended to set up contract allowlist",
+          "compatibility": "Only works with Smart Wallets",
+          "defaultLimit": "$1 without configuration"
+        },
+        "limitations": "Apple Pay and Debit Card options only available for Coinbase supported assets"
+      },
+      "checkout": {
+        "title": "Checkout Component",
+        "url": "https://docs.base.org/onchainkit/checkout/checkout",
+        "description": "One-click checkout for onchain commerce",
+        "features": [
+          "Free, plug-and-play integration",
+          "Seamless user onboarding",
+          "Real-time merchant tooling",
+          "Dynamic payment flows"
+        ],
+        "usageOptions": {
+          "simpleProduct": "Direct product ID checkout",
+          "dynamicCharges": "Backend-generated charges with chargeHandler"
+        },
+        "customization": [
+          "Add name/logo via OnchainKitProvider",
+          "Customize button text",
+          "Add Coinbase branding",
+          "Override styles"
+        ],
+        "advancedFeatures": [
+          "Lifecycle status tracking",
+          "Successful checkout handling",
+          "Variable pricing support",
+          "Custom metadata support"
+        ],
+        "useCases": [
+          "Digital goods sales",
+          "Service transactions",
+          "In-game item purchases",
+          "Event ticket sales",
+          "Freelance service payments"
+        ]
+      },
+      "earn": {
+        "title": "Earn Component",
+        "url": "https://docs.base.org/onchainkit/earn/earn",
+        "description": "Simple interface for earning interest on crypto via Morpho vaults on Base",
+        "features": [
+          "Customizable vault interaction",
+          "Deposit and withdrawal support",
+          "Granular component control",
+          "Sponsorable transactions"
+        ],
+        "mainComponents": [
+          "Earn: Full deposit/withdraw component",
+          "EarnDeposit: Deposit card",
+          "EarnWithdraw: Withdrawal card"
+        ],
+        "hooks": [
+          "useEarnContext",
+          "useBuildDepositToMorphoTx",
+          "useBuildWithdrawFromMorphoTx",
+          "useMorphoVault"
+        ],
+        "sponsorship": "Use isSponsored prop with paymaster configuration"
+      },
+      "fund": {
+        "fundButton": {
+          "title": "FundButton Component",
+          "url": "https://docs.base.org/onchainkit/fund/fund-button",
+          "description": "Provides a way for users to onramp from fiat to crypto from within your app",
+          "features": [
+            "Automatically detects wallet type (EOA vs Smart Wallet)",
+            "Directs users to appropriate funding URL",
+            "Supports Coinbase Smart Wallet and Coinbase Onramp"
+          ],
+          "configuration": [
+            "Custom funding URL via getOnrampBuyUrl()",
+            "Control opening method (openIn prop)",
+            "Customize button text (text prop)",
+            "Hide/show icon (hideIcon prop)",
+            "Hide/show text (hideText prop)"
+          ],
+          "walletSupport": {
+            "coinbaseSmartWallet": "Access Fund flow",
+            "otherEOA": "Coinbase Onramp for crypto purchases"
+          }
+        },
+        "fundCard": {
+          "title": "FundCard Component",
+          "url": "https://docs.base.org/onchainkit/fund/fund-card",
+          "description": "Complete fiat onramp experience within an app",
+          "features": [
+            "Amount input with fiat/crypto switching",
+            "Payment method selection (Coinbase, Apple Pay, Debit Card)",
+            "Automatic exchange rate updates",
+            "Smart handling of payment method restrictions"
+          ],
+          "requirements": [
+            "Client API Key in OnchainKitProvider",
+            "projectId from Coinbase Developer Platform"
+          ],
+          "customization": [
+            "Custom header/button text",
+            "Preset amount inputs",
+            "Custom content with useFundContext hook"
+          ],
+          "limitations": "Apple Pay and Debit Card options only available for Coinbase supported assets"
+        }
+      },
+      "identity": {
+        "identity": {
+          "title": "Identity Component",
+          "url": "https://docs.base.org/onchainkit/identity/identity",
+          "description": "React context provider that arranges and displays user identity components on the blockchain",
+          "features": [
+            "Displays user avatar, name, attestation badge, and address",
+            "Supports customizable identity components",
+            "Enables tooltip for attestation badges"
+          ],
+          "components": ["Avatar", "Name", "Badge", "Address"],
+          "customization": [
+            "Choose which identity components to display",
+            "Mix and match components",
+            "Custom styling via className prop"
+          ]
+        },
+        "address": {
+          "title": "Address Component",
+          "url": "https://docs.base.org/onchainkit/identity/address",
+          "description": "Renders a user's blockchain account address with display flexibility",
+          "features": [
+            "Renders Ethereum/blockchain addresses",
+            "Supports full or shortened address display",
+            "Customizable styling"
+          ],
+          "configuration": [
+            "address: The blockchain address to display (required)",
+            "isSliced: Boolean to control address length (default: true)",
+            "className: Custom CSS classes for styling"
+          ]
+        },
+        "badge": {
+          "title": "Badge Component",
+          "url": "https://docs.base.org/onchainkit/identity/badge",
+          "description": "Display user attestations attached to their account along with Avatar or Name components",
+          "features": [
+            "Customizable badge with optional tooltip",
+            "Can be used with Name and Avatar components",
+            "Supports custom className and tooltip text"
+          ],
+          "tooltipOptions": [
+            "true: Shows default attestation name",
+            "Custom string: Displays specified tooltip text",
+            "false: Default (no tooltip)"
+          ]
+        },
+        "socials": {
+          "title": "Socials Component",
+          "url": "https://docs.base.org/onchainkit/identity/socials",
+          "description": "Resolves social links for Basenames and ENS names",
+          "features": [
+            "Supports multiple social platforms (Twitter, GitHub, Discord)",
+            "Customizable display",
+            "Chain-aware functionality"
+          ],
+          "props": [
+            "address: Ethereum address to resolve social links",
+            "ensName: Optional ENS name",
+            "chain: Chain for ENS resolution",
+            "className: Custom CSS classes"
+          ],
+          "errorHandling": [
+            "Returns null if no social links found",
+            "Handles loading and resolution errors gracefully",
+            "Validates social links before display"
+          ]
+        }
+      },
+      "signature": {
+        "title": "Signature Component",
+        "url": "https://docs.base.org/onchainkit/signature/signature",
+        "description": "Supports signing EIP-712 and personal_sign messages with customizable UI",
+        "features": [
+          "EIP-712 and personal_sign message support",
+          "Wrapper around wagmi hooks for signature handling",
+          "Customizable UI components and lifecycle management"
+        ],
+        "coreComponents": [
+          "Signature: Main container managing signature flow",
+          "SignatureButton: Triggers signature requests",
+          "SignatureStatus: Displays current signature status",
+          "SignatureToast: Shows notifications for signature events"
+        ],
+        "lifecycleStates": [
+          "init: Initial state",
+          "pending: Waiting for wallet signature",
+          "success: Signature completed successfully",
+          "error: Signature failure",
+          "reset: Component reset to initial state"
+        ],
+        "configuration": [
+          "Custom labels",
+          "Success/error callbacks",
+          "Message type (EIP-712 or personal_sign)",
+          "Reset duration",
+          "Disable functionality"
+        ],
+        "errorHandling": [
+          "Automatic UI error display",
+          "Custom error handling via onError callback",
+          "Handles user rejection or wallet connection problems"
+        ]
+      },
+      "swap": {
+        "swap": {
+          "title": "Swap Component",
+          "url": "https://docs.base.org/onchainkit/swap/swap",
+          "description": "Comprehensive interface for executing token swaps",
+          "features": [
+            "Two swap routers: Uniswap V3 (default) and 0x Aggregator",
+            "Gas sponsorship through Paymaster",
+            "Highly customizable component structure"
+          ],
+          "componentStructure": [
+            "Swap: Main container for swap functionality",
+            "SwapAmountInput: Input fields for tokens",
+            "SwapToggleButton: Optional button to switch token directions",
+            "SwapButton: Executes the swap",
+            "SwapMessage: Displays swap-related messages",
+            "SwapToast: Provides transaction notifications"
+          ],
+          "customization": [
+            "Remove toggle button for unidirectional swaps",
+            "Remove swap message",
+            "Override component styles",
+            "Sponsor gas transactions",
+            "Limit swap to specific token pairs"
+          ],
+          "supportedChains": "Primarily designed for Base chain (chainId 8453)",
+          "keyProps": [
+            "isSponsored: Enable gas sponsorship",
+            "experimental.useAggregator: Switch to 0x Aggregator",
+            "Customizable token configurations"
+          ]
+        },
+        "swapSettings": {
+          "title": "SwapSettings Component",
+          "url": "https://docs.base.org/onchainkit/swap/swap-settings",
+          "description": "Enables customizable slippage configuration for token swaps",
+          "components": [
+            "SwapSettings: Container for swap slippage settings",
+            "SwapSettingsSlippageTitle: Displays title for slippage settings",
+            "SwapSettingsSlippageDescription: Explains slippage setting",
+            "SwapSettingsSlippageInput: Input field for max slippage percentage"
+          ],
+          "customization": [
+            "Override styles using className",
+            "Customize icon using icon prop",
+            "Add/override text for components",
+            "Modify slippage description and title text"
+          ]
+        }
+      },
+      "token": {
+        "tokenChip": {
+          "title": "TokenChip Component",
+          "url": "https://docs.base.org/onchainkit/token/token-chip",
+          "description": "Button component that displays a token's symbol",
+          "configuration": {
+            "requiredProps": "token object with address, chainId, decimals, image, name, symbol",
+            "import": "from '@coinbase/onchainkit/token'",
+            "styling": "Requires '@coinbase/onchainkit/styles.css'"
+          }
+        },
+        "tokenImage": {
+          "title": "TokenImage Component",
+          "url": "https://docs.base.org/onchainkit/token/token-image",
+          "description": "React component for displaying token images",
+          "features": [
+            "Crops token images into circular shape",
+            "Supports adjustable image sizes",
+            "Handles cases where no image is available",
+            "Generates deterministic dark color for tokens without images",
+            "Displays partial token symbol when no image is present"
+          ],
+          "props": [
+            "token: Object containing token details",
+            "size: Numeric value defining image dimensions"
+          ]
+        },
+        "tokenSearch": {
+          "title": "TokenSearch Component",
+          "url": "https://docs.base.org/onchainkit/token/token-search",
+          "description": "Search component for tokens with optional debounce delay",
+          "features": [
+            "Supports custom debounce delay",
+            "Can set delayMs to 0 to handle debounce outside component",
+            "Requires integration with OnchainKitProvider",
+            "Works with getTokens API to fetch token results"
+          ],
+          "configuration": [
+            "onChange handler for processing search results",
+            "delayMs parameter controls search input delay (default 200ms)"
+          ]
+        },
+        "tokenSelectDropdown": {
+          "title": "TokenSelectDropdown Component",
+          "url": "https://docs.base.org/onchainkit/token/token-select-dropdown",
+          "description": "Dropdown component for selecting tokens from a given list",
+          "props": [
+            "token: Currently selected token",
+            "setToken: Function to update selected token",
+            "options: Array of token objects with name, address, symbol, decimals, image, chainId"
+          ]
+        }
+      },
+      "transaction": {
+        "title": "Transaction Component",
+        "url": "https://docs.base.org/onchainkit/transaction/transaction",
+        "description": "High-level wrapper for the entire transaction flow",
+        "features": [
+          "Handles transaction lifecycle",
+          "Gas estimation",
+          "Fee sponsorship",
+          "Status updates"
+        ],
+        "mainComponents": [
+          "Transaction: Main container",
+          "TransactionButton: Initiates transaction",
+          "TransactionSponsor: Displays gas fee sponsorship info",
+          "TransactionStatus: Shows transaction status",
+          "TransactionToast: Displays transaction notifications"
+        ],
+        "lifecycleStates": [
+          "init",
+          "error",
+          "transactionIdle",
+          "buildingTransaction",
+          "transactionPending",
+          "transactionLegacyExecuted",
+          "success"
+        ],
+        "paymasterSponsorship": "Configure in OnchainKitProvider and pass isSponsored={true}",
+        "advancedUsage": [
+          "Supports asynchronous calls",
+          "Detailed status tracking via onStatus callback",
+          "Compatible with promises for dynamic transaction data retrieval"
+        ],
+        "keyConfiguration": ["chainId", "calls", "onStatus", "isSponsored"]
+      },
+      "wallet": {
+        "wallet": {
+          "title": "Wallet Component",
+          "url": "https://docs.base.org/onchainkit/wallet/wallet",
+          "description": "Interface for users to connect their Smart Wallet",
+          "features": [
+            "Displays identity information like Basename and ETH balance",
+            "Supports web and mobile web experiences",
+            "Highly customizable and composable"
+          ],
+          "setup": [
+            "Configure Wagmi Provider with createConfig()",
+            "Set up chain and connector details",
+            "Specify appName for wallet connection"
+          ],
+          "components": [
+            "Wallet: Main container",
+            "ConnectWallet",
+            "WalletDropdown",
+            "Identity",
+            "Avatar",
+            "Name",
+            "Address"
+          ],
+          "customization": [
+            "Customize connect button text and style",
+            "Add additional dropdown links",
+            "Integrate with Sign In With Ethereum (SIWE)"
+          ]
+        },
+        "walletDropdownBasename": {
+          "title": "WalletDropdownBasename Component",
+          "url": "https://docs.base.org/onchainkit/wallet/wallet-dropdown-basename",
+          "description": "Adds a Basename tab to the Wallet Component",
+          "functions": [
+            "For users with a Basename: Provides link to Basename profile page",
+            "For users without a Basename: Offers link to create new Basename"
+          ],
+          "styling": "Can override component styles using className"
+        },
+        "walletDropdownDisconnect": {
+          "title": "WalletDropdownDisconnect Component",
+          "url": "https://docs.base.org/onchainkit/wallet/wallet-dropdown-disconnect",
+          "description": "Used to disconnect a wallet from an application",
+          "customization": [
+            "Override styles using className",
+            "Customize text using text prop"
+          ]
+        },
+        "walletDropdownFundLink": {
+          "title": "WalletDropdownFundLink Component",
+          "url": "https://docs.base.org/onchainkit/wallet/wallet-dropdown-fund-link",
+          "description": "Wallet dropdown menu component for funding crypto wallet",
+          "walletBehavior": {
+            "coinbaseSmartWallet": "Access to Coinbase Smart Wallet Fund flow",
+            "otherEOA": "Access to Coinbase Onramp for buying crypto"
+          },
+          "configuration": [
+            "Text customization",
+            "Icon customization",
+            "Popup size control (sm, md, lg)",
+            "Link behavior (popup or tab)",
+            "Custom funding URL"
+          ]
+        },
+        "walletDropdownLink": {
+          "title": "WalletDropdownLink Component",
+          "url": "https://docs.base.org/onchainkit/wallet/wallet-dropdown-link",
+          "description": "Creates customizable, interactive links within a wallet dropdown menu",
+          "features": [
+            "Supports custom links to external resources",
+            "Accepts React children for complex customizations",
+            "Allows style overrides via className",
+            "Supports icon integration"
+          ],
+          "customization": [
+            "Custom links",
+            "Custom children components",
+            "Style overriding"
+          ]
+        },
+        "walletIsland": {
+          "title": "WalletIsland Component",
+          "url": "https://docs.base.org/onchainkit/wallet/wallet-island",
+          "description": "Advanced wallet interface for users",
+          "features": [
+            "Draggable component that can move around the screen",
+            "QR code for receiving funds",
+            "Link to buy crypto with fiat",
+            "Swap interface",
+            "User token portfolio"
+          ],
+          "configuration": [
+            "Requires projectId and apiKey in OnchainKitProvider",
+            "Can set draggable prop to enable movement",
+            "draggableStartingPosition allows specifying initial location"
+          ],
+          "designedFor": "Desktop experiences",
+          "tokenBalances": "Only available for Base mainnet and Ethereum mainnet",
+          "recommendedComponents": [
+            "ConnectWallet",
+            "WalletDropdown",
+            "WalletAdvancedAddressDetails",
+            "WalletAdvancedTokenHoldings"
+          ]
+        },
+        "walletModal": {
+          "title": "Wallet Modal Component",
+          "url": "https://docs.base.org/onchainkit/wallet/wallet-modal",
+          "description": "Provides users with multiple wallet connection options in a polished, responsive interface",
+          "features": [
+            "Create new smart wallet for new users",
+            "Multiple wallet connections: Coinbase Wallet, MetaMask, Phantom",
+            "Optional support for Rabby, Frame, and Trust Wallet"
+          ],
+          "configuration": [
+            "Configure OnchainKitProvider with modal settings",
+            "Use ConnectWallet component in UI",
+            "Enable extra wallets by configuring supportedWallets"
+          ],
+          "automaticHandling": [
+            "Wallet connection states",
+            "Error handling",
+            "Mobile/desktop responsiveness",
+            "Theme customization",
+            "Terms and privacy"
+          ]
+        }
+      }
+    },
+    "api": {
+      "getTokenDetails": {
+        "title": "getTokenDetails API",
+        "url": "https://docs.base.org/onchainkit/api/get-token-details",
+        "description": "Retrieves comprehensive information about a specific NFT token",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "type": "string",
+            "required": true,
+            "description": "The NFT contract address"
+          },
+          {
+            "name": "tokenId",
+            "type": "string",
+            "required": true,
+            "description": "The specific token ID of the NFT"
+          }
+        ],
+        "responseFormat": {
+          "collectionName": "Collection name and description",
+          "nftDetails": "NFT name and description",
+          "media": "Image and animation URLs",
+          "ownership": "Owner address",
+          "pricing": "Last sold price (in ETH and USD)",
+          "metadata": "MIME type",
+          "contractType": "Contract type (e.g., ERC721)"
+        },
+        "prerequisites": "Client API Key from Coinbase Developer Platform",
+        "useCases": "Displaying comprehensive NFT information in applications"
+      },
+      "getMintDetails": {
+        "title": "getMintDetails API",
+        "url": "https://docs.base.org/onchainkit/api/get-mint-details",
+        "description": "Retrieves detailed information about an NFT that is about to be minted",
+        "parameters": [
+          {
+            "name": "contractAddress",
+            "type": "string",
+            "required": true,
+            "description": "The NFT contract address"
+          },
+          {
+            "name": "takerAddress",
+            "type": "string",
+            "required": true,
+            "description": "The address of the NFT recipient"
+          },
+          {
+            "name": "tokenId",
+            "type": "string",
+            "required": true,
+            "description": "The specific token ID of the NFT"
+          }
+        ],
+        "responseFormat": {
+          "nftDetails": "NFT name and description",
+          "media": "Image and animation URLs",
+          "contractType": "Contract type (e.g., ERC721)",
+          "pricing": "Pricing information",
+          "eligibility": "Mint eligibility",
+          "creator": "Creator address",
+          "supply": "Total tokens and owners"
+        },
+        "prerequisites": "Client API Key from Coinbase Developer Platform",
+        "useCases": "Understanding NFT characteristics before minting"
+      },
+      "buildMintTransaction": {
+        "title": "buildMintTransaction API",
+        "url": "https://docs.base.org/onchainkit/api/build-mint-transaction",
+        "description": "Generates an unsigned transaction for minting an NFT on the Base network",
+        "parameters": [
+          {
+            "name": "mintAddress",
+            "type": "string",
+            "required": true,
+            "description": "Address of the NFT contract"
+          },
+          {
+            "name": "takerAddress",
+            "type": "string",
+            "required": true,
+            "description": "Address receiving the NFT"
+          },
+          {
+            "name": "tokenId",
+            "type": "string",
+            "required": true,
+            "description": "Specific token being minted"
+          },
+          {
+            "name": "quantity",
+            "type": "number",
+            "required": true,
+            "description": "Number of tokens to mint"
+          },
+          {
+            "name": "network",
+            "type": "string",
+            "required": true,
+            "description": "Network specification (e.g., networks/base-mainnet)"
+          }
+        ],
+        "responseFormat": {
+          "callData": {
+            "from": "Sender address",
+            "to": "Contract address",
+            "data": "Transaction data",
+            "value": "Transaction value"
+          }
+        },
+        "prerequisites": "Client API Key from Coinbase Developer Platform",
+        "useCases": "Executing NFT minting process on Base network"
+      },
+      "buildSwapTransaction": {
+        "title": "buildSwapTransaction API",
+        "url": "https://docs.base.org/onchainkit/api/build-swap-transaction",
+        "description": "Generates an unsigned transaction for swapping between two tokens on Base blockchain",
+        "parameters": [
+          {
+            "name": "fromAddress",
+            "type": "string",
+            "required": true,
+            "description": "Wallet address initiating the swap"
+          },
+          {
+            "name": "from",
+            "type": "Token",
+            "required": true,
+            "description": "Source token details"
+          },
+          {
+            "name": "to",
+            "type": "Token",
+            "required": true,
+            "description": "Destination token details"
+          },
+          {
+            "name": "amount",
+            "type": "string",
+            "required": true,
+            "description": "Quantity of tokens to swap"
+          },
+          {
+            "name": "useAggregator",
+            "type": "boolean",
+            "required": false,
+            "description": "Optional flag for routing through aggregators"
+          }
+        ],
+        "responseFormat": {
+          "approveTransaction": "Details for token approval",
+          "fee": "Transaction fee information",
+          "quote": "Swap quote details (amounts, slippage, price impact)",
+          "transaction": "Unsigned swap transaction data",
+          "warning": "Potential transaction execution warnings"
+        },
+        "prerequisites": "Client API Key from Coinbase Developer Platform",
+        "supportedChains": "Base blockchain (chainId 8453)",
+        "bestPractices": [
+          "Always check for warnings before executing transaction",
+          "Verify sufficient funds and gas for the swap"
+        ]
+      },
+      "getSwapQuote": {
+        "title": "getSwapQuote API",
+        "url": "https://docs.base.org/onchainkit/api/get-swap-quote",
+        "description": "Retrieves a quote for swapping between two tokens on the Base chain",
+        "parameters": [
+          {
+            "name": "from",
+            "type": "Token",
+            "required": true,
+            "description": "Source token details (name, address, symbol, decimals, image, chainId)"
+          },
+          {
+            "name": "to",
+            "type": "Token",
+            "required": true,
+            "description": "Destination token details"
+          },
+          {
+            "name": "amount",
+            "type": "string",
+            "required": true,
+            "description": "Amount of tokens to swap"
+          },
+          {
+            "name": "useAggregator",
+            "type": "boolean",
+            "required": false,
+            "description": "Optional flag to use token aggregator"
+          }
+        ],
+        "responseFormat": {
+          "fromAmount": "Amount of source tokens",
+          "toAmount": "Amount of destination tokens",
+          "fromAmountUSD": "USD value of source amount",
+          "toAmountUSD": "USD value of destination amount",
+          "priceImpact": "Potential price change",
+          "slippage": "Allowed price variation"
+        },
+        "prerequisites": "Client API Key from Coinbase Developer Platform",
+        "supportedChains": "Base chain",
+        "useCases": "Getting detailed quote information for token swaps"
+      },
+      "getTokens": {
+        "title": "getTokens API",
+        "url": "https://docs.base.org/onchainkit/api/get-tokens",
+        "description": "Retrieves a list of tokens on Base with search functionality",
+        "parameters": [
+          {
+            "name": "limit",
+            "type": "string",
+            "required": false,
+            "description": "Maximum number of tokens to return"
+          },
+          {
+            "name": "search",
+            "type": "string",
+            "required": false,
+            "description": "Substring to filter token names or symbols"
+          }
+        ],
+        "responseFormat": {
+          "tokens": "Array of token objects",
+          "tokenProperties": [
+            "address",
+            "chainId",
+            "decimals",
+            "image",
+            "name",
+            "symbol"
+          ]
+        },
+        "prerequisites": [
+          "Client API Key from Coinbase Developer Platform",
+          "Set OnchainKit configuration with setOnchainKitConfig"
+        ],
+        "supportedChains": "Base (chainId 8453)",
+        "useCases": [
+          "Token search functionality",
+          "Building token selection interfaces",
+          "Token discovery"
+        ]
+      },
+      "getPortfolios": {
+        "title": "getPortfolios API",
+        "url": "https://docs.base.org/onchainkit/api/get-portfolios",
+        "description": "Retrieves token portfolio information for specified wallet addresses",
+        "parameters": [
+          {
+            "name": "addresses",
+            "type": "string[]",
+            "required": true,
+            "description": "Array of wallet addresses to get portfolio data for"
+          }
+        ],
+        "responseFormat": {
+          "portfolios": [
+            {
+              "address": "Wallet address",
+              "portfolioBalanceInUsd": "Total portfolio balance in USD",
+              "tokenBalances": [
+                {
+                  "address": "Token contract address",
+                  "chainId": "Blockchain ID",
+                  "decimals": "Token decimals",
+                  "image": "Token image URL",
+                  "name": "Token name",
+                  "symbol": "Token symbol",
+                  "cryptoBalance": "Balance in crypto units",
+                  "fiatBalance": "Balance in fiat value"
+                }
+              ]
+            }
+          ]
+        },
+        "prerequisites": [
+          "Client API Key from Coinbase Developer Platform",
+          "OnchainKit configuration setup"
+        ],
+        "supportedNetworks": [
+          "Base mainnet",
+          "Ethereum mainnet"
+        ],
+        "useCases": [
+          "Portfolio tracking applications",
+          "Wallet balance displays",
+          "DeFi portfolio management",
+          "Multi-address portfolio monitoring"
+        ]
+      }
+    }
+  },
+  "utilities": {
+    "config": {
+      "isBase": {
+        "title": "isBase Utility",
+        "url": "https://docs.base.org/onchainkit/config/is-base",
+        "description": "Utility function to check if the current network is Base",
+        "usage": "import { isBase } from '@coinbase/onchainkit/config';",
+        "returnType": "boolean",
+        "purpose": "Network validation for Base-specific functionality"
+      },
+      "isEthereum": {
+        "title": "isEthereum Utility",
+        "url": "https://docs.base.org/onchainkit/config/is-ethereum",
+        "description": "Utility function to check if the current network is Ethereum mainnet",
+        "usage": "import { isEthereum } from '@coinbase/onchainkit/config';",
+        "returnType": "boolean",
+        "purpose": "Network validation for Ethereum-specific functionality"
+      }
+    },
+    "morpho": {
+      "buildDepositToMorphoTx": {
+        "title": "buildDepositToMorphoTx API",
+        "url": "https://docs.base.org/onchainkit/api/build-deposit-to-morpho-tx",
+        "description": "Builds a transaction to deposit into a Morpho vault",
+        "prerequisites": ["Obtain Client API Key from Coinbase Developer Platform"],
+        "parameters": [
+          {
+            "name": "amount",
+            "type": "string",
+            "required": true,
+            "description": "Amount to deposit into the vault"
+          },
+          {
+            "name": "vaultId",
+            "type": "string",
+            "required": true,
+            "description": "Identifier for the Morpho vault"
+          },
+          {
+            "name": "userAddress",
+            "type": "string",
+            "required": true,
+            "description": "Address of the user making the deposit"
+          }
+        ],
+        "returnType": "Transaction object ready for execution",
+        "useCases": ["DeFi yield farming", "Vault deposit automation", "Portfolio management"]
+      },
+      "buildWithdrawFromMorphoTx": {
+        "title": "buildWithdrawFromMorphoTx API",
+        "url": "https://docs.base.org/onchainkit/api/build-withdraw-from-morpho-tx",
+        "description": "Builds a transaction to withdraw from a Morpho vault",
+        "prerequisites": ["Obtain Client API Key from Coinbase Developer Platform"],
+        "parameters": [
+          {
+            "name": "amount",
+            "type": "string",
+            "required": true,
+            "description": "Amount to withdraw from the vault"
+          },
+          {
+            "name": "vaultId",
+            "type": "string",
+            "required": true,
+            "description": "Identifier for the Morpho vault"
+          },
+          {
+            "name": "userAddress",
+            "type": "string",
+            "required": true,
+            "description": "Address of the user making the withdrawal"
+          }
+        ],
+        "returnType": "Transaction object ready for execution",
+        "useCases": ["DeFi fund management", "Vault withdrawal automation", "Liquidity management"]
+      }
+    },
+    "hooks": {
+      "earn": {
+        "useBuildDepositToMorphoTx": {
+          "title": "useBuildDepositToMorphoTx Hook",
+          "url": "https://docs.base.org/onchainkit/hooks/use-build-deposit-to-morpho-tx",
+          "description": "React hook for building Morpho vault deposit transactions with enhanced state management",
+          "implementation": "Built on useQuery from @tanstack/react-query",
+          "returnType": "UseQueryResult with deposit transaction data",
+          "features": ["Loading states", "Error handling", "Automatic retries", "Background refetching"],
+          "useCases": ["DeFi applications", "Yield farming interfaces", "Vault management dashboards"]
+        },
+        "useBuildWithdrawFromMorphoTx": {
+          "title": "useBuildWithdrawFromMorphoTx Hook",
+          "url": "https://docs.base.org/onchainkit/hooks/use-build-withdraw-from-morpho-tx",
+          "description": "React hook for building Morpho vault withdrawal transactions with enhanced state management",
+          "implementation": "Built on useQuery from @tanstack/react-query",
+          "returnType": "UseQueryResult with withdrawal transaction data",
+          "features": ["Loading states", "Error handling", "Automatic retries", "Background refetching"],
+          "useCases": ["DeFi applications", "Yield farming interfaces", "Vault management dashboards"]
+        },
+        "useEarnContext": {
+          "title": "useEarnContext Hook",
+          "url": "https://docs.base.org/onchainkit/hooks/use-earn-context",
+          "description": "React hook providing context for earning functionality and state management",
+          "purpose": "Centralized state management for earning-related components",
+          "features": ["Context-based state management", "Shared earning state", "Component coordination"],
+          "useCases": ["Multi-component earning interfaces", "Shared state management", "Coordinated DeFi experiences"]
+        }
+      },
+      "identity": {
+        "useAvatar": {
+          "title": "useAvatar Hook",
+          "url": "https://docs.base.org/onchainkit/identity/use-avatar",
+          "description": "Retrieves an avatar image URL from an onchain identity provider for a given name",
+          "implementation": "Built with useQuery from @tanstack/react-query",
+          "example": "const { data: avatar, isLoading } = useAvatar({ ensName: 'vitalik.eth' });",
+          "parameters": ["UseAvatarOptions (identity parameters)", "UseQueryOptions (query configuration)"],
+          "returnType": "Promise resolving to avatar image URL",
+          "features": ["Loading and error states", "Flexible querying options"]
+        },
+        "useAvatars": {
+          "title": "useAvatars Hook",
+          "url": "https://docs.base.org/onchainkit/identity/use-avatars",
+          "description": "Retrieves multiple avatar image URLs for ENS names or Basenames in a single batch request",
+          "example": "const { data: avatars, isLoading } = useAvatars({ ensNames: ['vitalik.eth', 'paulcramer.eth'] });",
+          "features": ["Batch avatar retrieval", "Supports ENS and Basename formats", "Chain-specific configuration"],
+          "returnType": "Array of avatar image URLs",
+          "useCases": ["User directories", "Social features", "Batch identity resolution"]
+        },
+        "useName": {
+          "title": "useName Hook",
+          "url": "https://docs.base.org/onchainkit/identity/use-name",
+          "description": "Gets name from an onchain identity provider for a given address",
+          "implementation": "Uses useQuery from @tanstack/react-query",
+          "example": "const { data: name, isLoading } = useName({ address: '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1' });",
+          "supports": ["ENS names", "Basenames"],
+          "returnType": "Name string for the given address"
+        },
+        "useNames": {
+          "title": "useNames Hook",
+          "url": "https://docs.base.org/onchainkit/identity/use-names",
+          "description": "Retrieves multiple names from an onchain identity provider for an array of addresses in a single batch request",
+          "example": "const { data: names, isLoading } = useNames({ addresses: ['0x4bEf...', '0x838a...'] });",
+          "features": ["Batch name retrieval", "Supports ENS and Basenames", "Chain-specific options"],
+          "returnType": "Array of name return types",
+          "useCases": ["Address directories", "Batch identity resolution", "User lists"]
+        }
+      },
+      "nft": {
+        "useTokenDetails": {
+          "title": "useTokenDetails Hook",
+          "url": "https://docs.base.org/onchainkit/hooks/use-token-details",
+          "description": "Retrieves data required to view an NFT",
+          "prerequisites": ["Obtain Client API Key from Coinbase Developer Platform"],
+          "parameters": ["contractAddress (string)", "tokenId (string)"],
+          "implementation": "Built with useQuery from @tanstack/react-query",
+          "example": "const { data, isLoading, error } = useTokenDetails({ contractAddress: '0x...', tokenId: '1' });",
+          "returnType": "UseQueryResult<TokenDetails>",
+          "features": ["Loading and error states", "React Query options support"]
+        },
+        "useMintDetails": {
+          "title": "useMintDetails Hook",
+          "url": "https://docs.base.org/onchainkit/hooks/use-mint-details",
+          "description": "Retrieves NFT mint details for viewing an NFT before minting",
+          "prerequisites": ["Obtain Client API Key from Coinbase Developer Platform"],
+          "parameters": ["contractAddress", "takerAddress", "tokenId"],
+          "implementation": "Built with useQuery from @tanstack/react-query",
+          "example": "const { data, isLoading, error } = useMintDetails({ contractAddress: '0x...', takerAddress: '0x...', tokenId: '1' });",
+          "returnType": "UseQueryResult<MintDetails>",
+          "useCases": ["NFT minting interfaces", "Pre-mint validation", "Mint cost estimation"]
+        }
+      }
+    },
+    "fund": {
+      "getOnrampBuyUrl": {
+        "title": "getOnrampBuyUrl Utility",
+        "url": "https://docs.base.org/onchainkit/fund/get-onramp-buy-url",
+        "description": "Generates a URL for onramp buy transactions using Coinbase integration",
+        "purpose": "Facilitate fiat-to-crypto onramp flows",
+        "returnType": "URL string for onramp purchase",
+        "useCases": ["Fiat onramp integration", "User funding flows", "Payment gateways"]
+      },
+      "fetchOnrampConfig": {
+        "title": "fetchOnrampConfig Utility",
+        "url": "https://docs.base.org/onchainkit/fund/fetch-onramp-config",
+        "description": "Fetches configuration settings for onramp functionality",
+        "purpose": "Retrieve onramp service configuration and parameters",
+        "returnType": "Configuration object for onramp setup",
+        "useCases": ["Onramp initialization", "Service configuration", "Payment method setup"]
+      },
+      "fetchOnrampQuote": {
+        "title": "fetchOnrampQuote Utility",
+        "url": "https://docs.base.org/onchainkit/fund/fetch-onramp-quote",
+        "description": "Retrieves pricing quotes for onramp transactions",
+        "purpose": "Get real-time pricing for fiat-to-crypto conversions",
+        "returnType": "Quote object with pricing information",
+        "useCases": ["Price display", "Cost estimation", "Transaction planning"]
+      },
+      "fetchOnrampOptions": {
+        "title": "fetchOnrampOptions Utility",
+        "url": "https://docs.base.org/onchainkit/fund/fetch-onramp-options",
+        "description": "Retrieves available options and payment methods for onramp services",
+        "purpose": "Get available payment methods and cryptocurrencies",
+        "returnType": "Options object with available choices",
+        "useCases": ["Payment method selection", "Supported asset discovery", "User option presentation"]
+      },
+      "fetchOnrampTransactionStatus": {
+        "title": "fetchOnrampTransactionStatus Utility",
+        "url": "https://docs.base.org/onchainkit/fund/fetch-onramp-transaction-status",
+        "description": "Checks the status of onramp transactions",
+        "purpose": "Monitor transaction progress and completion",
+        "returnType": "Status object with transaction state",
+        "useCases": ["Transaction monitoring", "Status updates", "Completion verification"]
+      },
+      "setupOnrampEventListeners": {
+        "title": "setupOnrampEventListeners Utility",
+        "url": "https://docs.base.org/onchainkit/fund/setup-onramp-event-listeners",
+        "description": "Sets up event listeners for onramp transaction events",
+        "purpose": "Handle real-time onramp event notifications",
+        "functionality": "Event-driven onramp flow management",
+        "useCases": ["Real-time updates", "Event-driven UX", "Transaction notifications"]
+      }
+    },
+    "identity": {
+      "getAddress": {
+        "title": "getAddress Utility",
+        "url": "https://docs.base.org/onchainkit/identity/get-address",
+        "description": "Retrieves the address associated with an ENS name or Basename",
+        "example": "const address = await getAddress({ name: 'vitalik.eth' });",
+        "supports": ["ENS names", "Basenames"],
+        "returnType": "Promise<string> - The resolved address",
+        "useCases": ["Name-to-address resolution", "Identity lookups", "Address validation"]
+      },
+      "getAttestations": {
+        "title": "getAttestations Utility",
+        "url": "https://docs.base.org/onchainkit/identity/get-attestations",
+        "description": "Fetches attestations for a given address using Ethereum Attestation Service (EAS)",
+        "example": "const attestations = await getAttestations({ address: '0x...', schemas: [...] });",
+        "features": ["EAS integration", "Schema-based filtering", "Comprehensive attestation data"],
+        "returnType": "Array of attestation objects",
+        "useCases": ["Identity verification", "Credential validation", "Trust scoring"]
+      },
+      "getAvatar": {
+        "title": "getAvatar Utility",
+        "url": "https://docs.base.org/onchainkit/identity/get-avatar",
+        "description": "Retrieves avatar image URL for an ENS name or Basename",
+        "example": "const avatar = await getAvatar({ ensName: 'vitalik.eth' });",
+        "supports": ["ENS names", "Basenames"],
+        "returnType": "Promise<string> - Avatar image URL",
+        "useCases": ["Profile pictures", "User interfaces", "Social features"]
+      },
+      "getAvatars": {
+        "title": "getAvatars Utility",
+        "url": "https://docs.base.org/onchainkit/identity/get-avatars",
+        "description": "Retrieves multiple avatar image URLs in a batch request",
+        "example": "const avatars = await getAvatars({ ensNames: ['vitalik.eth', 'nick.eth'] });",
+        "features": ["Batch processing", "Efficient multiple lookups", "ENS and Basename support"],
+        "returnType": "Array of avatar image URLs",
+        "useCases": ["User directories", "Batch operations", "Social feeds"]
+      },
+      "getName": {
+        "title": "getName Utility",
+        "url": "https://docs.base.org/onchainkit/identity/get-name",
+        "description": "Retrieves the name associated with an address",
+        "example": "const name = await getName({ address: '0x...' });",
+        "supports": ["ENS reverse lookup", "Basename resolution"],
+        "returnType": "Promise<string> - The resolved name",
+        "useCases": ["Address-to-name resolution", "User display names", "Identity display"]
+      },
+      "getNames": {
+        "title": "getNames Utility",
+        "url": "https://docs.base.org/onchainkit/identity/get-names",
+        "description": "Retrieves multiple names for an array of addresses in batch",
+        "example": "const names = await getNames({ addresses: ['0x...', '0x...'] });",
+        "features": ["Batch processing", "Efficient multiple lookups", "ENS and Basename support"],
+        "returnType": "Array of name strings",
+        "useCases": ["Address directories", "Batch identity resolution", "User lists"]
+      }
+    },
+    "token": {
+      "formatAmount": {
+        "title": "formatAmount Utility",
+        "url": "https://docs.base.org/onchainkit/token/format-amount",
+        "description": "Utility function for consistent number formatting in token applications",
+        "example": "const amount = formatAmount('10000', { minimumFractionDigits: 2 });",
+        "parameters": ["amount (string)", "FormatAmountOptions (optional)"],
+        "returnType": "string - The formatted amount",
+        "features": ["Flexible number formatting", "Decimal place configuration", "Token amount handling"],
+        "useCases": ["Token display", "Price formatting", "Amount presentation"]
+      }
+    },
+    "wallet": {
+      "isValidAAEntrypoint": {
+        "title": "isValidAAEntrypoint Utility",
+        "url": "https://docs.base.org/onchainkit/wallet/is-valid-aa-entrypoint",
+        "description": "Verifies the Account-Abstraction entrypoint before sponsoring a transaction",
+        "example": "const isValid = isValidAAEntrypoint({ entrypoint: '0x123' });",
+        "validation": "Returns true if the AA entrypoint address is v06",
+        "returnType": "boolean",
+        "useCases": ["Transaction sponsorship", "AA validation", "Smart wallet operations"]
+      },
+      "isWalletACoinbaseSmartWallet": {
+        "title": "isWalletACoinbaseSmartWallet Utility",
+        "url": "https://docs.base.org/onchainkit/wallet/is-wallet-a-coinbase-smart-wallet",
+        "description": "Verifies if a sender address is a Smart Wallet proxy with expected implementation",
+        "example": "const isSmartWallet = isWalletACoinbaseSmartWallet({ client: publicClient, userOp: userOperation });",
+        "parameters": ["client (public client)", "userOp (user operation)"],
+        "returnType": "IsWalletACoinbaseSmartWalletResponse (boolean)",
+        "purpose": "Validate Smart Wallet proxy before transaction sponsorship",
+        "useCases": ["Smart wallet detection", "Transaction validation", "Wallet type verification"]
+      }
+    }
+  },
+  "types": {
+    "api": {
+      "title": "API Types",
+      "url": "https://docs.base.org/onchainkit/api/types",
+      "description": "Type definitions for OnchainKit API operations",
+      "types": {
+        "APIError": {
+          "description": "Contains error details for API responses",
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Error code"
+            },
+            "error": {
+              "type": "string", 
+              "description": "Long error message"
+            },
+            "message": {
+              "type": "string",
+              "description": "Short error message"
+            }
+          }
+        },
+        "BuildSwapTransaction": {
+          "description": "Transaction details for swap operations",
+          "properties": {
+            "approveTransaction": {
+              "type": "optional",
+              "description": "Optional approval transaction"
+            },
+            "fee": {
+              "type": "object",
+              "description": "Transaction fee details"
+            },
+            "quote": {
+              "type": "object",
+              "description": "Swap quote information"
+            },
+            "transaction": {
+              "type": "object",
+              "description": "Main transaction object"
+            },
+            "warning": {
+              "type": "optional",
+              "description": "Optional warning information"
+            }
+          }
+        },
+        "GetSwapQuoteParams": {
+          "description": "Parameters for swap quote requests",
+          "properties": {
+            "amount": "Amount to swap",
+            "from": "Source token",
+            "to": "Destination token",
+            "maxSlippage": "Optional maximum slippage",
+            "useAggregator": "Flag to use aggregator"
+          }
+        },
+        "GetTokensOptions": {
+          "description": "Options for retrieving tokens",
+          "properties": {
+            "limit": "Optional result limit",
+            "page": "Optional page number",
+            "search": "Optional search parameter"
+          }
+        },
+        "BuildMintTransactionParams": {
+          "description": "Parameters for minting transactions",
+          "properties": {
+            "mintAddress": "Mint contract address",
+            "takerAddress": "Address of the taker",
+            "tokenId": "Optional token identifier",
+            "quantity": "Mint quantity",
+            "network": "Optional network specification"
+          }
+        }
+      }
+    },
+    "appchain": {
+      "title": "Appchain Types",
+      "url": "https://docs.base.org/onchainkit/appchain/types",
+      "description": "Type definitions for cross-chain bridging and appchain operations",
+      "types": {
+        "Appchain": {
+          "description": "Represents a chain to bridge to",
+          "properties": {
+            "chain": "The destination chain",
+            "icon": "Optional React component for visual representation"
+          }
+        },
+        "AppchainBridgeReact": {
+          "description": "Configuration for bridging between chains",
+          "properties": {
+            "sourceChain": "Source blockchain",
+            "destinationChain": "Destination blockchain",
+            "children": "Optional React children",
+            "className": "Optional CSS class",
+            "title": "Optional bridge title",
+            "bridgeableTokens": "Optional list of bridgeable tokens",
+            "priceFetchingFunction": "Optional price fetching function"
+          }
+        },
+        "AppchainBridgeContextType": {
+          "description": "Extensive context for bridge interactions",
+          "features": [
+            "Configuration details management",
+            "UI state management",
+            "Transaction handling functions",
+            "Bridge status tracking"
+          ]
+        },
+        "BridgeableToken": {
+          "description": "Token that can be bridged between chains",
+          "extends": "Token type",
+          "properties": {
+            "remoteToken": "Address on the remote chain",
+            "customGasToken": "Optional custom gas token flag"
+          }
+        },
+        "ChainWithIcon": {
+          "description": "Chain type with visual icon",
+          "extends": "Chain type",
+          "properties": {
+            "icon": "Icon property for visual representation"
+          }
+        },
+        "AppchainConfig": {
+          "description": "OP Bedrock contract addresses configuration",
+          "contracts": [
+            "L2OutputOracle",
+            "SystemConfig", 
+            "OptimismPortal",
+            "Cross-domain messengers",
+            "Bridges"
+          ]
+        }
+      }
+    },
+    "checkout": {
+      "title": "Checkout Types",
+      "url": "https://docs.base.org/onchainkit/checkout/types", 
+      "description": "Type definitions for checkout and payment operations",
+      "types": {
+        "LifecycleStatus": {
+          "description": "Status states for checkout lifecycle",
+          "values": [
+            "init - Initial state",
+            "error - Transaction error state", 
+            "fetchingData - Data retrieval state",
+            "ready - Prepared for transaction with charge ID and contract details",
+            "pending - Intermediate processing state",
+            "success - Completed transaction with receipts and receipt URL"
+          ]
+        },
+        "CheckoutButtonReact": {
+          "description": "Optional properties for checkout button",
+          "properties": {
+            "className": "Optional CSS class",
+            "coinbaseBranded": "Optional branding flag",
+            "disabled": "Optional button disabled state",
+            "icon": "Optional React node for icon",
+            "text": "Optional button text"
+          }
+        },
+        "CheckoutReact": {
+          "description": "Properties for checkout component",
+          "properties": {
+            "chargeHandler": "Optional async function for handling charges",
+            "children": "React node content",
+            "className": "Optional CSS class",
+            "isSponsored": "Optional sponsorship flag",
+            "onStatus": "Optional callback for lifecycle status changes",
+            "productId": "Optional product identifier"
+          }
+        },
+        "CheckoutStatusReact": {
+          "description": "Minimal type for checkout status",
+          "properties": {
+            "className": "Optional CSS class property"
+          }
+        }
+      }
+    },
+    "earn": {
+      "title": "Earn Types",
+      "url": "https://docs.base.org/onchainkit/earn/types",
+      "description": "Type definitions for earning and yield farming operations",
+      "types": {
+        "LifecycleStatus": {
+          "description": "Different stages of earn transaction/interaction",
+          "values": [
+            "init - Initial state",
+            "amountChange - Amount modification",
+            "pending - Transaction in progress",
+            "executed - Transaction executed",
+            "success - Transaction successful",
+            "error - Transaction error"
+          ]
+        },
+        "EarnReact": {
+          "description": "Props for Earn components",
+          "properties": {
+            "children": "Optional React children",
+            "className": "Optional CSS class",
+            "vaultAddress": "Required vault address",
+            "isSponsored": "Optional sponsorship flag"
+          }
+        },
+        "EarnContextType": {
+          "description": "Comprehensive context for earn interactions",
+          "features": [
+            "Wallet balance details",
+            "Vault information",
+            "Deposit/withdrawal amounts",
+            "Lifecycle status tracking",
+            "Error handling",
+            "APY and rewards tracking"
+          ]
+        },
+        "DepositToMorphoParams": {
+          "description": "Parameters for Morpho vault deposits",
+          "properties": {
+            "vaultAddress": "Target vault address",
+            "tokenAddress": "Token contract address",
+            "amount": "Deposit amount",
+            "recipient": "Recipient address"
+          }
+        },
+        "WithdrawFromMorphoParams": {
+          "description": "Parameters for Morpho vault withdrawals",
+          "properties": {
+            "vaultAddress": "Source vault address",
+            "tokenAddress": "Token contract address",
+            "amount": "Withdrawal amount",
+            "recipient": "Recipient address"
+          }
+        }
+      }
+    },
+    "fund": {
+      "title": "Fund Types",
+      "url": "https://docs.base.org/onchainkit/fund/types",
+      "description": "Type definitions for funding and onramp operations",
+      "types": {
+        "FundCardPropsReact": {
+          "description": "Properties for funding card components",
+          "properties": {
+            "assetSymbol": "String representing the asset",
+            "country": "User's country",
+            "currency": "Optional currency specification",
+            "presetAmountInputs": "Predefined amount options"
+          }
+        },
+        "LifecycleStatus": {
+          "description": "States of funding transaction",
+          "values": [
+            "init - Initial state",
+            "exit - Exiting state", 
+            "error - Transaction error",
+            "transactionSuccess - Successful transaction",
+            "transactionPending - Transaction in progress"
+          ]
+        },
+        "PresetAmountInputs": {
+          "description": "Preset funding amounts",
+          "type": "Tuple of three strings",
+          "example": "['100', '200', '300']"
+        },
+        "FundButtonReact": {
+          "description": "Configuration for fund button components",
+          "properties": {
+            "disabled": "Button disabled state",
+            "openIn": "Choose between popup or tab",
+            "popupSize": "Popup window dimensions"
+          }
+        },
+        "GetOnrampUrlWithProjectIdParams": {
+          "description": "Parameters to generate onramp URLs with project ID",
+          "purpose": "Create onramp session URLs"
+        },
+        "GetOnrampUrlWithSessionTokenParams": {
+          "description": "Parameters to generate onramp URLs with session token",
+          "purpose": "Create authenticated onramp sessions"
+        },
+        "OnrampConfigResponseData": {
+          "description": "Response data for onramp configuration",
+          "purpose": "Onramp service configuration details"
+        },
+        "OnrampOptionsResponseData": {
+          "description": "Available onramp options and payment methods",
+          "purpose": "Payment method and asset discovery"
+        },
+        "OnrampTransactionStatusResponseData": {
+          "description": "Transaction status tracking data",
+          "purpose": "Monitor onramp transaction progress"
+        }
+      }
+    },
+    "identity": {
+      "title": "Identity Types",
+      "url": "https://docs.base.org/onchainkit/identity/types",
+      "description": "Type definitions for identity and ENS operations",
+      "types": {
+        "AddressReact": {
+          "description": "Ethereum address display component type",
+          "properties": {
+            "address": "Optional Ethereum address",
+            "className": "Optional CSS class",
+            "isSliced": "Boolean to control address display format",
+            "hasCopyAddressOnClick": "Toggle copy functionality"
+          }
+        },
+        "Attestation": {
+          "description": "On-chain attestation representation",
+          "properties": {
+            "attester": "Address creating the attestation",
+            "recipient": "Address receiving the attestation",
+            "schemaId": "Unique schema identifier",
+            "time": "Creation timestamp",
+            "expirationTime": "Attestation expiration",
+            "revoked": "Revocation status"
+          }
+        },
+        "AvatarReact": {
+          "description": "Avatar display component for Ethereum addresses",
+          "properties": {
+            "address": "Optional Ethereum address",
+            "chain": "Optional blockchain context",
+            "className": "Optional styling",
+            "loadingComponent": "Custom loading display",
+            "defaultComponent": "Fallback avatar"
+          }
+        },
+        "IdentityReact": {
+          "description": "Comprehensive identity display component",
+          "properties": {
+            "address": "Ethereum address",
+            "chain": "Optional blockchain context",
+            "schemaId": "Optional schema reference",
+            "hasCopyAddressOnClick": "Copy functionality toggle"
+          }
+        },
+        "NameReact": {
+          "description": "Name display component for Ethereum addresses",
+          "properties": "Similar to other identity components"
+        },
+        "BaseMainnetName": {
+          "description": "Base Ethereum name format",
+          "context": "Mainnet identity naming"
+        },
+        "BaseSepoliaName": {
+          "description": "Base testnet name format",
+          "context": "Testnet identity naming"
+        },
+        "EASSchemaUid": {
+          "description": "Ethereum Attestation Service schema identifier",
+          "purpose": "EAS integration"
+        }
+      }
+    },
+    "mint": {
+      "title": "Mint Types", 
+      "url": "https://docs.base.org/onchainkit/mint/types",
+      "description": "Type definitions for NFT minting operations",
+      "types": {
+        "LifecycleStatus": {
+          "description": "Different stages of NFT component lifecycle",
+          "values": [
+            "init - Initial state",
+            "error - Error occurred",
+            "mediaLoading - Media is being loaded", 
+            "mediaLoaded - Media has finished loading",
+            "transactionPending - Transaction in progress",
+            "transactionLegacyExecuted - Legacy transaction completed",
+            "success - NFT card loaded or mint successful"
+          ]
+        },
+        "NFTCardReact": {
+          "description": "Props for NFT card component",
+          "properties": {
+            "children": "React node",
+            "contractAddress": "NFT contract address",
+            "tokenId": "Required token identifier",
+            "onError": "Optional error handling callback",
+            "onStatus": "Optional status tracking callback"
+          }
+        },
+        "NFTMintCardReact": {
+          "description": "NFT mint card component props",
+          "extends": "NFTCardReact",
+          "properties": {
+            "isSponsored": "Optional flag for paymaster transactions",
+            "buildMintTransaction": "Custom transaction building function",
+            "onMint": "Optional mint-specific callback"
+          }
+        },
+        "NFTData": {
+          "description": "Comprehensive NFT metadata structure",
+          "properties": {
+            "name": "NFT name",
+            "description": "NFT description",
+            "imageUrl": "NFT image URL",
+            "animationUrl": "Animation URL",
+            "ownerAddress": "Current owner address",
+            "mintDate": "Mint timestamp",
+            "price": "NFT price",
+            "additionalMetadata": "Extended metadata support"
+          }
+        }
+      }
+    },
+    "swap": {
+      "title": "Swap Types",
+      "url": "https://docs.base.org/onchainkit/swap/types",
+      "description": "Type definitions for token swapping operations",
+      "types": {
+        "Fee": {
+          "description": "Transaction fee details",
+          "properties": {
+            "amount": "Fee amount (string)",
+            "baseAsset": "Token used for fee",
+            "percentage": "Fee percentage (string)"
+          }
+        },
+        "QuoteWarning": {
+          "description": "Potential swap warnings",
+          "properties": {
+            "description": "Optional warning description",
+            "message": "Optional warning message",
+            "type": "Optional warning type"
+          }
+        },
+        "LifecycleStatus": {
+          "description": "Swap transaction lifecycle stages",
+          "values": [
+            "init - Initial state",
+            "error - Error state",
+            "amountChange - Amount modification",
+            "slippageChange - Slippage adjustment",
+            "transactionPending - Transaction in progress",
+            "transactionApproved - Transaction approved",
+            "success - Swap successful"
+          ]
+        },
+        "SwapQuote": {
+          "description": "Comprehensive swap quote details",
+          "properties": {
+            "from": "Source Token",
+            "to": "Destination Token",
+            "fromAmount": "Source amount",
+            "toAmount": "Destination amount",
+            "priceImpact": "Swap price impact",
+            "slippage": "Swap slippage",
+            "warning": "Optional QuoteWarning"
+          }
+        },
+        "SwapReact": {
+          "description": "Configuration for React swap component",
+          "features": [
+            "Custom configuration support",
+            "Experimental aggregator options",
+            "Sponsored swap settings",
+            "Callback functions for errors, status, and success"
+          ]
+        },
+        "SwapComponentTypes": {
+          "description": "Additional swap-related component types",
+          "types": [
+            "SwapAmountInputReact",
+            "SwapButtonReact", 
+            "SwapError",
+            "SwapMessageReact",
+            "SwapSettingsReact",
+            "SwapToastReact"
+          ]
+        }
+      }
+    },
+    "token": {
+      "title": "Token Types",
+      "url": "https://docs.base.org/onchainkit/token/types",
+      "description": "Type definitions for token operations and display",
+      "types": {
+        "FormatAmountOptions": {
+          "description": "Customization options for number formatting",
+          "properties": {
+            "locale": "Optional user locale (defaults to browser locale)",
+            "minimumFractionDigits": "Minimum decimal places (default: 0)",
+            "maximumFractionDigits": "Maximum decimal places (default: 0)"
+          }
+        },
+        "FormatAmountResponse": {
+          "description": "Formatted string representation of a number",
+          "returnType": "string"
+        },
+        "Token": {
+          "description": "Blockchain token representation",
+          "properties": {
+            "address": "Token contract address",
+            "chainId": "Blockchain network identifier",
+            "decimals": "Number of token decimal places",
+            "image": "Token logo URL (can be null)",
+            "name": "Token name",
+            "symbol": "Ticker symbol (up to 11 characters)"
+          }
+        },
+        "TokenChipReact": {
+          "description": "Configurable token chip component",
+          "properties": {
+            "token": "Rendered token",
+            "onClick": "Optional click handler",
+            "className": "Optional styling",
+            "isPressable": "Default true"
+          }
+        },
+        "TokenComponentTypes": {
+          "description": "Additional token-related component types",
+          "types": [
+            "TokenImageReact - Token image display",
+            "TokenRowReact - Detailed token row representation",
+            "TokenSearchReact - Token search functionality",
+            "TokenSelectButtonReact - Token selection button",
+            "TokenSelectDropdownReact - Token dropdown selection",
+            "TokenSelectModalReact - Token selection modal"
+          ]
+        }
+      }
+    },
+    "transaction": {
+      "title": "Transaction Types",
+      "url": "https://docs.base.org/onchainkit/transaction/types",
+      "description": "Type definitions for blockchain transaction operations",
+      "types": {
+        "Call": {
+          "description": "Blockchain transaction call representation",
+          "type": "{ to: Hex; data?: Hex; value?: bigint }",
+          "properties": {
+            "to": "Destination address (Hex)",
+            "data": "Optional transaction data (Hex)",
+            "value": "Optional transaction value (bigint)"
+          }
+        },
+        "Calls": {
+          "description": "Flexible array of transaction calls",
+          "type": "Call[] | Promise<Call[]> | (() => Promise<Call[]>)",
+          "supports": "Synchronous and asynchronous call resolution"
+        },
+        "Contracts": {
+          "description": "Contract function parameters",
+          "type": "ContractFunctionParameters[] | Promise<ContractFunctionParameters[]> | (() => Promise<ContractFunctionParameters[]>)",
+          "supports": "Static and dynamic contract parameter resolution"
+        },
+        "LifecycleStatus": {
+          "description": "Transaction lifecycle states",
+          "values": [
+            "init - Initial state",
+            "error - Error state",
+            "transactionIdle - Transaction idle",
+            "buildingTransaction - Building transaction", 
+            "transactionPending - Transaction pending",
+            "transactionLegacyExecuted - Legacy transaction executed",
+            "success - Transaction successful"
+          ]
+        },
+        "TransactionReact": {
+          "description": "Comprehensive React transaction component configuration",
+          "features": [
+            "Optional callbacks for error, status, and success",
+            "Configurable with calls, contracts, chain ID",
+            "Sponsorship options support"
+          ]
+        },
+        "TransactionError": {
+          "description": "Structured error representation for transactions",
+          "purpose": "Standardized transaction error handling"
+        },
+        "TransactionResponse": {
+          "description": "Transaction execution response",
+          "properties": {
+            "transactionReceipts": "Array of transaction receipts"
+          }
+        },
+        "WalletCapabilities": {
+          "description": "Wallet service capabilities definition",
+          "purpose": "Define supported wallet features and services"
+        }
+      }
+    },
+    "wallet": {
+      "title": "Wallet Types",
+      "url": "https://docs.base.org/onchainkit/wallet/types",
+      "description": "Type definitions for wallet operations and smart wallet validation",
+      "types": {
+        "ConnectWalletReact": {
+          "description": "Wallet connection component configuration",
+          "properties": {
+            "children": "Optional children for custom connected content",
+            "text": "Customizable button text",
+            "className": "Optional CSS styling",
+            "onConnect": "Optional connection callback function"
+          }
+        },
+        "IsValidAAEntrypointOptions": {
+          "description": "Account Abstraction entrypoint validation options",
+          "properties": {
+            "entrypoint": "Entrypoint string parameter"
+          }
+        },
+        "IsWalletACoinbaseSmartWalletOptions": {
+          "description": "Coinbase Smart Wallet validation options",
+          "properties": {
+            "client": "Required PublicClient",
+            "userOp": "Required UserOperation"
+          }
+        },
+        "IsWalletACoinbaseSmartWalletResponse": {
+          "description": "Smart wallet validation response",
+          "properties": {
+            "isCoinbaseSmartWallet": "Boolean validation result",
+            "error": "Optional error message if not a Coinbase Smart Wallet",
+            "code": "Optional error code"
+          }
+        },
+        "WalletContextType": {
+          "description": "Comprehensive wallet context management",
+          "features": [
+            "Wallet connection state management",
+            "Active features and sub-component tracking",
+            "Portfolio data and token balance handling",
+            "Animation configurations"
+          ]
+        },
+        "WalletReact": {
+          "description": "Main wallet component configuration",
+          "properties": {
+            "draggable": "Optional draggable interface support",
+            "startingPosition": "Custom starting position for draggable elements"
+          }
+        },
+        "WalletComponentTypes": {
+          "description": "Additional wallet-related component types",
+          "types": [
+            "WalletDropdownBasenameReact",
+            "WalletDropdownReact",
+            "WalletDropdownDisconnectReact",
+            "WalletDropdownFundLinkReact", 
+            "WalletDropdownLinkReact",
+            "WalletAdvancedReact",
+            "WalletAdvancedContextType"
+          ]
+        }
+      }
+    }
+  },
+  "keyFeatures": [
+    "React components and TypeScript utilities for onchain apps",
+    "Framework agnostic (Next.js, Vite, Remix, Astro)",
+    "Battle-tested development patterns",
+    "Deep integration with Base protocol",
+    "Comprehensive component library for identity, wallet, transactions, and more",
+    "Built-in theming and customization options",
+    "Gas sponsorship capabilities",
+    "Lifecycle status management",
+    "AI development tool integration"
+  ],
+  "targetAudience": [
+    "React developers building onchain applications",
+    "Web3 developers on Base ecosystem",
+    "Frontend developers new to blockchain",
+    "Teams building commerce and DeFi applications",
+    "Developers creating identity and wallet solutions"
+  ]
+}

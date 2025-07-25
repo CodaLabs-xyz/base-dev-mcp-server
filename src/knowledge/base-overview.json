@@ -1,0 +1,135 @@
+{
+  "title": "Base Platform Overview",
+  "description": "The #1 Ethereum Layer 2, incubated by Coinbase",
+  "url": "https://docs.base.org/get-started/base",
+  "lastUpdated": "2025-07-25",
+  "sections": {
+    "valuePropositions": {
+      "globalEconomy": {
+        "title": "Global Economy",
+        "description": "Move value globally with sub-second, sub-cent payments",
+        "features": [
+          "Financial services",
+          "Trading",
+          "Yield generation",
+          "Sub-second payments",
+          "Sub-cent transaction costs"
+        ]
+      },
+      "creatorTools": {
+        "title": "Creator Tools",
+        "description": "Creators exploring new ways to monetize their work",
+        "features": [
+          "Creator economy innovation",
+          "New monetization methods",
+          "Creative tools and platforms"
+        ]
+      },
+      "builderExperience": {
+        "title": "Builder Experience",
+        "description": "Provides developer tools, infrastructure, and support",
+        "features": [
+          "Developer tools",
+          "Infrastructure support",
+          "Large onchain builder community",
+          "Comprehensive development resources"
+        ]
+      },
+      "distribution": {
+        "title": "Distribution",
+        "description": "Launch to real users",
+        "features": [
+          "Access to activations",
+          "Grant opportunities",
+          "Mini-app channels",
+          "Real user access"
+        ]
+      }
+    },
+    "gettingStarted": {
+      "buildOptions": {
+        "apps": {
+          "title": "Build Apps",
+          "description": "Build and deploy your app in minutes",
+          "quickStart": true
+        },
+        "tokens": {
+          "title": "Launch Tokens",
+          "description": "Launch a new token",
+          "quickStart": true
+        },
+        "chain": {
+          "title": "Deploy Chain",
+          "description": "Deploy your own chain on Base",
+          "advanced": true
+        }
+      }
+    },
+    "funding": {
+      "builderRewards": {
+        "title": "Builder Rewards",
+        "amount": "Up to 2 ETH weekly",
+        "type": "recurring",
+        "description": "Weekly rewards for active builders"
+      },
+      "grants": {
+        "title": "Grants",
+        "amount": "~1-5 ETH",
+        "type": "fast_retroactive",
+        "description": "Fast, retroactive funding for contributions"
+      },
+      "baseBatches": {
+        "title": "Base Batches",
+        "type": "program",
+        "description": "Global program for onchain app creators",
+        "scope": "global"
+      },
+      "retroactiveFunding": {
+        "title": "Retroactive Funding",
+        "type": "ecosystem_contribution",
+        "description": "Funding for contributions to Base ecosystem"
+      }
+    },
+    "userReach": {
+      "miniApps": {
+        "title": "Build Mini Apps",
+        "description": "Run directly in social feeds",
+        "integration": "social_feeds"
+      },
+      "ecosystemPage": {
+        "title": "Base Ecosystem Page",
+        "description": "Get discovered by community",
+        "purpose": "community_discovery"
+      }
+    },
+    "technical": {
+      "architecture": "Ethereum Layer 2",
+      "focus": "Developer experience",
+      "approach": "Various blockchain development approaches",
+      "incubator": "Coinbase"
+    },
+    "resources": {
+      "documentation": "https://docs.base.org",
+      "blog": "Base blog",
+      "github": "Base GitHub",
+      "discord": "Discord support",
+      "website": "https://base.org"
+    }
+  },
+  "keyBenefits": [
+    "Sub-second, sub-cent payments",
+    "Strong developer tools and infrastructure",
+    "Large builder community",
+    "Multiple funding opportunities",
+    "Real user distribution channels",
+    "Coinbase backing and support"
+  ],
+  "targetAudience": [
+    "DeFi developers",
+    "Creator economy builders",
+    "App developers",
+    "Token creators",
+    "Chain deployers",
+    "Onchain builders"
+  ]
+}

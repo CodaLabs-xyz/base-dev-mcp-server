@@ -46,7 +46,7 @@ A comprehensive Model Context Protocol (MCP) server for Base ecosystem developme
 
 1. Clone and install dependencies:
 ```bash
-git clone <repository-url>
+git clone https://github.com/CodaLabs-xyz/base-dev-mcp-server.git
 cd base-dev-mcp-server
 npm install
 ```
@@ -65,34 +65,42 @@ npm start
 
 ### Adding to Cursor IDE
 
-1. **Open Cursor Settings:**
+1. **Clone and Build the Server:**
+```bash
+git clone https://github.com/CodaLabs-xyz/base-dev-mcp-server.git
+cd base-dev-mcp-server
+npm install
+npm run build
+```
+
+2. **Open Cursor Settings:**
    - Press `Cmd/Ctrl + ,` to open settings
    - Navigate to "Extensions" → "Model Context Protocol"
    - Or search for "MCP" in settings
 
-2. **Add MCP Server Configuration:**
-   Add the following to your Cursor MCP settings:
+3. **Add MCP Server Configuration:**
+   Add the following to your Cursor MCP settings (replace `/absolute/path/to/` with your actual path):
 
 ```json
 {
   "mcpServers": {
     "base-dev-mcp-server": {
       "command": "node",
-      "args": ["/path/to/base-dev-mcp-server/dist/index.js"],
+      "args": ["/absolute/path/to/base-dev-mcp-server/dist/index.js"],
       "description": "Base Developer Server - Comprehensive Base ecosystem development assistance"
     }
   }
 }
 ```
 
-3. **Alternative: Using npx (if published):**
+4. **Example with actual paths:**
 ```json
 {
   "mcpServers": {
     "base-dev-mcp-server": {
-      "command": "npx",
-      "args": ["base-dev-mcp-server"],
-      "description": "Base Developer Server"
+      "command": "node",
+      "args": ["/Users/yourname/Projects/base-dev-mcp-server/dist/index.js"],
+      "description": "Base Developer Server - Comprehensive Base ecosystem development assistance"
     }
   }
 }
@@ -100,13 +108,20 @@ npm start
 
 ### Adding to Claude Code (CLI)
 
-1. **Install Claude Code CLI** (if not already installed):
+1. **Clone and Build the Server:**
 ```bash
-# Install Claude Code CLI
+git clone https://github.com/CodaLabs-xyz/base-dev-mcp-server.git
+cd base-dev-mcp-server
+npm install
+npm run build
+```
+
+2. **Install Claude Code CLI** (if not already installed):
+```bash
 npm install -g @anthropic/claude-code
 ```
 
-2. **Configure MCP Server:**
+3. **Configure MCP Server:**
    Create or edit your Claude Code configuration file at `~/.config/claude-code/config.json`:
 
 ```json
@@ -121,12 +136,25 @@ npm install -g @anthropic/claude-code
 }
 ```
 
-3. **Alternative: Local package.json script:**
+4. **Example with actual paths:**
+```json
+{
+  "mcpServers": {
+    "base-dev-mcp-server": {
+      "command": "node",
+      "args": ["/Users/yourname/Projects/base-dev-mcp-server/dist/index.js"],
+      "description": "Base Developer Server - Complete Base ecosystem development assistant"
+    }
+  }
+}
+```
+
+5. **Alternative: Using with project-specific setup:**
    Add to your project's `package.json`:
 ```json
 {
   "scripts": {
-    "mcp:base-dev": "node /path/to/base-dev-mcp-server/dist/index.js"
+    "mcp:base-dev": "node /absolute/path/to/base-dev-mcp-server/dist/index.js"
   }
 }
 ```
@@ -146,14 +174,22 @@ Then configure Claude Code to use:
 
 ### Adding to Other MCP-Compatible Tools
 
-For any MCP-compatible AI coding assistant:
+1. **Clone and build the server first:**
+```bash
+git clone https://github.com/CodaLabs-xyz/base-dev-mcp-server.git
+cd base-dev-mcp-server
+npm install
+npm run build
+```
+
+2. **For any MCP-compatible AI coding assistant:**
 
 ```json
 {
   "servers": {
     "base-dev-mcp-server": {
       "command": "node",
-      "args": ["/path/to/base-dev-mcp-server/dist/index.js"],
+      "args": ["/absolute/path/to/base-dev-mcp-server/dist/index.js"],
       "env": {}
     }
   }
@@ -296,7 +332,7 @@ MIT
 - [Base Documentation](https://docs.base.org)
 - [OnchainKit Documentation](https://docs.base.org/onchainkit)
 - [MCP Specification](https://modelcontextprotocol.io)
-- [Issues](https://github.com/your-repo/issues)
+- [Issues](https://github.com/CodaLabs-xyz/base-dev-mcp-server/issues)
 
 ---
 

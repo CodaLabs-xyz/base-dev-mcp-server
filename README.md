@@ -374,7 +374,9 @@ The server includes comprehensive documentation from:
 
 ## License
 
-MIT
+MIT License - Copyright (c) 2025 Base Developer MCP Server
+
+See the [LICENSE](LICENSE) file for details.
 
 ## Support
 
@@ -386,3 +388,5 @@ MIT
 ---
 
 **Built for the Base ecosystem** 🔵 **Powered by MCP** 🤖
+
+*Last updated: July 27, 2025*

@@ -1,7 +1,7 @@
 {
   "name": "base-dev-mcp-server",
-  "version": "1.0.0",
-  "description": "MCP server for Base development with comprehensive documentation and tools",
+  "version": "2.0.0",
+  "description": "Comprehensive Model Context Protocol (MCP) server for Base blockchain development. Provides extensive tools, documentation, smart contract templates, deployment guides, OnchainKit integration, ecosystem information, and real-time Base documentation access for AI assistants and development tools.",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
@@ -10,7 +10,31 @@
     "dev": "tsx src/index.ts",
     "test": "jest"
   },
-  "keywords": ["mcp", "base", "minikit", "smart-wallet", "blockchain", "development"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol", 
+    "base",
+    "base-blockchain",
+    "onchainkit",
+    "smart-wallet",
+    "minikit",
+    "blockchain",
+    "ethereum",
+    "layer2",
+    "development",
+    "web3",
+    "defi",
+    "nft",
+    "ai-assistant",
+    "documentation",
+    "smart-contracts",
+    "deployment",
+    "bridge",
+    "cross-chain",
+    "coinbase",
+    "account-abstraction",
+    "gasless-transactions"
+  ],
   "author": "Base MCP Server",
   "license": "MIT",
   "dependencies": {

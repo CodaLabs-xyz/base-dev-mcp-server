@@ -3,6 +3,8 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ErrorCode, ListToolsRequestSchema, McpError, } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
+import axios from 'axios';
+import * as cheerio from 'cheerio';
 // Tool schemas
 const GetOverviewSchema = z.object({
     section: z.enum(['smart-wallet', 'minikit', 'wallet-app', 'all']).default('all'),
@@ -50,8 +52,50 @@ const GenerateProjectTemplateSchema = z.object({
     projectName: z.string(),
     includeExamples: z.boolean().default(true),
 });
+const ScrapeBaseDocsSchema = z.object({
+    url: z.string().default('https://docs.base.org'),
+    section: z.enum(['get-started', 'base-chain', 'base-account', 'base-app', 'onchainkit', 'cookbook', 'learn', 'all']).optional(),
+    depth: z.enum(['shallow', 'deep']).default('shallow'),
+});
+const SearchBaseDocsSchema = z.object({
+    query: z.string(),
+    section: z.enum(['get-started', 'base-chain', 'base-account', 'base-app', 'onchainkit', 'cookbook', 'learn', 'all']).default('all'),
+    limit: z.number().min(1).max(50).default(10),
+});
+const GetBaseContractsSchema = z.object({
+    network: z.enum(['mainnet', 'sepolia', 'all']).default('all'),
+    contractType: z.enum(['core', 'defi', 'nft', 'governance', 'bridge', 'all']).default('all'),
+});
+const GetBaseRPCInfoSchema = z.object({
+    network: z.enum(['mainnet', 'sepolia', 'all']).default('all'),
+    includeArchive: z.boolean().default(false),
+});
+const GetOnchainKitComponentsSchema = z.object({
+    component: z.enum(['wallet', 'identity', 'fund', 'transaction', 'frame', 'swap', 'all']).default('all'),
+    includeCode: z.boolean().default(true),
+});
+const GetBaseEcosystemSchema = z.object({
+    category: z.enum(['defi', 'nft', 'gaming', 'social', 'infrastructure', 'bridges', 'all']).default('all'),
+    includeTestnet: z.boolean().default(false),
+});
+const GenerateBaseContractSchema = z.object({
+    contractType: z.enum(['erc20', 'erc721', 'erc1155', 'multisig', 'dao', 'defi-vault']),
+    name: z.string(),
+    symbol: z.string().optional(),
+    features: z.array(z.string()).default([]),
+});
+const GetBaseDeploymentGuideSchema = z.object({
+    tool: z.enum(['hardhat', 'foundry', 'remix', 'thirdweb']).default('hardhat'),
+    network: z.enum(['mainnet', 'sepolia']).default('sepolia'),
+    verification: z.boolean().default(true),
+});
+const GetBaseBridgeInfoSchema = z.object({
+    bridgeType: z.enum(['official', 'third-party', 'all']).default('all'),
+    includeGas: z.boolean().default(true),
+});
 class BaseMiniKitMCPServer {
     server;
+    documentationCache = new Map();
     constructor() {
         this.server = new Server({
             name: 'base-minikit-mcp-server',
@@ -106,6 +150,51 @@ class BaseMiniKitMCPServer {
                         description: 'Get list of recommended development tools and resources for Base development',
                         inputSchema: z.object({}),
                     },
+                    {
+                        name: 'scrape_base_docs',
+                        description: 'Scrape Base documentation links and content from docs.base.org',
+                        inputSchema: ScrapeBaseDocsSchema,
+                    },
+                    {
+                        name: 'search_base_docs',
+                        description: 'Search through scraped Base documentation content',
+                        inputSchema: SearchBaseDocsSchema,
+                    },
+                    {
+                        name: 'get_base_contracts',
+                        description: 'Get Base network contract addresses and ABIs for core protocols',
+                        inputSchema: GetBaseContractsSchema,
+                    },
+                    {
+                        name: 'get_base_rpc_info',
+                        description: 'Get Base RPC endpoints, WebSocket URLs, and network configuration',
+                        inputSchema: GetBaseRPCInfoSchema,
+                    },
+                    {
+                        name: 'get_onchainkit_components',
+                        description: 'Get OnchainKit component examples and implementation guides',
+                        inputSchema: GetOnchainKitComponentsSchema,
+                    },
+                    {
+                        name: 'get_base_ecosystem',
+                        description: 'Get Base ecosystem projects, dApps, and protocols by category',
+                        inputSchema: GetBaseEcosystemSchema,
+                    },
+                    {
+                        name: 'generate_base_contract',
+                        description: 'Generate Base-optimized smart contract templates with best practices',
+                        inputSchema: GenerateBaseContractSchema,
+                    },
+                    {
+                        name: 'get_base_deployment_guide',
+                        description: 'Get deployment guides for Base with various tools and configurations',
+                        inputSchema: GetBaseDeploymentGuideSchema,
+                    },
+                    {
+                        name: 'get_base_bridge_info',
+                        description: 'Get Base bridge information, supported tokens, and cross-chain options',
+                        inputSchema: GetBaseBridgeInfoSchema,
+                    },
                 ],
             };
         });
@@ -129,6 +218,24 @@ class BaseMiniKitMCPServer {
                         return await this.getNetworkConfig();
                     case 'get_development_tools':
                         return await this.getDevelopmentTools();
+                    case 'scrape_base_docs':
+                        return await this.scrapeBaseDocs(args);
+                    case 'search_base_docs':
+                        return await this.searchBaseDocs(args);
+                    case 'get_base_contracts':
+                        return await this.getBaseContracts(args);
+                    case 'get_base_rpc_info':
+                        return await this.getBaseRPCInfo(args);
+                    case 'get_onchainkit_components':
+                        return await this.getOnchainKitComponents(args);
+                    case 'get_base_ecosystem':
+                        return await this.getBaseEcosystem(args);
+                    case 'generate_base_contract':
+                        return await this.generateBaseContract(args);
+                    case 'get_base_deployment_guide':
+                        return await this.getBaseDeploymentGuide(args);
+                    case 'get_base_bridge_info':
+                        return await this.getBaseBridgeInfo(args);
                     default:
                         throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
                 }
@@ -1011,6 +1118,1054 @@ export function MiniKitContextProvider({ children }) {
                 }
             ]
         };
+    }
+    async getBaseContracts(args) {
+        const { network, contractType } = GetBaseContractsSchema.parse(args);
+        const contracts = {
+            mainnet: {
+                core: {
+                    "L2OutputOracle": "0x56315b90c40730925ec5485cf004d835058518A0",
+                    "L2CrossDomainMessenger": "0x4200000000000000000000000000000000000007",
+                    "L1StandardBridge": "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+                    "L2StandardBridge": "0x4200000000000000000000000000000000000010",
+                    "OptimismPortal": "0x49048044D57e1C92A77f79988d21Fa8fAF74E97e",
+                    "L1ERC721Bridge": "0x608d94945A64503E642E6370Ec598e519a2C1E53",
+                    "L2ERC721Bridge": "0x4200000000000000000000000000000000000014"
+                },
+                defi: {
+                    "Uniswap V3 Factory": "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
+                    "Uniswap V3 Router": "0x2626664c2603336E57B271c5C0b26F421741e481",
+                    "Compound cUSDC": "0x9c4ec768c28520b50860ea7a15bd7213a9ff58bf",
+                    "Aave Pool": "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+                    "1inch Router": "0x1111111254EEB25477B68fb85Ed929f73A960582"
+                },
+                nft: {
+                    "OpenSea Seaport": "0x00000000000000ADc04C56Bf30aC9d3c0aAF14dC",
+                    "Base, Introduced": "0xd4307e0acd12cf46fd6cf93bc264f5d5d1598792",
+                    "Coinbase Verifications": "0x357458739F90461b99789350868CD7CF330Dd7EE"
+                },
+                governance: {
+                    "Base Timelock": "0x0000000000000000000000000000000000000000"
+                }
+            },
+            sepolia: {
+                core: {
+                    "L2OutputOracle": "0x84457ca9D0163FbC4bbfe4Dfbb20ba46e48DF254",
+                    "L2CrossDomainMessenger": "0x4200000000000000000000000000000000000007",
+                    "L1StandardBridge": "0xfd0Bf71F60660E2f608ed56e1659C450eB113120",
+                    "L2StandardBridge": "0x4200000000000000000000000000000000000010",
+                    "OptimismPortal": "0x49f53e41452C74589E85cA1677426Ba426459e85"
+                },
+                defi: {
+                    "Uniswap V3 Factory": "0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24",
+                    "Test USDC": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+                    "Test DAI": "0x7683022d84f726bba04d5c85bf7f6049b3b84cfb"
+                }
+            }
+        };
+        const networkData = network === 'all' ? contracts : { [network]: contracts[network] };
+        const result = {};
+        for (const [net, netContracts] of Object.entries(networkData)) {
+            result[net] = contractType === 'all' ? netContracts : { [contractType]: netContracts[contractType] };
+        }
+        return {
+            content: [
+                {
+                    type: 'text',
+                    text: JSON.stringify({
+                        networks: result,
+                        explorers: {
+                            mainnet: "https://basescan.org",
+                            sepolia: "https://sepolia.basescan.org"
+                        },
+                        chainIds: {
+                            mainnet: 8453,
+                            sepolia: 84532
+                        }
+                    }, null, 2)
+                }
+            ]
+        };
+    }
+    async getBaseRPCInfo(args) {
+        const { network, includeArchive } = GetBaseRPCInfoSchema.parse(args);
+        const rpcInfo = {
+            mainnet: {
+                chainId: 8453,
+                name: "Base",
+                rpcUrls: [
+                    "https://mainnet.base.org",
+                    "https://base-mainnet.public.blastapi.io",
+                    "https://1rpc.io/base",
+                    "https://base.gateway.tenderly.co",
+                    "https://base-rpc.publicnode.com"
+                ],
+                wsUrls: [
+                    "wss://base-mainnet.public.blastapi.io"
+                ],
+                archiveRpc: includeArchive ? [
+                    "https://base-mainnet-archive.public.blastapi.io",
+                    "https://base.llamarpc.com"
+                ] : [],
+                explorer: "https://basescan.org",
+                faucet: null,
+                nativeCurrency: {
+                    name: "Ether",
+                    symbol: "ETH",
+                    decimals: 18
+                }
+            },
+            sepolia: {
+                chainId: 84532,
+                name: "Base Sepolia",
+                rpcUrls: [
+                    "https://sepolia.base.org",
+                    "https://base-sepolia.public.blastapi.io",
+                    "https://base-sepolia-rpc.publicnode.com"
+                ],
+                wsUrls: [
+                    "wss://base-sepolia.public.blastapi.io"
+                ],
+                archiveRpc: includeArchive ? [
+                    "https://base-sepolia-archive.public.blastapi.io"
+                ] : [],
+                explorer: "https://sepolia.basescan.org",
+                faucet: "https://www.coinbase.com/faucets/base-ethereum-sepolia-faucet",
+                nativeCurrency: {
+                    name: "Sepolia Ether",
+                    symbol: "ETH",
+                    decimals: 18
+                }
+            }
+        };
+        const result = network === 'all' ? rpcInfo : { [network]: rpcInfo[network] };
+        return {
+            content: [
+                {
+                    type: 'text',
+                    text: JSON.stringify({
+                        networks: result,
+                        gasPrice: {
+                            standard: "0.1 gwei",
+                            fast: "0.2 gwei",
+                            instant: "0.3 gwei"
+                        },
+                        blockTime: "2 seconds",
+                        finality: "Instant (soft) / 12 minutes (hard)"
+                    }, null, 2)
+                }
+            ]
+        };
+    }
+    async getOnchainKitComponents(args) {
+        const { component, includeCode } = GetOnchainKitComponentsSchema.parse(args);
+        const components = {
+            wallet: {
+                description: "Wallet connection and management components",
+                components: ["Wallet", "ConnectWallet", "WalletDropdown", "WalletDropdownLink"],
+                features: ["Smart Wallet integration", "Multiple wallet support", "Connection state management"],
+                example: includeCode ? `import { Wallet, ConnectWallet, WalletDropdown } from '@coinbase/onchainkit/wallet';
+
+function App() {
+  return (
+    <Wallet>
+      <ConnectWallet>
+        <WalletDropdown>
+          <Identity />
+        </WalletDropdown>
+      </ConnectWallet>
+    </Wallet>
+  );
+}` : null
+            },
+            identity: {
+                description: "Identity verification and display components",
+                components: ["Identity", "Avatar", "Name", "Badge", "Address"],
+                features: ["ENS name resolution", "Avatar display", "Verification badges"],
+                example: includeCode ? `import { Identity, Avatar, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+
+function UserProfile({ address }) {
+  return (
+    <Identity address={address}>
+      <Avatar />
+      <Name />
+      <Badge />
+      <Address />
+    </Identity>
+  );
+}` : null
+            },
+            fund: {
+                description: "Funding and payment components",
+                components: ["FundButton", "CoinbaseWalletWidget"],
+                features: ["Buy crypto", "Coinbase integration", "Multiple payment methods"],
+                example: includeCode ? `import { FundButton } from '@coinbase/onchainkit/fund';
+
+function FundWallet() {
+  return (
+    <FundButton 
+      text="Fund Wallet"
+      fundingUrl="https://pay.coinbase.com/buy"
+    />
+  );
+}` : null
+            },
+            transaction: {
+                description: "Transaction handling and UI components",
+                components: ["Transaction", "TransactionButton", "TransactionSponsor", "TransactionStatus"],
+                features: ["Gasless transactions", "Transaction status", "Error handling"],
+                example: includeCode ? `import { Transaction, TransactionButton, TransactionSponsor } from '@coinbase/onchainkit/transaction';
+
+function SendTransaction() {
+  return (
+    <Transaction>
+      <TransactionButton />
+      <TransactionSponsor />
+    </Transaction>
+  );
+}` : null
+            },
+            frame: {
+                description: "Farcaster Frame components",
+                components: ["FrameMetadata", "getFrameMetadata", "getFrameHtmlResponse"],
+                features: ["Frame creation", "Metadata generation", "Response handling"],
+                example: includeCode ? `import { FrameMetadata } from '@coinbase/onchainkit/frame';
+
+function MyFrame() {
+  return (
+    <FrameMetadata
+      buttons={[{ label: 'Click me!' }]}
+      image="https://example.com/image.png"
+      postUrl="https://example.com/api/frame"
+    />
+  );
+}` : null
+            },
+            swap: {
+                description: "Token swap components",
+                components: ["Swap", "SwapAmountInput", "SwapToggleButton", "SwapButton"],
+                features: ["DEX integration", "Token selection", "Slippage control"],
+                example: includeCode ? `import { Swap, SwapAmountInput, SwapToggleButton, SwapButton } from '@coinbase/onchainkit/swap';
+
+function TokenSwap() {
+  return (
+    <Swap>
+      <SwapAmountInput />
+      <SwapToggleButton />
+      <SwapButton />
+    </Swap>
+  );
+}` : null
+            }
+        };
+        const result = component === 'all' ? components : { [component]: components[component] };
+        return {
+            content: [
+                {
+                    type: 'text',
+                    text: JSON.stringify({
+                        components: result,
+                        installation: "npm install @coinbase/onchainkit",
+                        documentation: "https://onchainkit.xyz",
+                        github: "https://github.com/coinbase/onchainkit"
+                    }, null, 2)
+                }
+            ]
+        };
+    }
+    async getBaseEcosystem(args) {
+        const { category, includeTestnet } = GetBaseEcosystemSchema.parse(args);
+        const ecosystem = {
+            defi: {
+                protocols: [
+                    {
+                        name: "Uniswap V3",
+                        description: "Decentralized exchange with concentrated liquidity",
+                        url: "https://app.uniswap.org",
+                        tvl: "$100M+",
+                        category: "DEX"
+                    },
+                    {
+                        name: "Compound",
+                        description: "Lending and borrowing protocol",
+                        url: "https://compound.finance",
+                        tvl: "$50M+",
+                        category: "Lending"
+                    },
+                    {
+                        name: "Aave",
+                        description: "Decentralized lending protocol",
+                        url: "https://aave.com",
+                        tvl: "$75M+",
+                        category: "Lending"
+                    },
+                    {
+                        name: "Aerodrome Finance",
+                        description: "Next-generation AMM designed for Base",
+                        url: "https://aerodrome.finance",
+                        tvl: "$200M+",
+                        category: "DEX"
+                    }
+                ]
+            },
+            nft: {
+                marketplaces: [
+                    {
+                        name: "OpenSea",
+                        description: "Leading NFT marketplace",
+                        url: "https://opensea.io",
+                        category: "Marketplace"
+                    },
+                    {
+                        name: "Zora",
+                        description: "Creator-focused NFT platform",
+                        url: "https://zora.co",
+                        category: "Marketplace"
+                    }
+                ],
+                collections: [
+                    {
+                        name: "Base, Introduced",
+                        description: "Official Base commemorative NFT",
+                        contract: "0xd4307e0acd12cf46fd6cf93bc264f5d5d1598792"
+                    }
+                ]
+            },
+            gaming: {
+                games: [
+                    {
+                        name: "Friend.tech",
+                        description: "Social trading platform",
+                        url: "https://friend.tech",
+                        category: "Social Gaming"
+                    }
+                ]
+            },
+            social: {
+                platforms: [
+                    {
+                        name: "Farcaster",
+                        description: "Decentralized social network",
+                        url: "https://farcaster.xyz",
+                        category: "Social Network"
+                    },
+                    {
+                        name: "Lens Protocol",
+                        description: "Web3 social graph",
+                        url: "https://lens.xyz",
+                        category: "Social Graph"
+                    }
+                ]
+            },
+            infrastructure: {
+                tools: [
+                    {
+                        name: "Chainlink",
+                        description: "Decentralized oracle network",
+                        url: "https://chain.link",
+                        category: "Oracles"
+                    },
+                    {
+                        name: "The Graph",
+                        description: "Indexing protocol",
+                        url: "https://thegraph.com",
+                        category: "Indexing"
+                    },
+                    {
+                        name: "Alchemy",
+                        description: "Blockchain development platform",
+                        url: "https://alchemy.com",
+                        category: "RPC/API"
+                    }
+                ]
+            },
+            bridges: {
+                official: [
+                    {
+                        name: "Base Bridge",
+                        description: "Official Ethereum <> Base bridge",
+                        url: "https://bridge.base.org",
+                        supported: ["ETH", "USDC", "DAI"]
+                    }
+                ],
+                thirdParty: [
+                    {
+                        name: "LayerZero",
+                        description: "Omnichain interoperability protocol",
+                        url: "https://layerzero.network",
+                        supported: ["Multiple tokens"]
+                    },
+                    {
+                        name: "Stargate",
+                        description: "Liquidity transport protocol",
+                        url: "https://stargate.finance",
+                        supported: ["USDC", "USDT", "ETH"]
+                    }
+                ]
+            }
+        };
+        const result = category === 'all' ? ecosystem : { [category]: ecosystem[category] };
+        return {
+            content: [
+                {
+                    type: 'text',
+                    text: JSON.stringify({
+                        ecosystem: result,
+                        stats: {
+                            totalValueLocked: "$500M+",
+                            dailyTransactions: "1M+",
+                            activeProjects: "200+"
+                        },
+                        resources: {
+                            ecosystem: "https://base.org/ecosystem",
+                            grants: "https://paragraph.xyz/@grants.base.eth"
+                        }
+                    }, null, 2)
+                }
+            ]
+        };
+    }
+    async generateBaseContract(args) {
+        const { contractType, name, symbol, features } = GenerateBaseContractSchema.parse(args);
+        const contracts = {
+            erc20: {
+                code: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+${features.includes('pausable') ? 'import "@openzeppelin/contracts/security/Pausable.sol";' : ''}
+${features.includes('burnable') ? 'import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";' : ''}
+
+contract ${name} is ERC20, Ownable${features.includes('pausable') ? ', Pausable' : ''}${features.includes('burnable') ? ', ERC20Burnable' : ''} {
+    constructor(address initialOwner) ERC20("${name}", "${symbol}") Ownable(initialOwner) {
+        _mint(initialOwner, 1000000 * 10 ** decimals());
+    }
+
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+    
+    ${features.includes('pausable') ? `
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    function unpause() public onlyOwner {
+        _unpause();
+    }
+
+    function _beforeTokenTransfer(address from, address to, uint256 amount)
+        internal
+        whenNotPaused
+        override
+    {
+        super._beforeTokenTransfer(from, to, amount);
+    }` : ''}
+}`,
+                deployment: `// Hardhat deployment script
+import { ethers } from "hardhat";
+
+async function main() {
+  const [deployer] = await ethers.getSigners();
+  
+  const ${name} = await ethers.getContractFactory("${name}");
+  const token = await ${name}.deploy(deployer.address);
+  
+  await token.waitForDeployment();
+  
+  console.log("${name} deployed to:", await token.getAddress());
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});`
+            },
+            erc721: {
+                code: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+
+contract ${name} is ERC721, Ownable {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIdCounter;
+    
+    string private _baseTokenURI;
+    uint256 public maxSupply = ${features.includes('limited') ? '10000' : 'type(uint256).max'};
+
+    constructor(address initialOwner) ERC721("${name}", "${symbol}") Ownable(initialOwner) {}
+
+    function mint(address to) public onlyOwner {
+        require(_tokenIdCounter.current() < maxSupply, "Max supply reached");
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+    }
+
+    function setBaseURI(string memory baseURI) public onlyOwner {
+        _baseTokenURI = baseURI;
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        return _baseTokenURI;
+    }
+}`
+            },
+            multisig: {
+                code: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract ${name} {
+    address[] public owners;
+    uint256 public requiredConfirmations;
+    
+    struct Transaction {
+        address to;
+        uint256 value;
+        bytes data;
+        bool executed;
+        uint256 confirmations;
+    }
+    
+    Transaction[] public transactions;
+    mapping(uint256 => mapping(address => bool)) public confirmations;
+    
+    modifier onlyOwner() {
+        require(isOwner(msg.sender), "Not an owner");
+        _;
+    }
+    
+    constructor(address[] memory _owners, uint256 _requiredConfirmations) {
+        require(_owners.length > 0, "Owners required");
+        require(_requiredConfirmations > 0 && _requiredConfirmations <= _owners.length, "Invalid confirmations");
+        
+        owners = _owners;
+        requiredConfirmations = _requiredConfirmations;
+    }
+    
+    function isOwner(address addr) public view returns (bool) {
+        for (uint256 i = 0; i < owners.length; i++) {
+            if (owners[i] == addr) return true;
+        }
+        return false;
+    }
+    
+    function submitTransaction(address _to, uint256 _value, bytes memory _data) public onlyOwner {
+        transactions.push(Transaction({
+            to: _to,
+            value: _value,
+            data: _data,
+            executed: false,
+            confirmations: 0
+        }));
+    }
+}`
+            }
+        };
+        return {
+            content: [
+                {
+                    type: 'text',
+                    text: JSON.stringify({
+                        contract: contracts[contractType],
+                        gasOptimizations: [
+                            "Use custom errors instead of require strings",
+                            "Pack structs efficiently",
+                            "Use events for off-chain indexing",
+                            "Consider using CREATE2 for deterministic addresses"
+                        ],
+                        baseSpecific: [
+                            "Low gas costs on Base",
+                            "Fast 2-second block times",
+                            "EVM equivalent - all Ethereum tools work",
+                            "Consider using Base-native bridges for cross-chain"
+                        ]
+                    }, null, 2)
+                }
+            ]
+        };
+    }
+    async getBaseDeploymentGuide(args) {
+        const { tool, network, verification } = GetBaseDeploymentGuideSchema.parse(args);
+        const guides = {
+            hardhat: {
+                setup: `// hardhat.config.ts
+import { HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-toolbox";
+
+const config: HardhatUserConfig = {
+  solidity: "0.8.20",
+  networks: {
+    base: {
+      url: "https://mainnet.base.org",
+      accounts: [process.env.PRIVATE_KEY!],
+      chainId: 8453,
+    },
+    baseSepolia: {
+      url: "https://sepolia.base.org", 
+      accounts: [process.env.PRIVATE_KEY!],
+      chainId: 84532,
+    }
+  },
+  etherscan: {
+    apiKey: {
+      base: process.env.BASESCAN_API_KEY!,
+      baseSepolia: process.env.BASESCAN_API_KEY!,
+    },
+    customChains: [
+      {
+        network: "base",
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org"
+        }
+      }
+    ]
+  }
+};`,
+                deployment: `// Deploy script
+import { ethers } from "hardhat";
+
+async function main() {
+  const Contract = await ethers.getContractFactory("YourContract");
+  const contract = await Contract.deploy();
+  
+  await contract.waitForDeployment();
+  const address = await contract.getAddress();
+  
+  console.log("Contract deployed to:", address);
+  
+  ${verification ? `
+  // Wait for block confirmations
+  await contract.deploymentTransaction()?.wait(6);
+  
+  // Verify contract
+  await hre.run("verify:verify", {
+    address: address,
+    constructorArguments: [],
+  });` : ''}
+}`,
+                commands: [
+                    `npm install hardhat @nomicfoundation/hardhat-toolbox`,
+                    `npx hardhat compile`,
+                    `npx hardhat run scripts/deploy.ts --network ${network === 'mainnet' ? 'base' : 'baseSepolia'}`,
+                    verification ? `npx hardhat verify CONTRACT_ADDRESS --network ${network === 'mainnet' ? 'base' : 'baseSepolia'}` : null
+                ].filter(Boolean)
+            },
+            foundry: {
+                setup: `# foundry.toml
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc_version = "0.8.20"
+
+[rpc_endpoints]
+base = "https://mainnet.base.org"
+base_sepolia = "https://sepolia.base.org"
+
+[etherscan]
+base = { key = "\${BASESCAN_API_KEY}" }
+base_sepolia = { key = "\${BASESCAN_API_KEY}" }`,
+                deployment: `// Deploy.s.sol
+pragma solidity ^0.8.20;
+
+import "forge-std/Script.sol";
+import "../src/YourContract.sol";
+
+contract DeployScript is Script {
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+        
+        YourContract contract = new YourContract();
+        
+        console.log("Contract deployed to:", address(contract));
+        
+        vm.stopBroadcast();
+    }
+}`,
+                commands: [
+                    `curl -L https://foundry.paradigm.xyz | bash`,
+                    `foundryup`,
+                    `forge build`,
+                    `forge script script/Deploy.s.sol --rpc-url ${network === 'mainnet' ? 'base' : 'base_sepolia'} --broadcast --verify`,
+                    verification ? `forge verify-contract CONTRACT_ADDRESS src/YourContract.sol:YourContract --chain ${network === 'mainnet' ? 'base' : 'base-sepolia'}` : null
+                ].filter(Boolean)
+            },
+            remix: {
+                steps: [
+                    "Open Remix IDE at https://remix.ethereum.org",
+                    "Create your Solidity contract",
+                    "Compile with Solidity 0.8.20+",
+                    "Go to Deploy & Run tab",
+                    `Select 'Injected Provider - MetaMask' and switch to Base ${network}`,
+                    "Deploy your contract",
+                    verification ? "Use Remix verification plugin or manually verify on Basescan" : "Contract deployed successfully"
+                ]
+            },
+            thirdweb: {
+                setup: `npm install @thirdweb-dev/sdk ethers`,
+                deployment: `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+
+const sdk = new ThirdwebSDK("base${network === 'sepolia' ? '-sepolia' : ''}", {
+  clientId: process.env.THIRDWEB_CLIENT_ID,
+});
+
+// Deploy using thirdweb
+const contractAddress = await sdk.deployer.deployContract({
+  name: "YourContract",
+  primary_sale_recipient: "0x...", // Your address
+  voting_token_address: "0x...", // Token address
+});`,
+                commands: [
+                    `npx thirdweb create contract`,
+                    `npx thirdweb deploy`,
+                    "Follow the CLI prompts to deploy to Base"
+                ]
+            }
+        };
+        return {
+            content: [
+                {
+                    type: 'text',
+                    text: JSON.stringify({
+                        tool: guides[tool],
+                        network: network,
+                        gasPrice: "0.1 gwei (very low on Base)",
+                        blockTime: "2 seconds",
+                        tips: [
+                            "Base has very low gas costs compared to Ethereum",
+                            "2-second block times for fast confirmations",
+                            "All Ethereum tooling works on Base",
+                            "Use Base Sepolia for testing",
+                            "Consider using Coinbase Smart Wallet for users"
+                        ]
+                    }, null, 2)
+                }
+            ]
+        };
+    }
+    async getBaseBridgeInfo(args) {
+        const { bridgeType, includeGas } = GetBaseBridgeInfoSchema.parse(args);
+        const bridges = {
+            official: {
+                "Base Bridge": {
+                    url: "https://bridge.base.org",
+                    description: "Official Ethereum <> Base bridge",
+                    supportedTokens: ["ETH", "USDC", "DAI", "WETH"],
+                    depositTime: "~20 minutes",
+                    withdrawalTime: "7 days (challenge period)",
+                    fees: includeGas ? {
+                        deposit: "Ethereum gas + Base gas",
+                        withdrawal: "Base gas + Ethereum gas for proving/finalizing"
+                    } : "Variable gas fees",
+                    security: "Optimistic rollup security model"
+                }
+            },
+            thirdParty: {
+                "LayerZero": {
+                    url: "https://layerzero.network",
+                    description: "Omnichain interoperability protocol",
+                    supportedTokens: ["ETH", "USDC", "USDT", "WBTC"],
+                    transferTime: "1-20 minutes",
+                    fees: includeGas ? "0.1-1% + gas" : "Variable",
+                    chains: ["Ethereum", "Arbitrum", "Optimism", "Polygon", "BSC"]
+                },
+                "Stargate": {
+                    url: "https://stargate.finance",
+                    description: "Liquidity transport protocol",
+                    supportedTokens: ["USDC", "USDT", "ETH"],
+                    transferTime: "1-20 minutes",
+                    fees: includeGas ? "0.06% + gas" : "Variable",
+                    chains: ["Ethereum", "Arbitrum", "Optimism", "Polygon"]
+                },
+                "Hop Protocol": {
+                    url: "https://hop.exchange",
+                    description: "Rollup-to-rollup token bridge",
+                    supportedTokens: ["ETH", "USDC", "USDT", "DAI"],
+                    transferTime: "5-10 minutes",
+                    fees: includeGas ? "0.04% + gas" : "Variable",
+                    chains: ["Ethereum", "Arbitrum", "Optimism", "Polygon"]
+                },
+                "Across": {
+                    url: "https://across.to",
+                    description: "Fast, cheap, and secure bridge",
+                    supportedTokens: ["ETH", "USDC", "WETH", "DAI"],
+                    transferTime: "1-4 minutes",
+                    fees: includeGas ? "Dynamic fees based on demand" : "Variable",
+                    chains: ["Ethereum", "Arbitrum", "Optimism", "Polygon"]
+                }
+            }
+        };
+        const result = bridgeType === 'all' ? bridges : { [bridgeType]: bridges[bridgeType] };
+        return {
+            content: [
+                {
+                    type: 'text',
+                    text: JSON.stringify({
+                        bridges: result,
+                        recommendations: {
+                            largeAmounts: "Use official Base Bridge for maximum security",
+                            fastTransfers: "Use Across or Stargate for speed",
+                            multichain: "Use LayerZero for multiple destination chains",
+                            cheapest: "Official bridge has lowest fees but longest withdrawal time"
+                        },
+                        security: {
+                            official: "Optimistic rollup security - 7 day challenge period",
+                            thirdParty: "Various security models - research before large transfers"
+                        },
+                        gasOptimization: includeGas ? {
+                            ethereum: "Bridge during low gas times (weekends, late nights UTC)",
+                            base: "Base gas is very cheap (~0.1 gwei)",
+                            batching: "Consider batching multiple transactions"
+                        } : null
+                    }, null, 2)
+                }
+            ]
+        };
+    }
+    async scrapeBaseDocs(args) {
+        const { url, section, depth } = ScrapeBaseDocsSchema.parse(args);
+        try {
+            const cacheKey = `${url}-${section || 'all'}-${depth}`;
+            if (this.documentationCache.has(cacheKey)) {
+                return {
+                    content: [
+                        {
+                            type: 'text',
+                            text: JSON.stringify(this.documentationCache.get(cacheKey), null, 2)
+                        }
+                    ]
+                };
+            }
+            const response = await axios.get(url);
+            const $ = cheerio.load(response.data);
+            const scrapedData = {
+                url,
+                timestamp: new Date().toISOString(),
+                sections: [],
+                navigation: [],
+                content: []
+            };
+            // Extract main navigation
+            $('nav a, .nav a, [role="navigation"] a').each((i, element) => {
+                const $el = $(element);
+                const href = $el.attr('href');
+                const text = $el.text().trim();
+                if (href && text) {
+                    scrapedData.navigation.push({
+                        text,
+                        href: href.startsWith('http') ? href : `https://docs.base.org${href}`,
+                        section: this.categorizeLink(href)
+                    });
+                }
+            });
+            // Extract main content sections
+            $('h1, h2, h3, h4, h5, h6').each((i, element) => {
+                const $el = $(element);
+                const text = $el.text().trim();
+                const level = parseInt($el[0].tagName.charAt(1));
+                const id = $el.attr('id') || text.toLowerCase().replace(/\s+/g, '-');
+                scrapedData.sections.push({
+                    level,
+                    text,
+                    id,
+                    content: $el.next('p, div, ul, ol').text().trim().substring(0, 500)
+                });
+            });
+            // Extract links within content
+            $('main a, .content a, article a').each((i, element) => {
+                const $el = $(element);
+                const href = $el.attr('href');
+                const text = $el.text().trim();
+                if (href && text && href.includes('docs.base.org')) {
+                    scrapedData.content.push({
+                        text,
+                        href: href.startsWith('http') ? href : `https://docs.base.org${href}`,
+                        context: $el.parent().text().trim().substring(0, 200)
+                    });
+                }
+            });
+            // If deep scraping requested and specific section, scrape additional pages
+            if (depth === 'deep' && section && section !== 'all') {
+                const sectionLinks = scrapedData.navigation.filter(link => link.section === section || link.href.includes(section));
+                for (const link of sectionLinks.slice(0, 5)) { // Limit to 5 additional pages
+                    try {
+                        const pageResponse = await axios.get(link.href);
+                        const page$ = cheerio.load(pageResponse.data);
+                        const pageData = {
+                            url: link.href,
+                            title: page$('h1').first().text().trim(),
+                            sections: [],
+                            content: page$('main, .content, article').text().trim().substring(0, 2000)
+                        };
+                        page$('h2, h3, h4').each((i, element) => {
+                            const $el = page$(element);
+                            pageData.sections.push({
+                                level: parseInt($el[0].tagName.charAt(1)),
+                                text: $el.text().trim(),
+                                content: $el.next('p, div').text().trim().substring(0, 300)
+                            });
+                        });
+                        scrapedData.content.push(pageData);
+                    }
+                    catch (error) {
+                        console.error(`Error scraping ${link.href}:`, error.message);
+                    }
+                }
+            }
+            // Cache the results
+            this.documentationCache.set(cacheKey, scrapedData);
+            return {
+                content: [
+                    {
+                        type: 'text',
+                        text: JSON.stringify(scrapedData, null, 2)
+                    }
+                ]
+            };
+        }
+        catch (error) {
+            throw new McpError(ErrorCode.InternalError, `Failed to scrape Base documentation: ${error.message}`);
+        }
+    }
+    async searchBaseDocs(args) {
+        const { query, section, limit } = SearchBaseDocsSchema.parse(args);
+        try {
+            const searchResults = {
+                query,
+                section,
+                results: [],
+                totalFound: 0
+            };
+            // Search through cached documentation
+            for (const [cacheKey, data] of this.documentationCache.entries()) {
+                if (section !== 'all' && !cacheKey.includes(section)) {
+                    continue;
+                }
+                // Search in navigation
+                for (const navItem of data.navigation || []) {
+                    if (this.matchesQuery(navItem.text, query) || this.matchesQuery(navItem.href, query)) {
+                        searchResults.results.push({
+                            type: 'navigation',
+                            title: navItem.text,
+                            url: navItem.href,
+                            section: navItem.section,
+                            relevance: this.calculateRelevance(navItem.text, query)
+                        });
+                    }
+                }
+                // Search in sections
+                for (const sectionItem of data.sections || []) {
+                    if (this.matchesQuery(sectionItem.text, query) || this.matchesQuery(sectionItem.content, query)) {
+                        searchResults.results.push({
+                            type: 'section',
+                            title: sectionItem.text,
+                            level: sectionItem.level,
+                            content: sectionItem.content,
+                            url: `${data.url}#${sectionItem.id}`,
+                            relevance: this.calculateRelevance(`${sectionItem.text} ${sectionItem.content}`, query)
+                        });
+                    }
+                }
+                // Search in content
+                for (const contentItem of data.content || []) {
+                    if ('text' in contentItem && 'href' in contentItem) {
+                        // This is a ContentItem
+                        if (this.matchesQuery(contentItem.text, query)) {
+                            searchResults.results.push({
+                                type: 'link',
+                                title: contentItem.text,
+                                url: contentItem.href,
+                                context: contentItem.context,
+                                relevance: this.calculateRelevance(contentItem.text, query)
+                            });
+                        }
+                    }
+                    else if ('content' in contentItem) {
+                        // This is a PageData
+                        if (this.matchesQuery(contentItem.content, query) || this.matchesQuery(contentItem.title, query)) {
+                            searchResults.results.push({
+                                type: 'page',
+                                title: contentItem.title,
+                                url: contentItem.url,
+                                content: contentItem.content.substring(0, 500),
+                                relevance: this.calculateRelevance(`${contentItem.title} ${contentItem.content}`, query)
+                            });
+                        }
+                    }
+                }
+            }
+            // Sort by relevance and limit results
+            searchResults.results.sort((a, b) => b.relevance - a.relevance);
+            searchResults.totalFound = searchResults.results.length;
+            searchResults.results = searchResults.results.slice(0, limit);
+            return {
+                content: [
+                    {
+                        type: 'text',
+                        text: JSON.stringify(searchResults, null, 2)
+                    }
+                ]
+            };
+        }
+        catch (error) {
+            throw new McpError(ErrorCode.InternalError, `Failed to search Base documentation: ${error.message}`);
+        }
+    }
+    categorizeLink(href) {
+        if (href.includes('get-started'))
+            return 'get-started';
+        if (href.includes('base-chain'))
+            return 'base-chain';
+        if (href.includes('base-account'))
+            return 'base-account';
+        if (href.includes('base-app'))
+            return 'base-app';
+        if (href.includes('onchainkit'))
+            return 'onchainkit';
+        if (href.includes('cookbook'))
+            return 'cookbook';
+        if (href.includes('learn'))
+            return 'learn';
+        return 'other';
+    }
+    matchesQuery(text, query) {
+        if (!text)
+            return false;
+        const normalizedText = text.toLowerCase();
+        const normalizedQuery = query.toLowerCase();
+        return normalizedText.includes(normalizedQuery) ||
+            query.split(' ').some(term => normalizedText.includes(term.toLowerCase()));
+    }
+    calculateRelevance(text, query) {
+        if (!text)
+            return 0;
+        const normalizedText = text.toLowerCase();
+        const normalizedQuery = query.toLowerCase();
+        let score = 0;
+        // Exact match gets highest score
+        if (normalizedText.includes(normalizedQuery)) {
+            score += 10;
+        }
+        // Word matches get points
+        const queryWords = query.split(' ');
+        for (const word of queryWords) {
+            if (normalizedText.includes(word.toLowerCase())) {
+                score += 2;
+            }
+        }
+        // Title/heading matches get bonus points
+        if (text.length < 100) {
+            score *= 1.5;
+        }
+        return score;
     }
     async run() {
         const transport = new StdioServerTransport();

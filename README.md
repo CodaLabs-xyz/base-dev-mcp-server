@@ -1,17 +1,66 @@
 # Base Developer MCP Server
 
-A comprehensive Model Context Protocol (MCP) server for Base ecosystem development, providing extensive documentation, guides, and tools for building on Base blockchain including OnchainKit, Smart Wallets, MiniKit, AI Agents, DeFi applications, and more.
+A comprehensive Model Context Protocol (MCP) server providing extensive Base blockchain development tools, documentation, and resources. This server enables AI assistants and development tools to access detailed information about Base ecosystem, smart contracts, deployment guides, OnchainKit integration, Smart Wallets, MiniKit, and much more.
 
-## Features
+## 🌟 Enhanced Features
 
-- 🚀 **Complete Base Ecosystem Coverage** - From quickstarts to advanced implementations
-- 📚 **Comprehensive Documentation** - All Base docs scraped and structured
-- 🛠️ **Developer Tools & Resources** - Node providers, explorers, oracles, and more
-- 🎯 **Practical Cookbook Recipes** - Step-by-step implementation guides
-- 🔗 **OnchainKit Integration** - Complete API, utilities, and types reference
-- ⚡ **Account Abstraction & Gasless** - Smart wallet and paymaster solutions
-- 🤖 **AI Agent Development** - Launch autonomous onchain agents
-- 🏗️ **Infrastructure Tools** - Appchains, node operations, and cross-chain solutions
+### 📚 **Real-time Documentation & Search**
+- **Live documentation scraping** from docs.base.org with intelligent caching
+- **Smart search capabilities** across Base documentation with relevance scoring
+- **Section-specific filtering** and deep content extraction
+- **Cached results** for improved performance and reduced API calls
+
+### 🔗 **Complete Base Chain Integration**
+- **Contract addresses** for core protocols, DeFi, NFTs (mainnet & testnet)
+- **Multiple RPC endpoints** with WebSocket support and archive nodes
+- **Network configuration** with real-time gas prices and block information
+- **Explorer links** and transaction monitoring tools
+
+### 🧰 **Advanced Development Tools**
+- **Smart contract generators** with Base-optimized templates (ERC20, ERC721, Multisig, DAO)
+- **Deployment guides** for Hardhat, Foundry, Remix, Thirdweb with verification
+- **Gas optimization strategies** and Base-specific best practices
+- **Project templates** and boilerplate code generation
+
+### 🎨 **OnchainKit Deep Integration**
+- **Component examples** with production-ready code snippets
+- **Wallet, Identity, Transaction, Swap, Frame** component guides
+- **Installation instructions** and dependency management
+- **API documentation** and usage patterns
+
+### 🌐 **Comprehensive Ecosystem Mapping**
+- **DeFi protocols** with TVL data, contract addresses, and integration guides
+- **NFT marketplaces** and popular collections on Base
+- **Gaming and social platforms** built on Base
+- **Infrastructure tools** including oracles, indexers, and RPC providers
+
+### 🌉 **Bridge & Cross-chain Solutions**
+- **Official Base Bridge** detailed information and usage patterns
+- **Third-party bridges** comparison (LayerZero, Stargate, Hop, Across)
+- **Transfer time analysis**, fee structures, and security models
+- **Gas optimization** strategies for cross-chain operations
+
+## 🛠️ Available Tools (17 Total)
+
+| Tool Name | Description | Key Parameters |
+|-----------|-------------|----------------|
+| `get_base_overview` | Comprehensive overview of Base Smart Wallet, MiniKit, and Wallet App | `section` |
+| `get_smart_wallet_quickstart` | Framework-specific Smart Wallet quickstart guides | `framework` |
+| `get_smart_wallet_concepts` | Detailed Smart Wallet concepts and features documentation | `concept` |
+| `get_smart_wallet_guides` | Implementation guides for Smart Wallet features | `guide` |
+| `get_minikit_guides` | MiniKit development guides and integration instructions | `guide` |
+| `generate_project_template` | Generate Base application project templates | `projectType`, `projectName` |
+| `get_network_config` | Base network configuration for mainnet and testnet | - |
+| `get_development_tools` | Recommended development tools and resources | - |
+| `scrape_base_docs` | **NEW** - Scrape Base documentation with smart caching | `url`, `section`, `depth` |
+| `search_base_docs` | **NEW** - Search Base documentation with relevance scoring | `query`, `section`, `limit` |
+| `get_base_contracts` | **NEW** - Contract addresses and ABIs for core protocols | `network`, `contractType` |
+| `get_base_rpc_info` | **NEW** - RPC endpoints, WebSocket URLs, and network config | `network`, `includeArchive` |
+| `get_onchainkit_components` | **NEW** - OnchainKit component examples and guides | `component`, `includeCode` |
+| `get_base_ecosystem` | **NEW** - Base ecosystem projects and protocols by category | `category`, `includeTestnet` |
+| `generate_base_contract` | **NEW** - Generate Base-optimized smart contract templates | `contractType`, `name`, `features` |
+| `get_base_deployment_guide` | **NEW** - Deployment guides for various tools | `tool`, `network`, `verification` |
+| `get_base_bridge_info` | **NEW** - Bridge information and cross-chain options | `bridgeType`, `includeGas` |
 
 ## Knowledge Base Coverage
 

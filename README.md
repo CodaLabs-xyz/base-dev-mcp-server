@@ -84,6 +84,44 @@ A comprehensive Model Context Protocol (MCP) server providing extensive Base blo
 - Cross-chain interoperability and bridging
 - Node operations and infrastructure management
 
+## 🚀 Quick Start with Claude Code
+
+### Prerequisites
+- Node.js 18+
+- Claude Code CLI
+- npm or yarn
+
+### Easy Installation (Recommended)
+
+1. **Clone and build:**
+```bash
+git clone https://github.com/CodaLabs-xyz/base-dev-mcp-server.git
+cd base-dev-mcp-server
+npm install
+npm run build
+```
+
+2. **Install with Claude Code MCP CLI:**
+```bash
+# Local installation (project-specific)
+claude mcp add base-dev-mcp-server node $(pwd)/dist/index.js
+
+# Or global installation (system-wide)
+claude mcp add base-dev-mcp-server -s user node $(pwd)/dist/index.js
+```
+
+3. **Verify installation:**
+```bash
+claude mcp list
+```
+
+4. **Start using:**
+You can now ask Claude Code questions like:
+- *"Show me how to integrate OnchainKit Swap components"*
+- *"Generate an ERC20 contract optimized for Base"* 
+- *"Get Base mainnet RPC endpoints and gas prices"*
+- *"What DeFi protocols are available on Base?"*
+
 ## Installation & Setup
 
 ### Prerequisites
@@ -91,7 +129,7 @@ A comprehensive Model Context Protocol (MCP) server providing extensive Base blo
 - Node.js 18+
 - npm or yarn
 
-### Local Development
+### Manual Development Setup
 
 1. Clone and install dependencies:
 ```bash
@@ -155,7 +193,7 @@ npm run build
 }
 ```
 
-### Adding to Claude Code (CLI)
+### Adding to Claude Code (CLI) - Easy Installation
 
 1. **Clone and Build the Server:**
 ```bash
@@ -165,13 +203,27 @@ npm install
 npm run build
 ```
 
-2. **Install Claude Code CLI** (if not already installed):
-```bash
-npm install -g @anthropic/claude-code
-```
+2. **Install with Claude Code MCP CLI (Recommended):**
 
-3. **Configure MCP Server:**
-   Create or edit your Claude Code configuration file at `~/.config/claude-code/config.json`:
+   **Local Installation (Project-specific):**
+   ```bash
+   claude mcp add base-dev-mcp-server node /Users/yourname/Projects/base-dev-mcp-server/dist/index.js
+   ```
+
+   **Global Installation (Available system-wide):**
+   ```bash
+   claude mcp add base-dev-mcp-server -s user node /Users/yourname/Projects/base-dev-mcp-server/dist/index.js
+   ```
+
+   **Note:** Replace `/Users/yourname/Projects/` with your actual path to the cloned repository.
+
+3. **Verify Installation:**
+   ```bash
+   claude mcp list
+   ```
+
+4. **Alternative: Manual Configuration (Advanced):**
+   If you prefer manual setup, create or edit your Claude Code configuration file at `~/.config/claude-code/config.json`:
 
 ```json
 {
@@ -185,20 +237,7 @@ npm install -g @anthropic/claude-code
 }
 ```
 
-4. **Example with actual paths:**
-```json
-{
-  "mcpServers": {
-    "base-dev-mcp-server": {
-      "command": "node",
-      "args": ["/Users/yourname/Projects/base-dev-mcp-server/dist/index.js"],
-      "description": "Base Developer Server - Complete Base ecosystem development assistant"
-    }
-  }
-}
-```
-
-5. **Alternative: Using with project-specific setup:**
+5. **Using with project-specific setup:**
    Add to your project's `package.json`:
 ```json
 {
@@ -208,7 +247,7 @@ npm install -g @anthropic/claude-code
 }
 ```
 
-Then configure Claude Code to use:
+   Then configure Claude Code to use:
 ```json
 {
   "mcpServers": {
